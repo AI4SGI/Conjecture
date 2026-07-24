@@ -1,0 +1,80 @@
+{
+  "expected_records": 10,
+  "completed_records": 10,
+  "deterministic_passes": 1,
+  "deterministic_accuracy": 0.1,
+  "novelty_not_machine_verified": 4,
+  "task_stats": {
+    "jacobian_conjecture_1": {
+      "nohint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      },
+      "hint": {
+        "completed": 1,
+        "deterministic_passes": 1,
+        "accuracy": 1.0
+      }
+    },
+    "jacobian_conjecture_2": {
+      "nohint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      },
+      "hint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      }
+    },
+    "jacobian_conjecture_3": {
+      "nohint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      },
+      "hint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      }
+    },
+    "jacobian_conjecture_4": {
+      "nohint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      },
+      "hint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      }
+    },
+    "jacobian_conjecture_5": {
+      "nohint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      },
+      "hint": {
+        "completed": 1,
+        "deterministic_passes": 0,
+        "accuracy": 0.0
+      }
+    }
+  },
+  "usage_totals": {
+    "prompt_tokens": 8100,
+    "completion_tokens": 352437,
+    "reasoning_tokens": 346057,
+    "total_tokens": 360537
+  },
+  "timing": {
+    "wall_seconds": 660.383179,
+    "sum_inference_seconds": 3298.91408,
+    "sum_verification_seconds": 8.232398
+  }
+}

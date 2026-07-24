@@ -1,0 +1,1921 @@
+{
+  "generatedAt": "2026-07-24T15:09:48.614Z",
+  "dataset": {
+    "name": "Jacobian Counterexample Construction",
+    "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+    "tasks": [
+      {
+        "id": "jacobian_conjecture_1",
+        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+        "question": "Construct a counterexample in complex dimension three. No degree or sparsity restriction is imposed.",
+        "hint": "A known three-dimensional construction, written in variables x,y,z, is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and the three points (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) all map to (-1/4,0,0). The submission must constitute a genuinely new counterexample that is algebraically inequivalent to this reference construction. Mere reformulations—including reparametrizations, permutations of variables or components, and constructions obtainable from the reference through invertible algebraic changes of coordinates in the source or target—do not qualify as new counterexamples and are therefore inadmissible.",
+        "constraints": {
+          "dimension": 3,
+          "min_points": 2,
+          "coefficient_domain": "algebraic"
+        },
+        "objective": {
+          "kind": "counterexample"
+        },
+        "key": "P1",
+        "title": "开放构造",
+        "subtitle": "三维 · 无次数上限",
+        "tier": "Exploration",
+        "tierLabel": "探索级",
+        "capability": "从零构造与全局代数推理",
+        "significance": "检验模型能否越过局部可逆性的直觉陷阱，独立提出与已知构造不等价的全局碰撞机制。",
+        "questionZh": "在三维复空间中构造一个反例；不限制次数或稀疏性，但必须与参考构造代数不等价。"
+      },
+      {
+        "id": "jacobian_conjecture_2",
+        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 7. Supply at least two distinct algebraic points in one common fiber.",
+        "hint": "A known three-dimensional construction, written in variables x,y,z, is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its component degrees are (7,6,4), its Jacobian determinant is -2, and the three points (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) all map to (-1/4,0,0). The submission must constitute a genuinely new counterexample that is algebraically inequivalent to this reference construction. Mere reformulations—including reparametrizations, permutations of variables or components, and constructions obtainable from the reference through invertible algebraic changes of coordinates in the source or target—do not qualify as new counterexamples and are therefore inadmissible.",
+        "constraints": {
+          "dimension": 3,
+          "min_points": 2,
+          "coefficient_domain": "algebraic"
+        },
+        "objective": {
+          "kind": "max_degree",
+          "value": 7
+        },
+        "key": "P2",
+        "title": "七次边界",
+        "subtitle": "三维 · max degree ≤ 7",
+        "tier": "Constrained",
+        "tierLabel": "约束级",
+        "capability": "紧次数预算下的新颖构造",
+        "significance": "在已知次数尺度内要求全新代数结构，同时验证常雅可比、碰撞证书与代数系数，兼顾搜索和证明。",
+        "questionZh": "构造三维复多项式反例，分量最高次数不超过 7，并给出同一纤维中至少两个不同的代数点；不得提交参考构造的等价表达。"
+      },
+      {
+        "id": "jacobian_conjecture_3",
+        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 6. Supply at least two distinct algebraic points in one common fiber.",
+        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). Its maximum component degree is 7, so it does not satisfy the degree bound in this task.",
+        "constraints": {
+          "dimension": 3,
+          "min_points": 2,
+          "coefficient_domain": "algebraic"
+        },
+        "objective": {
+          "kind": "max_degree",
+          "value": 6
+        },
+        "key": "P3",
+        "title": "六次压缩",
+        "subtitle": "三维 · max degree ≤ 6",
+        "tier": "Frontier",
+        "tierLabel": "前沿级",
+        "capability": "结构压缩与更低次数搜索",
+        "significance": "把最高次数从已知七次结构继续压低；若成功，将给出更短、更易分析的反例证书。",
+        "questionZh": "构造三维复多项式反例，分量最高次数不超过 6，并给出同一纤维中至少两个不同的代数点。"
+      },
+      {
+        "id": "jacobian_conjecture_4",
+        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 11, witnessed by at least four distinct algebraic points in one common fiber.",
+        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). Only three collision points are supplied, so the construction is a structural reference rather than a solution to this four-point task.",
+        "constraints": {
+          "dimension": 3,
+          "min_points": 4,
+          "coefficient_domain": "algebraic"
+        },
+        "objective": {
+          "kind": "max_degree",
+          "value": 11
+        },
+        "key": "P4",
+        "title": "四点纤维",
+        "subtitle": "三维 · ≥ 4 点 · max degree ≤ 11",
+        "tier": "Frontier+",
+        "tierLabel": "研究级",
+        "capability": "纤维工程与次数控制",
+        "significance": "要求在较低次数预算下显式制造更高重数纤维，考察模型是否理解非适当性、纤维度数与碰撞结构。",
+        "questionZh": "构造三维复多项式反例，分量最高次数不超过 11，并给出同一纤维中至少四个不同的代数点。"
+      },
+      {
+        "id": "jacobian_conjecture_5",
+        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+        "question": "Construct a counterexample in complex dimension two. No degree or sparsity restriction is imposed.",
+        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). This construction is three-dimensional and is therefore only a structural reference for the present two-dimensional task.",
+        "constraints": {
+          "dimension": 2,
+          "min_points": 2,
+          "coefficient_domain": "algebraic"
+        },
+        "objective": {
+          "kind": "counterexample"
+        },
+        "key": "P5",
+        "title": "二维前沿",
+        "subtitle": "二维 · 无次数上限",
+        "tier": "Open Frontier",
+        "tierLabel": "开放问题级",
+        "capability": "识别开放边界与拒绝伪证",
+        "significance": "二维情形仍是独立前沿。该题不仅测试构造能力，也测试模型能否避免把三维结构或局部证据误报为二维反例。",
+        "questionZh": "在二维复空间中构造一个反例；不限制次数或稀疏性，并给出可由确定性程序核验的碰撞证书。"
+      }
+    ],
+    "taskCount": 5,
+    "resultCount": 42,
+    "modelCount": 5,
+    "hintModes": [
+      "nohint",
+      "hint"
+    ],
+    "deterministic": true
+  },
+  "aggregate": {
+    "records": 42,
+    "officialPasses": 1,
+    "mathValid": 2,
+    "parsed": 25,
+    "apiErrors": 10,
+    "passRate": 0.023809523809523808,
+    "parseRate": 0.5952380952380952,
+    "mathValidRate": 0.047619047619047616,
+    "inferenceSeconds": 110304.48879299992,
+    "verificationSeconds": 17.335247,
+    "usage": {
+      "prompt_tokens": 25632,
+      "completion_tokens": 575933,
+      "reasoning_tokens": 525387,
+      "total_tokens": 601565
+    }
+  },
+  "models": [
+    {
+      "id": "claude-opus-4-8-thinking",
+      "label": "Claude Opus 4.8 Thinking",
+      "short": "Claude Opus 4.8",
+      "records": 10,
+      "officialPasses": 0,
+      "mathValid": 0,
+      "parsed": 5,
+      "apiErrors": 5,
+      "passRate": 0,
+      "parseRate": 0.5,
+      "mathValidRate": 0,
+      "inferenceSeconds": 61392.26056699999,
+      "verificationSeconds": 5.098006,
+      "usage": {
+        "prompt_tokens": 4913,
+        "completion_tokens": 24615,
+        "reasoning_tokens": 0,
+        "total_tokens": 29528
+      }
+    },
+    {
+      "id": "gemini-3.1-pro-preview-thinking",
+      "label": "Gemini 3.1 Pro Preview Thinking",
+      "short": "Gemini 3.1 Pro",
+      "records": 10,
+      "officialPasses": 1,
+      "mathValid": 2,
+      "parsed": 10,
+      "apiErrors": 0,
+      "passRate": 0.1,
+      "parseRate": 1,
+      "mathValidRate": 0.2,
+      "inferenceSeconds": 3298.9140799999996,
+      "verificationSeconds": 8.232398,
+      "usage": {
+        "prompt_tokens": 8100,
+        "completion_tokens": 352437,
+        "reasoning_tokens": 346057,
+        "total_tokens": 360537
+      }
+    },
+    {
+      "id": "glm-5.2",
+      "label": "GLM-5.2",
+      "short": "GLM-5.2",
+      "records": 2,
+      "officialPasses": 0,
+      "mathValid": 0,
+      "parsed": 2,
+      "apiErrors": 0,
+      "passRate": 0,
+      "parseRate": 1,
+      "mathValidRate": 0,
+      "inferenceSeconds": 11846.525562,
+      "verificationSeconds": 1.228919,
+      "usage": {
+        "prompt_tokens": 1262,
+        "completion_tokens": 67322,
+        "reasoning_tokens": 66889,
+        "total_tokens": 68584
+      }
+    },
+    {
+      "id": "gpt-5.5-xhigh",
+      "label": "GPT-5.5 xhigh",
+      "short": "GPT-5.5",
+      "records": 10,
+      "officialPasses": 0,
+      "mathValid": 0,
+      "parsed": 4,
+      "apiErrors": 4,
+      "passRate": 0,
+      "parseRate": 0.4,
+      "mathValidRate": 0,
+      "inferenceSeconds": 21064.454246,
+      "verificationSeconds": 0.426416,
+      "usage": {
+        "prompt_tokens": 4074,
+        "completion_tokens": 34057,
+        "reasoning_tokens": 33121,
+        "total_tokens": 38131
+      }
+    },
+    {
+      "id": "kimi-k3",
+      "label": "Kimi K3",
+      "short": "Kimi K3",
+      "records": 10,
+      "officialPasses": 0,
+      "mathValid": 0,
+      "parsed": 4,
+      "apiErrors": 1,
+      "passRate": 0,
+      "parseRate": 0.4,
+      "mathValidRate": 0,
+      "inferenceSeconds": 12702.334337999999,
+      "verificationSeconds": 2.3495079999999997,
+      "usage": {
+        "prompt_tokens": 7283,
+        "completion_tokens": 97502,
+        "reasoning_tokens": 79320,
+        "total_tokens": 104785
+      }
+    }
+  ],
+  "records": [
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321118300590258268d9d6y6roPKZa)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12205.467795,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "timing": {
+        "inference_seconds": 83.539582,
+        "verification_seconds": 1.086028
+      },
+      "usage": {
+        "prompt_tokens": 968,
+        "completion_tokens": 5787,
+        "reasoning_tokens": 0,
+        "total_tokens": 6755
+      },
+      "contentChars": 2747,
+      "reasoningChars": 3981,
+      "outputChars": 482,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321118879056078268d9d6IgNhlKiX)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12205.766857,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "timing": {
+        "inference_seconds": 87.260045,
+        "verification_seconds": 1.002742
+      },
+      "usage": {
+        "prompt_tokens": 986,
+        "completion_tokens": 6144,
+        "reasoning_tokens": 0,
+        "total_tokens": 7130
+      },
+      "contentChars": 2732,
+      "reasoningChars": 4856,
+      "outputChars": 314,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321116720054198268d9d6ICm76p54)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12205.377207,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "timing": {
+        "inference_seconds": 74.310885,
+        "verification_seconds": 1.011618
+      },
+      "usage": {
+        "prompt_tokens": 986,
+        "completion_tokens": 4977,
+        "reasoning_tokens": 0,
+        "total_tokens": 5963
+      },
+      "contentChars": 2805,
+      "reasoningChars": 2700,
+      "outputChars": 242,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321116718199128268d9d6OctIGfbu)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12205.30411,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 76.94978,
+        "verification_seconds": 0.970005
+      },
+      "usage": {
+        "prompt_tokens": 1063,
+        "completion_tokens": 5582,
+        "reasoning_tokens": 0,
+        "total_tokens": 6645
+      },
+      "contentChars": 2662,
+      "reasoningChars": 4139,
+      "outputChars": 334,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321128279964668268d9d6d2xbUli0)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12206.687831,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude Opus 4.8 Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 2
+      },
+      "timing": {
+        "inference_seconds": 41.596475,
+        "verification_seconds": 1.027613
+      },
+      "usage": {
+        "prompt_tokens": 910,
+        "completion_tokens": 2125,
+        "reasoning_tokens": 0,
+        "total_tokens": 3035
+      },
+      "contentChars": 1900,
+      "reasoningChars": 877,
+      "outputChars": 221,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": true,
+        "objective_pass": true,
+        "official_pass": true,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": null,
+        "metrics": {
+          "dimension": 3,
+          "component_degrees": [
+            8,
+            7,
+            5
+          ],
+          "max_component_degree": 8,
+          "total_monomials": 24,
+          "point_count": 3,
+          "field_degree": 1,
+          "coefficient_domain": "Q",
+          "jacobian_determinant": -2
+        },
+        "symbolic_work": 507
+      },
+      "timing": {
+        "inference_seconds": 424.833962,
+        "verification_seconds": 0.819514
+      },
+      "usage": {
+        "prompt_tokens": 921,
+        "completion_tokens": 50364,
+        "reasoning_tokens": 49110,
+        "total_tokens": 51285
+      },
+      "contentChars": 2650,
+      "reasoningChars": 0,
+      "outputChars": 1035,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "Jacobian determinant is not a nonzero constant",
+        "metrics": {},
+        "symbolic_work": 8
+      },
+      "timing": {
+        "inference_seconds": 196.679575,
+        "verification_seconds": 1.048406
+      },
+      "usage": {
+        "prompt_tokens": 705,
+        "completion_tokens": 30321,
+        "reasoning_tokens": 29814,
+        "total_tokens": 31026
+      },
+      "contentChars": 1594,
+      "reasoningChars": 1572,
+      "outputChars": 580,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "Jacobian determinant is not a nonzero constant",
+        "metrics": {},
+        "symbolic_work": 243
+      },
+      "timing": {
+        "inference_seconds": 659.412201,
+        "verification_seconds": 0.946624
+      },
+      "usage": {
+        "prompt_tokens": 945,
+        "completion_tokens": 44284,
+        "reasoning_tokens": 43517,
+        "total_tokens": 45229
+      },
+      "contentChars": 1606,
+      "reasoningChars": 0,
+      "outputChars": 708,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "Jacobian determinant is not a nonzero constant",
+        "metrics": {},
+        "symbolic_work": 8
+      },
+      "timing": {
+        "inference_seconds": 284.032514,
+        "verification_seconds": 0.770062
+      },
+      "usage": {
+        "prompt_tokens": 718,
+        "completion_tokens": 30101,
+        "reasoning_tokens": 29524,
+        "total_tokens": 30819
+      },
+      "contentChars": 2041,
+      "reasoningChars": 2953,
+      "outputChars": 579,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": true,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": null,
+        "metrics": {
+          "dimension": 3,
+          "component_degrees": [
+            7,
+            6,
+            4
+          ],
+          "max_component_degree": 7,
+          "total_monomials": 16,
+          "point_count": 2,
+          "field_degree": 1,
+          "coefficient_domain": "Q",
+          "jacobian_determinant": -2
+        },
+        "symbolic_work": 268
+      },
+      "timing": {
+        "inference_seconds": 365.98127,
+        "verification_seconds": 0.764339
+      },
+      "usage": {
+        "prompt_tokens": 881,
+        "completion_tokens": 44595,
+        "reasoning_tokens": 44024,
+        "total_tokens": 45476
+      },
+      "contentChars": 1103,
+      "reasoningChars": 0,
+      "outputChars": 727,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 8
+      },
+      "timing": {
+        "inference_seconds": 244.922659,
+        "verification_seconds": 0.786186
+      },
+      "usage": {
+        "prompt_tokens": 718,
+        "completion_tokens": 27317,
+        "reasoning_tokens": 26745,
+        "total_tokens": 28035
+      },
+      "contentChars": 2153,
+      "reasoningChars": 2837,
+      "outputChars": 674,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 268
+      },
+      "timing": {
+        "inference_seconds": 330.923862,
+        "verification_seconds": 0.8396
+      },
+      "usage": {
+        "prompt_tokens": 959,
+        "completion_tokens": 39222,
+        "reasoning_tokens": 38568,
+        "total_tokens": 40181
+      },
+      "contentChars": 1437,
+      "reasoningChars": 0,
+      "outputChars": 733,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 73
+      },
+      "timing": {
+        "inference_seconds": 237.729175,
+        "verification_seconds": 0.788264
+      },
+      "usage": {
+        "prompt_tokens": 791,
+        "completion_tokens": 26097,
+        "reasoning_tokens": 25412,
+        "total_tokens": 26888
+      },
+      "contentChars": 1821,
+      "reasoningChars": 3980,
+      "outputChars": 837,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 2
+      },
+      "timing": {
+        "inference_seconds": 313.361713,
+        "verification_seconds": 0.735645
+      },
+      "usage": {
+        "prompt_tokens": 813,
+        "completion_tokens": 35588,
+        "reasoning_tokens": 35227,
+        "total_tokens": 36401
+      },
+      "contentChars": 1394,
+      "reasoningChars": 0,
+      "outputChars": 330,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
+    },
+    {
+      "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "gemini-3.1-pro-preview-thinking",
+      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "collision points must be pairwise distinct",
+        "metrics": {},
+        "symbolic_work": 2
+      },
+      "timing": {
+        "inference_seconds": 241.037149,
+        "verification_seconds": 0.733758
+      },
+      "usage": {
+        "prompt_tokens": 649,
+        "completion_tokens": 24548,
+        "reasoning_tokens": 24116,
+        "total_tokens": 25197
+      },
+      "contentChars": 1725,
+      "reasoningChars": 3898,
+      "outputChars": 359,
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_1_nohint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "timing": {
+        "inference_seconds": 10720.137768,
+        "verification_seconds": 0.637785
+      },
+      "usage": {
+        "prompt_tokens": 656,
+        "completion_tokens": 17230,
+        "reasoning_tokens": 16892,
+        "total_tokens": 17886
+      },
+      "contentChars": 1271,
+      "reasoningChars": 64135,
+      "outputChars": 482,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason', 'status']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 1126.387794,
+        "verification_seconds": 0.591134
+      },
+      "usage": {
+        "prompt_tokens": 606,
+        "completion_tokens": 50092,
+        "reasoning_tokens": 49997,
+        "total_tokens": 50698
+      },
+      "contentChars": 476,
+      "reasoningChars": 195178,
+      "outputChars": 452,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 12203.165648,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 28.629496,
+        "verification_seconds": 0.105808
+      },
+      "usage": {
+        "prompt_tokens": 653,
+        "completion_tokens": 1132,
+        "reasoning_tokens": 1024,
+        "total_tokens": 1785
+      },
+      "contentChars": 437,
+      "reasoningChars": 0,
+      "outputChars": 220,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 2703.433697,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 76.462227,
+        "verification_seconds": 0.097221
+      },
+      "usage": {
+        "prompt_tokens": 666,
+        "completion_tokens": 3185,
+        "reasoning_tokens": 3072,
+        "total_tokens": 3851
+      },
+      "contentChars": 369,
+      "reasoningChars": 0,
+      "outputChars": 136,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 2703.494911,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 126.897956,
+        "verification_seconds": 0.10496
+      },
+      "usage": {
+        "prompt_tokens": 666,
+        "completion_tokens": 5135,
+        "reasoning_tokens": 4968,
+        "total_tokens": 5801
+      },
+      "contentChars": 507,
+      "reasoningChars": 0,
+      "outputChars": 174,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 2703.198769,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 66.770117,
+        "verification_seconds": 0.00001
+      },
+      "usage": {
+        "prompt_tokens": 729,
+        "completion_tokens": 2645,
+        "reasoning_tokens": 2560,
+        "total_tokens": 3374
+      },
+      "contentChars": 268,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 436.1552,
+        "verification_seconds": 0.118408
+      },
+      "usage": {
+        "prompt_tokens": 757,
+        "completion_tokens": 21347,
+        "reasoning_tokens": 20985,
+        "total_tokens": 22104
+      },
+      "contentChars": 493,
+      "reasoningChars": 0,
+      "outputChars": 208,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
+    },
+    {
+      "key": "gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "gpt-5.5-xhigh",
+      "modelLabel": "GPT-5.5 xhigh",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 16.246225,
+        "verification_seconds": 0.000009
+      },
+      "usage": {
+        "prompt_tokens": 603,
+        "completion_tokens": 613,
+        "reasoning_tokens": 512,
+        "total_tokens": 1216
+      },
+      "contentChars": 397,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 1951.679316,
+        "verification_seconds": 0.494508
+      },
+      "usage": {
+        "prompt_tokens": 929,
+        "completion_tokens": 3839,
+        "reasoning_tokens": 3657,
+        "total_tokens": 4768
+      },
+      "contentChars": 906,
+      "reasoningChars": 12398,
+      "outputChars": 176,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_1_nohint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason', 'status']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 1099.08567,
+        "verification_seconds": 0.667789
+      },
+      "usage": {
+        "prompt_tokens": 718,
+        "completion_tokens": 4932,
+        "reasoning_tokens": 4788,
+        "total_tokens": 5650
+      },
+      "contentChars": 613,
+      "reasoningChars": 24370,
+      "outputChars": 189,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['jacobian_determinant_on_line', 'reason', 'reference_line', 'status', 'witness_values']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 1396.233267,
+        "verification_seconds": 0.410677
+      },
+      "usage": {
+        "prompt_tokens": 951,
+        "completion_tokens": 12368,
+        "reasoning_tokens": 11921,
+        "total_tokens": 13319
+      },
+      "contentChars": 1377,
+      "reasoningChars": 51149,
+      "outputChars": 741,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 206.295355,
+        "verification_seconds": 0.000008
+      },
+      "usage": {
+        "prompt_tokens": 729,
+        "completion_tokens": 5012,
+        "reasoning_tokens": 4883,
+        "total_tokens": 5741
+      },
+      "contentChars": 541,
+      "reasoningChars": 23431,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 2705.000296,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 419.575659,
+        "verification_seconds": 0.000009
+      },
+      "usage": {
+        "prompt_tokens": 729,
+        "completion_tokens": 10504,
+        "reasoning_tokens": 10354,
+        "total_tokens": 11233
+      },
+      "contentChars": 544,
+      "reasoningChars": 47721,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 2597.779112,
+        "verification_seconds": 0.000008
+      },
+      "usage": {
+        "prompt_tokens": 948,
+        "completion_tokens": 19726,
+        "reasoning_tokens": 19317,
+        "total_tokens": 20674
+      },
+      "contentChars": 1172,
+      "reasoningChars": 78602,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 718.280267,
+        "verification_seconds": 0.000009
+      },
+      "usage": {
+        "prompt_tokens": 792,
+        "completion_tokens": 18749,
+        "reasoning_tokens": 18570,
+        "total_tokens": 19541
+      },
+      "contentChars": 743,
+      "reasoningChars": 83995,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 1363.469204,
+        "verification_seconds": 0.000008
+      },
+      "usage": {
+        "prompt_tokens": 819,
+        "completion_tokens": 16381,
+        "reasoning_tokens": null,
+        "total_tokens": 17200
+      },
+      "contentChars": 0,
+      "reasoningChars": 52066,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason', 'status']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "timing": {
+        "inference_seconds": 244.936192,
+        "verification_seconds": 0.776492
+      },
+      "usage": {
+        "prompt_tokens": 668,
+        "completion_tokens": 5991,
+        "reasoning_tokens": 5830,
+        "total_tokens": 6659
+      },
+      "contentChars": 686,
+      "reasoningChars": 28716,
+      "outputChars": 228,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
+    }
+  ]
+}

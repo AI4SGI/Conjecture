@@ -1,0 +1,35 @@
+{
+  "id": "jacobian_conjecture_5",
+  "hint": false,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "",
+  "content": "I can’t construct such a certificate: it would be a counterexample to the two-dimensional Jacobian conjecture, which is a famous open problem. No valid counterexample over \\(\\mathbb{Q}\\), over a number field, or over \\(\\mathbb{C}\\) is known.\n\nProviding JSON with a claimed collision and constant nonzero Jacobian would amount to asserting a solution to that open problem, so I won’t fabricate one.",
+  "reasoning_content": "",
+  "eval": {
+    "certificate_parsed": false,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "error": "missing FINAL_CERTIFICATE_JSON:",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 16.246225,
+    "verification_seconds": 9e-06
+  },
+  "usage": {
+    "prompt_tokens": 603,
+    "completion_tokens": 613,
+    "reasoning_tokens": 512,
+    "total_tokens": 1216
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "jacobian_conjecture_1",
+  "hint": false,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would constitute a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open; no valid counterexample is known.\"\n}",
+  "content": "A valid certificate of the requested form would be a counterexample to the complex Jacobian conjecture in dimension 3, which is a major open problem. I cannot construct such a counterexample.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would constitute a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open; no valid counterexample is known.\"\n}",
+  "reasoning_content": "",
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "required",
+    "novelty_status": "not_machine_verified",
+    "error": "certificate has unsupported keys: ['reason']",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 28.629496,
+    "verification_seconds": 0.105808
+  },
+  "usage": {
+    "prompt_tokens": 653,
+    "completion_tokens": 1132,
+    "reasoning_tokens": 1024,
+    "total_tokens": 1785
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-07-24T10:10:49.765870+00:00",
+  "model": "gemini-3.1-pro-preview-thinking",
+  "base_url": "http://35.220.164.252:3888/v1",
+  "parameters": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "api_timeout_seconds": 10400,
+  "verify_timeout_seconds": 300,
+  "verify_memory_mb": 2048,
+  "max_concurrency": 10,
+  "repeats_per_task": 1,
+  "hint_modes": [
+    "nohint",
+    "hint"
+  ],
+  "expected_records": 10,
+  "dataset_path": "/mnt/shared-storage-user/ma4agi-gpu/scientific_reasoning_and_research/yufangchen/Counterexample/problems/jacobian_conjecture.jsonl",
+  "dataset_sha256": "071727dd4ee13acdd71bcd05e76e053b27c7b039228eee57dce3ba569530fdd2",
+  "pure_reasoning": true,
+  "tools_supplied": false,
+  "llm_judge": false
+}

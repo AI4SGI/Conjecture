@@ -1,0 +1,40 @@
+{
+  "name": "jacobian-frontier",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "data": "node scripts/generate-site-data.mjs",
+    "dev": "next dev",
+    "build": "npm run data && next build --webpack",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "1.20.2",
+    "katex": "0.18.1",
+    "lucide-react": "1.26.0",
+    "mathjs": "15.2.0",
+    "next": "16.2.11",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-markdown": "10.1.0",
+    "rehype-katex": "7.0.1",
+    "remark-breaks": "4.0.0",
+    "remark-gfm": "4.0.1",
+    "remark-math": "6.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260724.1",
+    "@playwright/test": "1.61.1",
+    "@types/katex": "0.16.7",
+    "@types/node": "26.1.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10",
+    "wrangler": "4.114.0"
+  }
+}

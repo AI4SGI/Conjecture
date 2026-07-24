@@ -1,0 +1,35 @@
+{
+  "id": "jacobian_conjecture_3",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "claude-opus-4-8-thinking",
+  "parameters": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "",
+  "content": "",
+  "reasoning_content": "",
+  "eval": {
+    "certificate_parsed": false,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321116720054198268d9d6ICm76p54)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 12205.377207,
+    "verification_seconds": 0.0
+  },
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "reasoning_tokens": null,
+    "total_tokens": null
+  }
+}

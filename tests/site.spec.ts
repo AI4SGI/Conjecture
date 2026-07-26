@@ -13,6 +13,11 @@ test("desktop research flow and symbolic certificate", async ({ page }) => {
   await page.locator("#results").scrollIntoViewIfNeeded();
   await expect(page.getByText("结果类型剖面", { exact: true })).toBeVisible();
   await expect(page.locator(".outcome-row")).toHaveCount(8);
+  await expect(page.getByText("模型 × 任务结果矩阵", { exact: true })).toBeVisible();
+  await expect(page.locator(".matrix-row")).toHaveCount(5);
+  await expect(page.locator(".matrix-run:not(.empty)")).toHaveCount(50);
+  await page.locator(".matrix-run.pass").click();
+  await expect(page.locator(".trace-detail h3")).toContainText("Gemini");
   await expect(page.locator(".trace-item").first()).toBeVisible();
   await page.locator(".filter-bar select").first().selectOption(
     "gemini-3.1-pro-preview-thinking",
@@ -42,6 +47,11 @@ test("mobile navigation and layout", async ({ page }) => {
   await page.getByRole("link", { name: "任务", exact: true }).click();
   await expect(page.locator("#benchmark")).toBeInViewport();
   await expect(page.locator(".task-card")).toHaveCount(5);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth + 1,
+    ),
+  ).toBe(true);
   await page.screenshot({
     path: "/tmp/jacobian-frontier-mobile.png",
     fullPage: true,

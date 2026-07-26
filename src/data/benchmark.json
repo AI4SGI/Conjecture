@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26T02:13:12.426Z",
+  "generatedAt": "2026-07-26T15:35:59.594Z",
   "dataset": {
     "name": "Jacobian Counterexample Construction",
     "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",

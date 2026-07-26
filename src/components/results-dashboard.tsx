@@ -157,6 +157,12 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
     );
     return { ...candidate, filteredSummary: summarize(records) };
   });
+  const matrixModels = data.models.filter(
+    (candidate) => model === "all" || candidate.id === model,
+  );
+  const matrixTasks = data.dataset.tasks.filter(
+    (candidate) => task === "all" || candidate.key === task,
+  );
 
   const selectedSummary = data.records.find(
     (candidate) => candidate.key === selectedKey,
@@ -284,6 +290,112 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
               </div>
             ))}
             {!outcomes.length && <p className="empty-list">当前筛选没有可归因记录。</p>}
+          </div>
+        </div>
+
+        <div className="matrix-panel">
+          <div className="table-caption">
+            <span>模型 × 任务结果矩阵</span>
+            <small>每格左侧为无提示，右侧为有提示；点击色块查看原始轨迹</small>
+          </div>
+          <div className="matrix-legend" aria-label="结果矩阵图例">
+            {[
+              ["pass", "通过"],
+              ["near", "约束未达"],
+              ["math", "数学错误"],
+              ["protocol", "输出协议"],
+              ["system", "接口异常"],
+            ].map(([tone, label]) => (
+              <span key={tone}><i className={tone} /> {label}</span>
+            ))}
+            <em>NO HINT</em>
+            <em>HINT</em>
+          </div>
+          <div className="matrix-scroll">
+            <div
+              className="benchmark-matrix"
+              style={{
+                gridTemplateColumns: `minmax(170px, 1.25fr) repeat(${matrixTasks.length}, minmax(112px, 1fr))`,
+              }}
+            >
+              <div className="matrix-corner">
+                <span>MODEL</span>
+                <small>deterministic outcome</small>
+              </div>
+              {matrixTasks.map((candidate) => (
+                <div className="matrix-task-head" key={candidate.key}>
+                  <b>{candidate.key}</b>
+                  <span>{candidate.title}</span>
+                </div>
+              ))}
+              {matrixModels.map((candidate) => (
+                <div className="matrix-row" key={candidate.id}>
+                  <button
+                    className={model === candidate.id ? "matrix-model active" : "matrix-model"}
+                    onClick={() =>
+                      setModel((current) =>
+                        current === candidate.id ? "all" : candidate.id,
+                      )
+                    }
+                  >
+                    <b>{candidate.short}</b>
+                    <small>
+                      {data.records.filter((item) => item.model === candidate.id).length} runs
+                    </small>
+                  </button>
+                  {matrixTasks.map((matrixTask) => {
+                    const cellRecords = data.records.filter(
+                      (item) =>
+                        item.model === candidate.id &&
+                        item.taskKey === matrixTask.key &&
+                        (hint === "all" ||
+                          (hint === "hint" ? item.hint : !item.hint)),
+                    );
+                    return (
+                      <div className="matrix-cell" key={matrixTask.key}>
+                        {[false, true].map((hintMode) => {
+                          const run = cellRecords.find(
+                            (item) => item.hint === hintMode,
+                          );
+                          if (
+                            !run ||
+                            (hint !== "all" &&
+                              (hint === "hint") !== hintMode)
+                          ) {
+                            return (
+                              <span className="matrix-run empty" key={String(hintMode)}>
+                                —
+                              </span>
+                            );
+                          }
+                          return (
+                            <button
+                              className={`matrix-run ${run.analysis.tone} ${
+                                selectedKey === run.key ? "selected" : ""
+                              }`}
+                              key={String(hintMode)}
+                              onClick={() => {
+                                setSelectedKey(run.key);
+                                setTab("content");
+                              }}
+                              title={`${candidate.short} · ${matrixTask.key} · ${
+                                hintMode ? "有提示" : "无提示"
+                              } · ${run.analysis.label}`}
+                              aria-label={`查看 ${candidate.short} ${matrixTask.key} ${
+                                hintMode ? "有提示" : "无提示"
+                              }结果：${run.analysis.label}`}
+                            >
+                              <span>{hintMode ? "H" : "Ø"}</span>
+                              <i />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -1274,6 +1274,248 @@ code {
   text-align: right;
 }
 
+.matrix-panel {
+  margin-top: 44px;
+}
+
+.matrix-legend {
+  display: flex;
+  min-height: 42px;
+  gap: 14px;
+  padding: 0 12px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.55);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.matrix-legend span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.matrix-legend span i {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+}
+
+.matrix-legend span i.pass {
+  background: var(--acid);
+}
+
+.matrix-legend span i.near {
+  background: #7aa2ff;
+}
+
+.matrix-legend span i.math {
+  background: #ef8f84;
+}
+
+.matrix-legend span i.protocol {
+  background: #e5b466;
+}
+
+.matrix-legend span i.system {
+  background: #a2a9ad;
+}
+
+.matrix-legend em {
+  padding: 3px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.43);
+  font-size: 6px;
+  font-style: normal;
+  letter-spacing: 0.07em;
+}
+
+.matrix-legend em:first-of-type {
+  margin-left: auto;
+}
+
+.matrix-scroll {
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.benchmark-matrix {
+  display: grid;
+  min-width: 760px;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.matrix-row {
+  display: contents;
+}
+
+.matrix-corner,
+.matrix-task-head,
+.matrix-model,
+.matrix-cell {
+  min-height: 62px;
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.matrix-corner,
+.matrix-task-head {
+  display: flex;
+  padding: 10px 12px;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.matrix-corner span,
+.matrix-corner small,
+.matrix-task-head span {
+  color: rgba(255, 255, 255, 0.42);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.matrix-corner small {
+  margin-top: 3px;
+}
+
+.matrix-task-head {
+  align-items: center;
+  text-align: center;
+}
+
+.matrix-task-head b {
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.matrix-task-head span {
+  margin-top: 4px;
+}
+
+.matrix-model {
+  display: flex;
+  padding: 11px 13px;
+  justify-content: center;
+  flex-direction: column;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.matrix-model:hover,
+.matrix-model.active {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.matrix-model.active {
+  box-shadow: inset 2px 0 var(--acid);
+}
+
+.matrix-model b {
+  font-size: 10px;
+}
+
+.matrix-model small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.matrix-cell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 8px;
+}
+
+.matrix-run {
+  --matrix-color: rgba(255, 255, 255, 0.45);
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 43px;
+  padding: 7px 8px;
+  align-items: flex-start;
+  justify-content: space-between;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 7px;
+}
+
+.matrix-run::after {
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  left: 6px;
+  height: 2px;
+  background: var(--matrix-color);
+  content: "";
+  opacity: 0.78;
+}
+
+.matrix-run i {
+  width: 6px;
+  height: 6px;
+  background: var(--matrix-color);
+  border-radius: 50%;
+}
+
+.matrix-run:hover,
+.matrix-run.selected {
+  border-color: var(--matrix-color);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.matrix-run.selected {
+  box-shadow: inset 0 0 0 1px var(--matrix-color);
+}
+
+.matrix-run.pass {
+  --matrix-color: var(--acid);
+  background: rgba(199, 255, 53, 0.09);
+}
+
+.matrix-run.near {
+  --matrix-color: #7aa2ff;
+  background: rgba(83, 118, 218, 0.11);
+}
+
+.matrix-run.math {
+  --matrix-color: #ef8f84;
+  background: rgba(193, 70, 56, 0.1);
+}
+
+.matrix-run.protocol {
+  --matrix-color: #e5b466;
+  background: rgba(191, 137, 53, 0.1);
+}
+
+.matrix-run.system {
+  --matrix-color: #a2a9ad;
+}
+
+.matrix-run.empty {
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.16);
+  cursor: default;
+}
+
+.matrix-run.empty::after {
+  display: none;
+}
+
 .model-table-wrap {
   margin-top: 44px;
 }

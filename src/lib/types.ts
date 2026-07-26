@@ -34,6 +34,25 @@ export interface EvalResult {
   symbolic_work: number;
 }
 
+export type OutcomeCode =
+  | "verified_counterexample"
+  | "constraint_miss"
+  | "api_failure"
+  | "missing_certificate"
+  | "format_error"
+  | "jacobian_failure"
+  | "collision_failure"
+  | "duplicate_points"
+  | "invalid_certificate";
+
+export interface OutcomeAnalysis {
+  code: OutcomeCode;
+  label: string;
+  short: string;
+  detail: string;
+  tone: "pass" | "near" | "system" | "protocol" | "math";
+}
+
 export interface Usage {
   prompt_tokens: number;
   completion_tokens: number;
@@ -75,6 +94,7 @@ export interface RecordSummary {
     max_tokens: number;
   };
   eval: EvalResult;
+  analysis: OutcomeAnalysis;
   timing: {
     inference_seconds: number;
     verification_seconds: number;

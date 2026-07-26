@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T15:09:48.614Z",
+  "generatedAt": "2026-07-26T02:13:12.426Z",
   "dataset": {
     "name": "Jacobian Counterexample Construction",
     "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
@@ -119,7 +119,7 @@
       }
     ],
     "taskCount": 5,
-    "resultCount": 42,
+    "resultCount": 50,
     "modelCount": 5,
     "hintModes": [
       "nohint",
@@ -128,21 +128,21 @@
     "deterministic": true
   },
   "aggregate": {
-    "records": 42,
+    "records": 50,
     "officialPasses": 1,
     "mathValid": 2,
-    "parsed": 25,
-    "apiErrors": 10,
-    "passRate": 0.023809523809523808,
-    "parseRate": 0.5952380952380952,
-    "mathValidRate": 0.047619047619047616,
-    "inferenceSeconds": 110304.48879299992,
-    "verificationSeconds": 17.335247,
+    "parsed": 26,
+    "apiErrors": 17,
+    "passRate": 0.02,
+    "parseRate": 0.52,
+    "mathValidRate": 0.04,
+    "inferenceSeconds": 350580.1913170001,
+    "verificationSeconds": 17.901997,
     "usage": {
-      "prompt_tokens": 25632,
-      "completion_tokens": 575933,
-      "reasoning_tokens": 525387,
-      "total_tokens": 601565
+      "prompt_tokens": 26301,
+      "completion_tokens": 619298,
+      "reasoning_tokens": 568674,
+      "total_tokens": 645599
     }
   },
   "models": [
@@ -192,21 +192,21 @@
       "id": "glm-5.2",
       "label": "GLM-5.2",
       "short": "GLM-5.2",
-      "records": 2,
+      "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
-      "parsed": 2,
-      "apiErrors": 0,
+      "parsed": 3,
+      "apiErrors": 7,
       "passRate": 0,
-      "parseRate": 1,
+      "parseRate": 0.3,
       "mathValidRate": 0,
-      "inferenceSeconds": 11846.525562,
-      "verificationSeconds": 1.228919,
+      "inferenceSeconds": 252122.22808600002,
+      "verificationSeconds": 1.795669,
       "usage": {
-        "prompt_tokens": 1262,
-        "completion_tokens": 67322,
-        "reasoning_tokens": 66889,
-        "total_tokens": 68584
+        "prompt_tokens": 1931,
+        "completion_tokens": 110687,
+        "reasoning_tokens": 110176,
+        "total_tokens": 112618
       }
     },
     {
@@ -277,6 +277,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12205.467795,
         "verification_seconds": 0
@@ -315,6 +322,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 4
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 83.539582,
@@ -355,6 +369,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12205.766857,
         "verification_seconds": 0
@@ -393,6 +414,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 4
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 87.260045,
@@ -433,6 +461,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12205.377207,
         "verification_seconds": 0
@@ -471,6 +506,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 4
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 74.310885,
@@ -511,6 +553,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12205.30411,
         "verification_seconds": 0
@@ -549,6 +598,13 @@
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 76.94978,
@@ -589,6 +645,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12206.687831,
         "verification_seconds": 0
@@ -627,6 +690,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 2
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 41.596475,
@@ -680,6 +750,13 @@
         },
         "symbolic_work": 507
       },
+      "analysis": {
+        "code": "verified_counterexample",
+        "label": "已验证反例",
+        "short": "程序确认雅可比、碰撞点与任务约束均成立。",
+        "detail": "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
+        "tone": "pass"
+      },
       "timing": {
         "inference_seconds": 424.833962,
         "verification_seconds": 0.819514
@@ -718,6 +795,13 @@
         "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
         "symbolic_work": 8
+      },
+      "analysis": {
+        "code": "jacobian_failure",
+        "label": "错误反例：雅可比条件失败",
+        "short": "候选映射的雅可比行列式不是非零常数。",
+        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 196.679575,
@@ -758,6 +842,13 @@
         "metrics": {},
         "symbolic_work": 243
       },
+      "analysis": {
+        "code": "jacobian_failure",
+        "label": "错误反例：雅可比条件失败",
+        "short": "候选映射的雅可比行列式不是非零常数。",
+        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "tone": "math"
+      },
       "timing": {
         "inference_seconds": 659.412201,
         "verification_seconds": 0.946624
@@ -796,6 +887,13 @@
         "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
         "symbolic_work": 8
+      },
+      "analysis": {
+        "code": "jacobian_failure",
+        "label": "错误反例：雅可比条件失败",
+        "short": "候选映射的雅可比行列式不是非零常数。",
+        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 284.032514,
@@ -849,6 +947,13 @@
         },
         "symbolic_work": 268
       },
+      "analysis": {
+        "code": "constraint_miss",
+        "label": "反例有效，但未满足任务约束",
+        "short": "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
+        "detail": "这不是伪反例；失败发生在题目目标层。评测详情中的 metrics 给出具体约束测量值。",
+        "tone": "near"
+      },
       "timing": {
         "inference_seconds": 365.98127,
         "verification_seconds": 0.764339
@@ -887,6 +992,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 8
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 244.922659,
@@ -927,6 +1039,13 @@
         "metrics": {},
         "symbolic_work": 268
       },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
+      },
       "timing": {
         "inference_seconds": 330.923862,
         "verification_seconds": 0.8396
@@ -965,6 +1084,13 @@
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 73
+      },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
         "inference_seconds": 237.729175,
@@ -1005,6 +1131,13 @@
         "metrics": {},
         "symbolic_work": 2
       },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
+      },
       "timing": {
         "inference_seconds": 313.361713,
         "verification_seconds": 0.735645
@@ -1044,6 +1177,13 @@
         "metrics": {},
         "symbolic_work": 2
       },
+      "analysis": {
+        "code": "duplicate_points",
+        "label": "错误反例：碰撞点不互异",
+        "short": "所谓碰撞使用了重复点，无法证明映射不是单射。",
+        "detail": "反例证书要求至少两个两两不同的代数点位于同一纤维。",
+        "tone": "math"
+      },
       "timing": {
         "inference_seconds": 241.037149,
         "verification_seconds": 0.733758
@@ -1058,6 +1198,52 @@
       "reasoningChars": 3898,
       "outputChars": 359,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.21367,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_1_nohint_01",
@@ -1083,6 +1269,13 @@
         "metrics": {},
         "symbolic_work": 4
       },
+      "analysis": {
+        "code": "collision_failure",
+        "label": "错误反例：碰撞证书失败",
+        "short": "提交的不同点经候选映射后没有得到同一个像。",
+        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
+      },
       "timing": {
         "inference_seconds": 10720.137768,
         "verification_seconds": 0.637785
@@ -1097,6 +1290,328 @@
       "reasoningChars": 64135,
       "outputChars": 482,
       "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.263136,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.205456,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.180238,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['max_degree', 'reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 21845.067974,
+        "verification_seconds": 0.56675
+      },
+      "usage": {
+        "prompt_tokens": 669,
+        "completion_tokens": 43365,
+        "reasoning_tokens": 43287,
+        "total_tokens": 44034
+      },
+      "contentChars": 373,
+      "reasoningChars": 167083,
+      "outputChars": 349,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.20035,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31204.230485,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 128000
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "error": "APITimeoutError: Request timed out.",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
+      "timing": {
+        "inference_seconds": 31205.341215,
+        "verification_seconds": 0
+      },
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "reasoning_tokens": null,
+        "total_tokens": null
+      },
+      "contentChars": 0,
+      "reasoningChars": 0,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
@@ -1121,6 +1636,13 @@
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 1126.387794,
@@ -1161,6 +1683,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 12203.165648,
         "verification_seconds": 0
@@ -1199,6 +1728,13 @@
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 28.629496,
@@ -1239,6 +1775,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 2703.433697,
         "verification_seconds": 0
@@ -1277,6 +1820,13 @@
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 76.462227,
@@ -1317,6 +1867,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 2703.494911,
         "verification_seconds": 0
@@ -1355,6 +1912,13 @@
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 126.897956,
@@ -1395,6 +1959,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 2703.198769,
         "verification_seconds": 0
@@ -1433,6 +2004,13 @@
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 66.770117,
@@ -1473,6 +2051,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
       "timing": {
         "inference_seconds": 436.1552,
         "verification_seconds": 0.118408
@@ -1511,6 +2096,13 @@
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 16.246225,
@@ -1551,6 +2143,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
       "timing": {
         "inference_seconds": 1951.679316,
         "verification_seconds": 0.494508
@@ -1589,6 +2188,13 @@
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 1099.08567,
@@ -1629,6 +2235,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
       "timing": {
         "inference_seconds": 1396.233267,
         "verification_seconds": 0.410677
@@ -1667,6 +2280,13 @@
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 206.295355,
@@ -1707,6 +2327,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "api_failure",
+        "label": "接口异常，未形成可评测回答",
+        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "tone": "system"
+      },
       "timing": {
         "inference_seconds": 2705.000296,
         "verification_seconds": 0
@@ -1745,6 +2372,13 @@
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 419.575659,
@@ -1785,6 +2419,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
       "timing": {
         "inference_seconds": 2597.779112,
         "verification_seconds": 0.000008
@@ -1823,6 +2464,13 @@
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 718.280267,
@@ -1863,6 +2511,13 @@
         "metrics": {},
         "symbolic_work": 0
       },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "未提交可评测证书",
+        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
       "timing": {
         "inference_seconds": 1363.469204,
         "verification_seconds": 0.000008
@@ -1901,6 +2556,13 @@
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "证书格式不符合协议",
+        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
         "inference_seconds": 244.936192,

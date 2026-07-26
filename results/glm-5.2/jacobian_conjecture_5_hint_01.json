@@ -1,0 +1,35 @@
+{
+  "id": "jacobian_conjecture_5",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "glm-5.2",
+  "parameters": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "",
+  "content": "",
+  "reasoning_content": "",
+  "eval": {
+    "certificate_parsed": false,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "error": "APITimeoutError: Request timed out.",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 31205.341215,
+    "verification_seconds": 0.0
+  },
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "reasoning_tokens": null,
+    "total_tokens": null
+  }
+}

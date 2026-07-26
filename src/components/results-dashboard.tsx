@@ -23,6 +23,7 @@ import remarkMath from "remark-math";
 import type {
   BenchmarkData,
   FullRecord,
+  OutcomeAnalysis,
   RecordSummary,
   Summary,
   Usage,
@@ -107,6 +108,20 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
     [data.records, model, hint, task],
   );
   const metrics = useMemo(() => summarize(filtered), [filtered]);
+  const outcomes = useMemo(() => {
+    const grouped = new Map<
+      string,
+      { analysis: OutcomeAnalysis; count: number }
+    >();
+    for (const candidate of filtered) {
+      const current = grouped.get(candidate.analysis.code);
+      grouped.set(candidate.analysis.code, {
+        analysis: candidate.analysis,
+        count: (current?.count ?? 0) + 1,
+      });
+    }
+    return [...grouped.values()].sort((a, b) => b.count - a.count);
+  }, [filtered]);
 
   useEffect(() => {
     if (!filtered.some((candidate) => candidate.key === selectedKey)) {
@@ -133,7 +148,13 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
   }, [data.records, selectedKey]);
 
   const modelRows = data.models.map((candidate) => {
-    const records = data.records.filter((record) => record.model === candidate.id);
+    const records = data.records.filter(
+      (record) =>
+        record.model === candidate.id &&
+        (hint === "all" ||
+          (hint === "hint" ? record.hint : !record.hint)) &&
+        (task === "all" || record.taskKey === task),
+    );
     return { ...candidate, filteredSummary: summarize(records) };
   });
 
@@ -239,6 +260,33 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
           />
         </div>
 
+        <div className="outcome-panel">
+          <div className="table-caption">
+            <span>结果类型剖面</span>
+            <small>按确定性评测器的首要结论归因，不使用 LLM judge</small>
+          </div>
+          <div className="outcome-grid">
+            {outcomes.map(({ analysis, count }) => (
+              <div className={`outcome-row ${analysis.tone}`} key={analysis.code}>
+                <span className="outcome-marker" />
+                <span>
+                  <b>{analysis.label}</b>
+                  <small>{analysis.short}</small>
+                </span>
+                <i aria-hidden="true">
+                  <span
+                    style={{
+                      width: `${metrics.records ? (count / metrics.records) * 100 : 0}%`,
+                    }}
+                  />
+                </i>
+                <strong>{count}</strong>
+              </div>
+            ))}
+            {!outcomes.length && <p className="empty-list">当前筛选没有可归因记录。</p>}
+          </div>
+        </div>
+
         <div className="model-table-wrap">
           <div className="table-caption">
             <span>模型横向比较</span>
@@ -299,6 +347,7 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
                   <span>
                     <b>{candidate.taskKey} · {candidate.hint ? "有提示" : "无提示"}</b>
                     <small>{candidate.modelLabel}</small>
+                    <em>{candidate.analysis.label}</em>
                   </span>
                   <ChevronRight size={15} />
                 </button>
@@ -344,6 +393,16 @@ export function ResultsDashboard({ data }: { data: BenchmarkData }) {
                   <span>验证 {duration(selectedSummary.timing.verification_seconds)}</span>
                   <span>{compact(selectedSummary.usage.total_tokens)} tokens</span>
                   <span>{selectedSummary.eval.symbolic_work} symbolic ops</span>
+                </div>
+
+                <div className={`result-analysis ${selectedSummary.analysis.tone}`}>
+                  <AlertTriangle size={17} />
+                  <div>
+                    <span>确定性结果归因</span>
+                    <b>{selectedSummary.analysis.label}</b>
+                    <p>{selectedSummary.analysis.short}</p>
+                    <small>{selectedSummary.analysis.detail}</small>
+                  </div>
                 </div>
 
                 {selectedSummary.eval.error && (

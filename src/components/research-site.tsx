@@ -158,7 +158,7 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
               <em>并不保证全局唯一。</em>
             </h1>
             <p className="hero-lead">
-              一个用于反例构造能力的紧凑评测集：五级问题、42
+              一个用于反例构造能力的紧凑评测集：五级问题、{data.dataset.resultCount}
               条真实模型轨迹，以及可在浏览器中复算的符号证书。
             </p>
             <div className="hero-actions">

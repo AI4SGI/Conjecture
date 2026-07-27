@@ -2,6 +2,10 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+const siteBasePath = String(process.env.NEXT_PUBLIC_BASE_PATH ?? "")
+  .replace(/\/+$/, "")
+  .replace(/^([^/])/, "/$1");
+
 const root = process.cwd();
 const problemsPath = path.join(root, "problems", "jacobian_conjecture.jsonl");
 const resultsRoot = path.join(root, "results");
@@ -279,7 +283,7 @@ for (const model of modelDirs) {
       contentChars: String(record.content ?? "").length,
       reasoningChars: String(record.reasoning_content ?? "").length,
       outputChars: String(record.output ?? "").length,
-      url: `/data/records/${slug}.json`,
+      url: `${siteBasePath}/data/records/${slug}.json`,
     });
   }
 }

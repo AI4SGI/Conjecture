@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const repository = process.env.GITHUB_REPOSITORY ?? "AI4SGI/Counterexample";
+  const repository = process.env.GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
   try {
     const response = await fetch(`https://api.github.com/repos/${repository}`, {
       headers: {

@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jacobian-community-api",
+  "main": "community-worker.ts",
+  "compatibility_date": "2026-07-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "COMMUNITY",
+        "class_name": "CommunityStore"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["CommunityStore"]
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://ai4sgi.github.io,http://localhost:3000,http://127.0.0.1:4173"
+  }
+}

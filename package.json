@@ -6,10 +6,12 @@
     "data": "node scripts/generate-site-data.mjs",
     "dev": "next dev",
     "build": "npm run data && next build --webpack",
+    "build:pages": "npm run data && next build --webpack",
     "build:cloudflare": "opennextjs-cloudflare build",
+    "deploy:community": "wrangler deploy --config wrangler.community.jsonc",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --exclude tests/site.spec.ts --passWithNoTests",
     "test:data": "node tests/site-data.mjs",
     "test:e2e": "playwright test"
   },

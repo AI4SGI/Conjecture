@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
 
+const siteRoot = process.env.PLAYWRIGHT_SITE_ROOT ?? "/";
+
 test("desktop research flow and symbolic certificate", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto("/");
+  await page.goto(siteRoot);
 
   await expect(
     page.getByRole("heading", { name: /局部可逆/ }),
@@ -41,7 +43,7 @@ test("desktop research flow and symbolic certificate", async ({ page }) => {
 
 test("mobile navigation and layout", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto(siteRoot);
   await page.getByRole("button", { name: "打开导航" }).click();
   await expect(page.locator(".main-nav")).toHaveClass(/nav-open/);
   await page.getByRole("link", { name: "任务", exact: true }).click();

@@ -13,11 +13,13 @@ import { useState } from "react";
 import type { CommunitySnapshot } from "../lib/types";
 
 export function CommunityBoard({
+  apiUrl,
   snapshot,
   online,
   refresh,
   getClientKey,
 }: {
+  apiUrl: string | null;
   snapshot: CommunitySnapshot;
   online: boolean;
   refresh: (sort?: string) => Promise<void>;
@@ -42,10 +44,15 @@ export function CommunityBoard({
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (!apiUrl) {
+      setStatus("error");
+      setMessage("社区后端尚未连接。");
+      return;
+    }
     setStatus("submitting");
     setMessage("");
     try {
-      const response = await fetch("/api/community", {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -71,7 +78,8 @@ export function CommunityBoard({
   }
 
   async function likeMessage(id: string) {
-    await fetch("/api/community", {
+    if (!apiUrl) return;
+    await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

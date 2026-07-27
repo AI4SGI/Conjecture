@@ -26,6 +26,24 @@ const EMPTY_COMMUNITY: CommunitySnapshot = {
   pendingCount: 0,
 };
 
+const DEPLOY_TARGET =
+  process.env.NEXT_PUBLIC_DEPLOY_TARGET ?? "server";
+const SITE_BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(
+  /\/+$/,
+  "",
+);
+const EXTERNAL_COMMUNITY_BASE = (
+  process.env.NEXT_PUBLIC_COMMUNITY_API_URL ?? ""
+).replace(/\/+$/, "");
+const COMMUNITY_API_URL = EXTERNAL_COMMUNITY_BASE
+  ? `${EXTERNAL_COMMUNITY_BASE}/api/community`
+  : DEPLOY_TARGET === "github-pages"
+    ? null
+    : `${SITE_BASE_PATH}/api/community`;
+const GITHUB_REPOSITORY =
+  process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
+const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
+
 function getClientKey() {
   const key = "jacobian-frontier-client-key";
   let value = window.localStorage.getItem(key);
@@ -40,19 +58,25 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [community, setCommunity] =
     useState<CommunitySnapshot>(EMPTY_COMMUNITY);
-  const [communityOnline, setCommunityOnline] = useState(true);
+  const [communityOnline, setCommunityOnline] = useState(
+    Boolean(COMMUNITY_API_URL),
+  );
   const [github, setGithub] = useState<{
     available: boolean;
     stars?: number;
     url: string;
   }>({
     available: false,
-    url: "https://github.com/AI4SGI/Counterexample",
+    url: GITHUB_URL,
   });
 
   const refreshCommunity = useCallback(async (sort = "recent") => {
+    if (!COMMUNITY_API_URL) {
+      setCommunityOnline(false);
+      return;
+    }
     try {
-      const response = await fetch(`/api/community?sort=${sort}`, {
+      const response = await fetch(`${COMMUNITY_API_URL}?sort=${sort}`, {
         cache: "no-store",
       });
       const snapshot = (await response.json()) as CommunitySnapshot;
@@ -66,21 +90,37 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
 
   useEffect(() => {
     void refreshCommunity();
-    void fetch("/api/github")
-      .then(
-        (response) =>
-          response.json() as Promise<{
-            available: boolean;
-            stars?: number;
-            url: string;
-          }>,
-      )
+    const githubEndpoint =
+      DEPLOY_TARGET === "github-pages"
+        ? `https://api.github.com/repos/${GITHUB_REPOSITORY}`
+        : `${SITE_BASE_PATH}/api/github`;
+    void fetch(githubEndpoint)
+      .then(async (response) => {
+        if (!response.ok) throw new Error("github_unavailable");
+        if (DEPLOY_TARGET === "github-pages") {
+          const payload = (await response.json()) as {
+            stargazers_count: number;
+            html_url: string;
+          };
+          return {
+            available: true,
+            stars: payload.stargazers_count,
+            url: payload.html_url,
+          };
+        }
+        return response.json() as Promise<{
+          available: boolean;
+          stars?: number;
+          url: string;
+        }>;
+      })
       .then(setGithub)
       .catch(() => undefined);
   }, [refreshCommunity]);
 
   async function likeTask(task: Task["key"]) {
-    const response = await fetch("/api/community", {
+    if (!COMMUNITY_API_URL) return "error" as const;
+    const response = await fetch(COMMUNITY_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -295,6 +335,7 @@ F(0,0,-\tfrac14)=F(1,-\tfrac32,\tfrac{13}2)\\
         <ResultsDashboard data={data} />
         <PolynomialVerifier />
         <CommunityBoard
+          apiUrl={COMMUNITY_API_URL}
           snapshot={community}
           online={communityOnline}
           refresh={refreshCommunity}

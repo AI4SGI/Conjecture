@@ -8,6 +8,7 @@ interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
+  conjecture: "jacobian";
   task: TaskKey | "general";
   status: MessageStatus;
   likes: number;
@@ -95,6 +96,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const nickname = cleanText(body.nickname, 40);
     const title = cleanText(body.title, 120);
     const messageBody = cleanText(body.body, 1800);
+    const conjecture: "jacobian" = "jacobian";
     const rawTask = cleanText(body.task, 8);
     const task = (TASKS.includes(rawTask as TaskKey)
       ? rawTask
@@ -112,7 +114,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const day = new Date().toISOString().slice(0, 10);
     const rateKey = `submit:${day}:${clientKey}`;
     const submissions = (await this.ctx.storage.get<number>(rateKey)) ?? 0;
-    if (submissions >= 3) {
+    if (submissions >= 5) {
       return json({ error: "rate_limited" }, 429);
     }
 
@@ -123,6 +125,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       nickname,
       title,
       body: messageBody,
+      conjecture,
       task,
       status: "pending",
       likes: 0,

@@ -7,6 +7,11 @@ export interface Task {
   tierLabel: string;
   capability: string;
   significance: string;
+  titleZh: string;
+  subtitleZh: string;
+  tierLabelZh: string;
+  capabilityZh: string;
+  significanceZh: string;
   questionZh: string;
   context: string;
   question: string;
@@ -51,7 +56,12 @@ export interface OutcomeAnalysis {
   short: string;
   detail: string;
   tone: "pass" | "near" | "system" | "protocol" | "math";
+  labelZh?: string;
+  shortZh?: string;
+  detailZh?: string;
 }
+
+export type Language = "en" | "zh";
 
 export interface Usage {
   prompt_tokens: number;
@@ -135,6 +145,7 @@ export interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
+  conjecture?: "jacobian";
   task: Task["key"] | "general";
   status: "approved";
   likes: number;

@@ -21,6 +21,33 @@ assert.equal(
   1,
   "all tasks must share one context",
 );
+assert(
+  problemLines.every(
+    (problem) =>
+      problem.context.includes("\\mathbb{C}") &&
+      problem.question.includes("\\mathbb{C}") &&
+      problem.hint.includes("\\det J_F"),
+  ),
+  "context, question, and hint formulas must use LaTeX notation",
+);
+assert.deepEqual(
+  benchmark.models.map((model) => model.label),
+  [
+    "Claude-Opus-4.8-Thinking",
+    "Gemini-3.1-Pro-Preview-Thinking",
+    "GLM-5.2",
+    "GPT-5.5 (xhigh)",
+    "Kimi-K3",
+  ],
+  "public model labels must use the canonical display names",
+);
+assert.deepEqual(
+  benchmark.dataset.tasks
+    .filter((task) => ["P3", "P4"].includes(task.key))
+    .map((task) => task.tier),
+  ["Research", "Research"],
+  "P3 and P4 must both be research-level tasks",
+);
 
 const sourceFiles = [];
 for (const model of await readdir(path.join(root, "results"))) {

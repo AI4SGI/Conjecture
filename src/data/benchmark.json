@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-07-26T15:35:59.594Z",
+  "generatedAt": "2026-07-27T09:44:42.558Z",
   "dataset": {
-    "name": "Jacobian Counterexample Construction",
-    "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
+    "name": "Conjecture Frontier · Jacobian Counterexample Construction",
+    "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
     "tasks": [
       {
         "id": "jacobian_conjecture_1",
-        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
-        "question": "Construct a counterexample in complex dimension three. No degree or sparsity restriction is imposed.",
-        "hint": "A known three-dimensional construction, written in variables x,y,z, is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and the three points (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) all map to (-1/4,0,0). The submission must constitute a genuinely new counterexample that is algebraically inequivalent to this reference construction. Mere reformulations—including reparametrizations, permutations of variables or components, and constructions obtainable from the reference through invertible algebraic changes of coordinates in the source or target—do not qualify as new counterexamples and are therefore inadmissible.",
+        "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\). No degree or sparsity restriction is imposed.",
+        "hint": "Let \\(u=1+xy\\). A known three-dimensional construction is \\[F_1=u^3z+y^2u(4+3xy),\\qquad F_2=y+3xu^2z+3xy^2(4+3xy),\\qquad F_3=2x-3x^2y-x^3z.\\] It satisfies \\(\\det J_F=-2\\), and \\[(0,0,-\\tfrac14),\\ (1,-\\tfrac32,\\tfrac{13}{2}),\\ (-1,\\tfrac32,\\tfrac{13}{2})\\] all map to \\((-\\tfrac14,0,0)\\). The submission must be a genuinely new counterexample algebraically inequivalent to this reference. Reformulations, variable or component permutations, reparametrizations, and constructions obtainable by invertible algebraic coordinate changes in the source or target are inadmissible.",
         "constraints": {
           "dimension": 3,
           "min_points": 2,
@@ -18,19 +18,24 @@
           "kind": "counterexample"
         },
         "key": "P1",
-        "title": "开放构造",
-        "subtitle": "三维 · 无次数上限",
+        "title": "Open Construction",
+        "subtitle": "Complex dimension 3 · no degree bound",
         "tier": "Exploration",
-        "tierLabel": "探索级",
-        "capability": "从零构造与全局代数推理",
-        "significance": "检验模型能否越过局部可逆性的直觉陷阱，独立提出与已知构造不等价的全局碰撞机制。",
+        "tierLabel": "Exploration Level",
+        "capability": "De novo construction and global algebraic reasoning",
+        "significance": "Tests whether a model can move beyond local-invertibility intuition and propose a genuinely new global collision mechanism.",
+        "titleZh": "开放构造",
+        "subtitleZh": "三维 · 无次数上限",
+        "tierLabelZh": "探索级",
+        "capabilityZh": "从零构造与全局代数推理",
+        "significanceZh": "检验模型能否越过局部可逆性的直觉陷阱，独立提出与已知构造不等价的全局碰撞机制。",
         "questionZh": "在三维复空间中构造一个反例；不限制次数或稀疏性，但必须与参考构造代数不等价。"
       },
       {
         "id": "jacobian_conjecture_2",
-        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
-        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 7. Supply at least two distinct algebraic points in one common fiber.",
-        "hint": "A known three-dimensional construction, written in variables x,y,z, is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its component degrees are (7,6,4), its Jacobian determinant is -2, and the three points (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) all map to (-1/4,0,0). The submission must constitute a genuinely new counterexample that is algebraically inequivalent to this reference construction. Mere reformulations—including reparametrizations, permutations of variables or components, and constructions obtainable from the reference through invertible algebraic changes of coordinates in the source or target—do not qualify as new counterexamples and are therefore inadmissible.",
+        "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\max_i\\deg F_i\\le 7\\). Supply at least two distinct algebraic points \\(p_1,p_2\\) in one common fiber, so that \\(F(p_1)=F(p_2)\\).",
+        "hint": "Let \\(u=1+xy\\). A known construction is \\[F_1=u^3z+y^2u(4+3xy),\\qquad F_2=y+3xu^2z+3xy^2(4+3xy),\\qquad F_3=2x-3x^2y-x^3z.\\] Its component degrees are \\((7,6,4)\\), \\(\\det J_F=-2\\), and the three points \\((0,0,-\\tfrac14)\\), \\((1,-\\tfrac32,\\tfrac{13}{2})\\), and \\((-1,\\tfrac32,\\tfrac{13}{2})\\) share the image \\((-\\tfrac14,0,0)\\). The submission must be a genuinely new counterexample algebraically inequivalent to this reference. Reformulations and constructions obtainable by invertible algebraic coordinate changes are inadmissible.",
         "constraints": {
           "dimension": 3,
           "min_points": 2,
@@ -41,19 +46,24 @@
           "value": 7
         },
         "key": "P2",
-        "title": "七次边界",
-        "subtitle": "三维 · max degree ≤ 7",
+        "title": "Degree-Seven Boundary",
+        "subtitle": "Complex dimension 3 · max degree ≤ 7",
         "tier": "Constrained",
-        "tierLabel": "约束级",
-        "capability": "紧次数预算下的新颖构造",
-        "significance": "在已知次数尺度内要求全新代数结构，同时验证常雅可比、碰撞证书与代数系数，兼顾搜索和证明。",
+        "tierLabel": "Constrained Level",
+        "capability": "Novel construction under a tight degree budget",
+        "significance": "Demands a new algebraic structure at the known degree scale while jointly testing the constant-Jacobian and collision conditions.",
+        "titleZh": "七次边界",
+        "subtitleZh": "三维 · max degree ≤ 7",
+        "tierLabelZh": "约束级",
+        "capabilityZh": "紧次数预算下的新颖构造",
+        "significanceZh": "在已知次数尺度内要求全新代数结构，同时验证常雅可比、碰撞证书与代数系数，兼顾搜索和证明。",
         "questionZh": "构造三维复多项式反例，分量最高次数不超过 7，并给出同一纤维中至少两个不同的代数点；不得提交参考构造的等价表达。"
       },
       {
         "id": "jacobian_conjecture_3",
-        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
-        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 6. Supply at least two distinct algebraic points in one common fiber.",
-        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). Its maximum component degree is 7, so it does not satisfy the degree bound in this task.",
+        "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\max_i\\deg F_i\\le 6\\). Supply at least two distinct algebraic points \\(p_1,p_2\\) satisfying \\(F(p_1)=F(p_2)\\).",
+        "hint": "For reference only, let \\(u=1+xy\\) and consider \\[F_1=u^3z+y^2u(4+3xy),\\qquad F_2=y+3xu^2z+3xy^2(4+3xy),\\qquad F_3=2x-3x^2y-x^3z.\\] This map has \\(\\det J_F=-2\\) and three known collision points, but \\(\\max_i\\deg F_i=7\\); therefore it does not satisfy this task's degree bound.",
         "constraints": {
           "dimension": 3,
           "min_points": 2,
@@ -64,19 +74,24 @@
           "value": 6
         },
         "key": "P3",
-        "title": "六次压缩",
-        "subtitle": "三维 · max degree ≤ 6",
-        "tier": "Frontier",
-        "tierLabel": "前沿级",
-        "capability": "结构压缩与更低次数搜索",
-        "significance": "把最高次数从已知七次结构继续压低；若成功，将给出更短、更易分析的反例证书。",
+        "title": "Degree-Six Compression",
+        "subtitle": "Complex dimension 3 · max degree ≤ 6",
+        "tier": "Research",
+        "tierLabel": "Research Level",
+        "capability": "Structural compression and lower-degree search",
+        "significance": "Pushes below the known degree-seven scale; success would expose a shorter and potentially more interpretable counterexample structure.",
+        "titleZh": "六次压缩",
+        "subtitleZh": "三维 · max degree ≤ 6",
+        "tierLabelZh": "研究级",
+        "capabilityZh": "结构压缩与更低次数搜索",
+        "significanceZh": "把最高次数从已知七次结构继续压低；若成功，将给出更短、更易分析的反例证书。",
         "questionZh": "构造三维复多项式反例，分量最高次数不超过 6，并给出同一纤维中至少两个不同的代数点。"
       },
       {
         "id": "jacobian_conjecture_4",
-        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
-        "question": "Construct a counterexample in complex dimension three whose maximum component degree is at most 11, witnessed by at least four distinct algebraic points in one common fiber.",
-        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). Only three collision points are supplied, so the construction is a structural reference rather than a solution to this four-point task.",
+        "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\max_i\\deg F_i\\le 11\\), witnessed by at least four pairwise-distinct algebraic points \\(p_1,p_2,p_3,p_4\\) in one common fiber.",
+        "hint": "For reference only, the known map \\[F_1=(1+xy)^3z+y^2(1+xy)(4+3xy),\\quad F_2=y+3xz(1+xy)^2+3xy^2(4+3xy),\\quad F_3=2x-3x^2y-x^3z\\] satisfies \\(\\det J_F=-2\\) and has three supplied collision points mapping to \\((-\\tfrac14,0,0)\\). It is a structural reference rather than a solution because this task requires at least four pairwise-distinct points in one fiber.",
         "constraints": {
           "dimension": 3,
           "min_points": 4,
@@ -87,19 +102,24 @@
           "value": 11
         },
         "key": "P4",
-        "title": "四点纤维",
-        "subtitle": "三维 · ≥ 4 点 · max degree ≤ 11",
-        "tier": "Frontier+",
-        "tierLabel": "研究级",
-        "capability": "纤维工程与次数控制",
-        "significance": "要求在较低次数预算下显式制造更高重数纤维，考察模型是否理解非适当性、纤维度数与碰撞结构。",
+        "title": "Four-Point Fiber",
+        "subtitle": "Complex dimension 3 · ≥ 4 points · max degree ≤ 11",
+        "tier": "Research",
+        "tierLabel": "Research Level",
+        "capability": "Fiber engineering under degree control",
+        "significance": "Requires an explicit higher-cardinality fiber under a controlled degree budget, probing non-properness and collision geometry.",
+        "titleZh": "四点纤维",
+        "subtitleZh": "三维 · ≥ 4 点 · max degree ≤ 11",
+        "tierLabelZh": "研究级",
+        "capabilityZh": "纤维工程与次数控制",
+        "significanceZh": "要求在较低次数预算下显式制造更高重数纤维，考察模型是否理解非适当性、纤维度数与碰撞结构。",
         "questionZh": "构造三维复多项式反例，分量最高次数不超过 11，并给出同一纤维中至少四个不同的代数点。"
       },
       {
         "id": "jacobian_conjecture_5",
-        "context": "Let F=(F_1,...,F_d): C^d -> C^d be a polynomial map. The statement under investigation asserts that if det(dF_i/dx_j) is a nonzero constant, then F is injective (and hence has a polynomial inverse). A counterexample must therefore have a nonzero constant Jacobian determinant while mapping at least two distinct points to the same image.",
-        "question": "Construct a counterexample in complex dimension two. No degree or sparsity restriction is imposed.",
-        "hint": "For reference only: a known three-dimensional construction is F_1=z(1+xy)^3+y^2(4+7xy+3x^2y^2), F_2=y+3xz(1+xy)^2+3xy^2(4+3xy), and F_3=2x-3x^2y-x^3z. Its Jacobian determinant is -2, and (0,0,-1/4), (1,-3/2,13/2), and (-1,3/2,13/2) have the common image (-1/4,0,0). This construction is three-dimensional and is therefore only a structural reference for the present two-dimensional task.",
+        "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^2\\to\\mathbb{C}^2\\). No degree or sparsity restriction is imposed.",
+        "hint": "For reference only, the known three-dimensional map \\[F_1=(1+xy)^3z+y^2(1+xy)(4+3xy),\\quad F_2=y+3xz(1+xy)^2+3xy^2(4+3xy),\\quad F_3=2x-3x^2y-x^3z\\] has \\(\\det J_F=-2\\) and three collision points. Because it is a map on \\(\\mathbb{C}^3\\), it is only a structural reference for this two-dimensional task.",
         "constraints": {
           "dimension": 2,
           "min_points": 2,
@@ -109,12 +129,17 @@
           "kind": "counterexample"
         },
         "key": "P5",
-        "title": "二维前沿",
-        "subtitle": "二维 · 无次数上限",
+        "title": "Two-Dimensional Frontier",
+        "subtitle": "Complex dimension 2 · no degree bound",
         "tier": "Open Frontier",
-        "tierLabel": "开放问题级",
-        "capability": "识别开放边界与拒绝伪证",
-        "significance": "二维情形仍是独立前沿。该题不仅测试构造能力，也测试模型能否避免把三维结构或局部证据误报为二维反例。",
+        "tierLabel": "Open-Problem Level",
+        "capability": "Recognizing an open boundary and rejecting false certificates",
+        "significance": "The two-dimensional case remains open. This task tests both construction and the discipline to avoid misreporting 3D or merely local evidence.",
+        "titleZh": "二维前沿",
+        "subtitleZh": "二维 · 无次数上限",
+        "tierLabelZh": "开放问题级",
+        "capabilityZh": "识别开放边界与拒绝伪证",
+        "significanceZh": "二维情形仍是独立前沿。该题不仅测试构造能力，也测试模型能否避免把三维结构或局部证据误报为二维反例。",
         "questionZh": "在二维复空间中构造一个反例；不限制次数或稀疏性，并给出可由确定性程序核验的碰撞证书。"
       }
     ],
@@ -148,8 +173,8 @@
   "models": [
     {
       "id": "claude-opus-4-8-thinking",
-      "label": "Claude Opus 4.8 Thinking",
-      "short": "Claude Opus 4.8",
+      "label": "Claude-Opus-4.8-Thinking",
+      "short": "Claude-Opus-4.8-Thinking",
       "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
@@ -169,8 +194,8 @@
     },
     {
       "id": "gemini-3.1-pro-preview-thinking",
-      "label": "Gemini 3.1 Pro Preview Thinking",
-      "short": "Gemini 3.1 Pro",
+      "label": "Gemini-3.1-Pro-Preview-Thinking",
+      "short": "Gemini-3.1-Pro-Preview-Thinking",
       "records": 10,
       "officialPasses": 1,
       "mathValid": 2,
@@ -211,8 +236,8 @@
     },
     {
       "id": "gpt-5.5-xhigh",
-      "label": "GPT-5.5 xhigh",
-      "short": "GPT-5.5",
+      "label": "GPT-5.5 (xhigh)",
+      "short": "GPT-5.5 (xhigh)",
       "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
@@ -232,8 +257,8 @@
     },
     {
       "id": "kimi-k3",
-      "label": "Kimi K3",
-      "short": "Kimi K3",
+      "label": "Kimi-K3",
+      "short": "Kimi-K3",
       "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
@@ -258,7 +283,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -279,9 +304,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -304,7 +332,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -325,9 +353,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -350,7 +381,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -371,9 +402,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -396,7 +430,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -417,9 +451,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -442,7 +479,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -463,9 +500,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -488,7 +528,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -509,9 +549,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -534,7 +577,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -555,9 +598,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -580,7 +626,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -601,9 +647,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -626,7 +675,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -647,9 +696,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -672,7 +724,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude Opus 4.8 Thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -693,9 +745,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -718,7 +773,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -752,9 +807,12 @@
       },
       "analysis": {
         "code": "verified_counterexample",
-        "label": "已验证反例",
-        "short": "程序确认雅可比、碰撞点与任务约束均成立。",
-        "detail": "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
+        "label": "Verified counterexample (novelty not assessed)",
+        "short": "The offline verifier confirmed the Jacobian, collision, and task constraints.",
+        "detail": "The algebraic certificate passed deterministic verification. Any global novelty or inequivalence requirement remains a separate research question.",
+        "labelZh": "已验证反例（未验证创新性）",
+        "shortZh": "程序确认雅可比、碰撞点与任务约束均成立。",
+        "detailZh": "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
         "tone": "pass"
       },
       "timing": {
@@ -777,7 +835,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -798,9 +856,12 @@
       },
       "analysis": {
         "code": "jacobian_failure",
-        "label": "错误反例：雅可比条件失败",
-        "short": "候选映射的雅可比行列式不是非零常数。",
-        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
         "tone": "math"
       },
       "timing": {
@@ -823,7 +884,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -844,9 +905,12 @@
       },
       "analysis": {
         "code": "jacobian_failure",
-        "label": "错误反例：雅可比条件失败",
-        "short": "候选映射的雅可比行列式不是非零常数。",
-        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
         "tone": "math"
       },
       "timing": {
@@ -869,7 +933,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -890,9 +954,12 @@
       },
       "analysis": {
         "code": "jacobian_failure",
-        "label": "错误反例：雅可比条件失败",
-        "short": "候选映射的雅可比行列式不是非零常数。",
-        "detail": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
         "tone": "math"
       },
       "timing": {
@@ -915,7 +982,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -949,9 +1016,12 @@
       },
       "analysis": {
         "code": "constraint_miss",
-        "label": "反例有效，但未满足任务约束",
-        "short": "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
-        "detail": "这不是伪反例；失败发生在题目目标层。评测详情中的 metrics 给出具体约束测量值。",
+        "label": "Valid counterexample, but task constraints were missed",
+        "short": "The base certificate is valid, but a degree, fiber-size, or task-specific constraint failed.",
+        "detail": "This is not a false counterexample; the failure occurs at the task-objective layer. See metrics for the measured constraint.",
+        "labelZh": "反例有效，但未满足任务约束",
+        "shortZh": "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
+        "detailZh": "这不是伪反例；失败发生在题目目标层。评测详情中的 metrics 给出具体约束测量值。",
         "tone": "near"
       },
       "timing": {
@@ -974,7 +1044,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -995,9 +1065,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -1020,7 +1093,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1041,9 +1114,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -1066,7 +1142,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -1087,9 +1163,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -1112,7 +1191,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1133,9 +1212,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -1158,7 +1240,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "gemini-3.1-pro-preview-thinking",
-      "modelLabel": "Gemini 3.1 Pro Preview Thinking",
+      "modelLabel": "Gemini-3.1-Pro-Preview-Thinking",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -1179,9 +1261,12 @@
       },
       "analysis": {
         "code": "duplicate_points",
-        "label": "错误反例：碰撞点不互异",
-        "short": "所谓碰撞使用了重复点，无法证明映射不是单射。",
-        "detail": "反例证书要求至少两个两两不同的代数点位于同一纤维。",
+        "label": "False counterexample: collision points are not distinct",
+        "short": "The claimed collision repeats an input point and cannot establish non-injectivity.",
+        "detail": "A counterexample certificate requires at least two pairwise-distinct algebraic points in one fiber.",
+        "labelZh": "错误反例：碰撞点不互异",
+        "shortZh": "所谓碰撞使用了重复点，无法证明映射不是单射。",
+        "detailZh": "反例证书要求至少两个两两不同的代数点位于同一纤维。",
         "tone": "math"
       },
       "timing": {
@@ -1225,9 +1310,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1271,9 +1359,12 @@
       },
       "analysis": {
         "code": "collision_failure",
-        "label": "错误反例：碰撞证书失败",
-        "short": "提交的不同点经候选映射后没有得到同一个像。",
-        "detail": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
@@ -1317,9 +1408,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1363,9 +1457,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1409,9 +1506,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1455,9 +1555,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -1501,9 +1604,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1547,9 +1653,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1593,9 +1702,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1639,9 +1751,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -1664,7 +1779,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1685,9 +1800,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1710,7 +1828,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -1731,9 +1849,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -1756,7 +1877,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1777,9 +1898,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1802,7 +1926,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -1823,9 +1947,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -1848,7 +1975,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1869,9 +1996,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1894,7 +2024,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -1915,9 +2045,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -1940,7 +2073,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -1961,9 +2094,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -1986,7 +2122,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2007,9 +2143,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2032,7 +2171,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2053,9 +2192,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -2078,7 +2220,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "gpt-5.5-xhigh",
-      "modelLabel": "GPT-5.5 xhigh",
+      "modelLabel": "GPT-5.5 (xhigh)",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2099,9 +2241,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2124,7 +2269,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2145,9 +2290,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -2170,7 +2318,7 @@
       "id": "jacobian_conjecture_1",
       "taskKey": "P1",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2191,9 +2339,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -2216,7 +2367,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2237,9 +2388,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
@@ -2262,7 +2416,7 @@
       "id": "jacobian_conjecture_2",
       "taskKey": "P2",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2283,9 +2437,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2308,7 +2465,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2329,9 +2486,12 @@
       },
       "analysis": {
         "code": "api_failure",
-        "label": "接口异常，未形成可评测回答",
-        "short": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detail": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
+        "label": "Model response failure",
+        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
+        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+        "labelZh": "模型响应异常",
+        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
         "tone": "system"
       },
       "timing": {
@@ -2354,7 +2514,7 @@
       "id": "jacobian_conjecture_3",
       "taskKey": "P3",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2375,9 +2535,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2400,7 +2563,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2421,9 +2584,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2446,7 +2612,7 @@
       "id": "jacobian_conjecture_4",
       "taskKey": "P4",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2467,9 +2633,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2492,7 +2661,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": true,
       "repeatIndex": 1,
       "parameters": {
@@ -2513,9 +2682,12 @@
       },
       "analysis": {
         "code": "missing_certificate",
-        "label": "未提交可评测证书",
-        "short": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detail": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
@@ -2538,7 +2710,7 @@
       "id": "jacobian_conjecture_5",
       "taskKey": "P5",
       "model": "kimi-k3",
-      "modelLabel": "Kimi K3",
+      "modelLabel": "Kimi-K3",
       "hint": false,
       "repeatIndex": 1,
       "parameters": {
@@ -2559,9 +2731,12 @@
       },
       "analysis": {
         "code": "format_error",
-        "label": "证书格式不符合协议",
-        "short": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detail": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {

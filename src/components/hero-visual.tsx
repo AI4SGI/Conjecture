@@ -1,6 +1,16 @@
-export function HeroVisual() {
+import type { Language } from "../lib/types";
+
+export function HeroVisual({ language = "en" }: { language?: Language }) {
+  const english = language === "en";
   return (
-    <div className="hero-visual" aria-label="三个局部可逆薄片映到同一目标的示意图">
+    <div
+      className="hero-visual"
+      aria-label={
+        english
+          ? "Three locally invertible sheets mapping to one target"
+          : "三个局部可逆薄片映到同一目标的示意图"
+      }
+    >
       <svg viewBox="0 0 620 420" role="img">
         <defs>
           <pattern id="micro-grid" width="24" height="24" patternUnits="userSpaceOnUse">
@@ -49,12 +59,22 @@ export function HeroVisual() {
             <animateMotion dur="4.8s" begin="1s" repeatCount="indefinite" path="M94 303 C224 319 342 281 522 220" />
           </circle>
         </g>
-        <text className="visual-label" x="34" y="382">局部：每一薄片可逆</text>
-        <text className="visual-label visual-label-right" x="586" y="382">全局：三点同像</text>
+        <text className="visual-label" x="34" y="382">
+          {english ? "LOCAL · EACH SHEET INVERTIBLE" : "局部：每一薄片可逆"}
+        </text>
+        <text className="visual-label visual-label-right" x="586" y="382">
+          {english ? "GLOBAL · THREE POINTS, ONE IMAGE" : "全局：三点同像"}
+        </text>
       </svg>
       <div className="visual-legend">
-        <span><i className="legend-line" /> 非零常雅可比</span>
-        <span><i className="legend-point" /> 碰撞纤维</span>
+        <span>
+          <i className="legend-line" />{" "}
+          {english ? "nonzero constant Jacobian" : "非零常雅可比"}
+        </span>
+        <span>
+          <i className="legend-point" />{" "}
+          {english ? "collision fiber" : "碰撞纤维"}
+        </span>
       </div>
     </div>
   );

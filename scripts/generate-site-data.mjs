@@ -15,60 +15,90 @@ const generatedData = path.join(root, "src", "data");
 const taskEditorial = {
   jacobian_conjecture_1: {
     key: "P1",
-    title: "开放构造",
-    subtitle: "三维 · 无次数上限",
+    title: "Open Construction",
+    subtitle: "Complex dimension 3 · no degree bound",
     tier: "Exploration",
-    tierLabel: "探索级",
-    capability: "从零构造与全局代数推理",
+    tierLabel: "Exploration Level",
+    capability: "De novo construction and global algebraic reasoning",
     significance:
+      "Tests whether a model can move beyond local-invertibility intuition and propose a genuinely new global collision mechanism.",
+    titleZh: "开放构造",
+    subtitleZh: "三维 · 无次数上限",
+    tierLabelZh: "探索级",
+    capabilityZh: "从零构造与全局代数推理",
+    significanceZh:
       "检验模型能否越过局部可逆性的直觉陷阱，独立提出与已知构造不等价的全局碰撞机制。",
     questionZh:
       "在三维复空间中构造一个反例；不限制次数或稀疏性，但必须与参考构造代数不等价。",
   },
   jacobian_conjecture_2: {
     key: "P2",
-    title: "七次边界",
-    subtitle: "三维 · max degree ≤ 7",
+    title: "Degree-Seven Boundary",
+    subtitle: "Complex dimension 3 · max degree ≤ 7",
     tier: "Constrained",
-    tierLabel: "约束级",
-    capability: "紧次数预算下的新颖构造",
+    tierLabel: "Constrained Level",
+    capability: "Novel construction under a tight degree budget",
     significance:
+      "Demands a new algebraic structure at the known degree scale while jointly testing the constant-Jacobian and collision conditions.",
+    titleZh: "七次边界",
+    subtitleZh: "三维 · max degree ≤ 7",
+    tierLabelZh: "约束级",
+    capabilityZh: "紧次数预算下的新颖构造",
+    significanceZh:
       "在已知次数尺度内要求全新代数结构，同时验证常雅可比、碰撞证书与代数系数，兼顾搜索和证明。",
     questionZh:
       "构造三维复多项式反例，分量最高次数不超过 7，并给出同一纤维中至少两个不同的代数点；不得提交参考构造的等价表达。",
   },
   jacobian_conjecture_3: {
     key: "P3",
-    title: "六次压缩",
-    subtitle: "三维 · max degree ≤ 6",
-    tier: "Frontier",
-    tierLabel: "前沿级",
-    capability: "结构压缩与更低次数搜索",
+    title: "Degree-Six Compression",
+    subtitle: "Complex dimension 3 · max degree ≤ 6",
+    tier: "Research",
+    tierLabel: "Research Level",
+    capability: "Structural compression and lower-degree search",
     significance:
+      "Pushes below the known degree-seven scale; success would expose a shorter and potentially more interpretable counterexample structure.",
+    titleZh: "六次压缩",
+    subtitleZh: "三维 · max degree ≤ 6",
+    tierLabelZh: "研究级",
+    capabilityZh: "结构压缩与更低次数搜索",
+    significanceZh:
       "把最高次数从已知七次结构继续压低；若成功，将给出更短、更易分析的反例证书。",
     questionZh:
       "构造三维复多项式反例，分量最高次数不超过 6，并给出同一纤维中至少两个不同的代数点。",
   },
   jacobian_conjecture_4: {
     key: "P4",
-    title: "四点纤维",
-    subtitle: "三维 · ≥ 4 点 · max degree ≤ 11",
-    tier: "Frontier+",
-    tierLabel: "研究级",
-    capability: "纤维工程与次数控制",
+    title: "Four-Point Fiber",
+    subtitle: "Complex dimension 3 · ≥ 4 points · max degree ≤ 11",
+    tier: "Research",
+    tierLabel: "Research Level",
+    capability: "Fiber engineering under degree control",
     significance:
+      "Requires an explicit higher-cardinality fiber under a controlled degree budget, probing non-properness and collision geometry.",
+    titleZh: "四点纤维",
+    subtitleZh: "三维 · ≥ 4 点 · max degree ≤ 11",
+    tierLabelZh: "研究级",
+    capabilityZh: "纤维工程与次数控制",
+    significanceZh:
       "要求在较低次数预算下显式制造更高重数纤维，考察模型是否理解非适当性、纤维度数与碰撞结构。",
     questionZh:
       "构造三维复多项式反例，分量最高次数不超过 11，并给出同一纤维中至少四个不同的代数点。",
   },
   jacobian_conjecture_5: {
     key: "P5",
-    title: "二维前沿",
-    subtitle: "二维 · 无次数上限",
+    title: "Two-Dimensional Frontier",
+    subtitle: "Complex dimension 2 · no degree bound",
     tier: "Open Frontier",
-    tierLabel: "开放问题级",
-    capability: "识别开放边界与拒绝伪证",
+    tierLabel: "Open-Problem Level",
+    capability: "Recognizing an open boundary and rejecting false certificates",
     significance:
+      "The two-dimensional case remains open. This task tests both construction and the discipline to avoid misreporting 3D or merely local evidence.",
+    titleZh: "二维前沿",
+    subtitleZh: "二维 · 无次数上限",
+    tierLabelZh: "开放问题级",
+    capabilityZh: "识别开放边界与拒绝伪证",
+    significanceZh:
       "二维情形仍是独立前沿。该题不仅测试构造能力，也测试模型能否避免把三维结构或局部证据误报为二维反例。",
     questionZh:
       "在二维复空间中构造一个反例；不限制次数或稀疏性，并给出可由确定性程序核验的碰撞证书。",
@@ -77,16 +107,16 @@ const taskEditorial = {
 
 const modelEditorial = {
   "claude-opus-4-8-thinking": {
-    label: "Claude Opus 4.8 Thinking",
-    short: "Claude Opus 4.8",
+    label: "Claude-Opus-4.8-Thinking",
+    short: "Claude-Opus-4.8-Thinking",
   },
   "gemini-3.1-pro-preview-thinking": {
-    label: "Gemini 3.1 Pro Preview Thinking",
-    short: "Gemini 3.1 Pro",
+    label: "Gemini-3.1-Pro-Preview-Thinking",
+    short: "Gemini-3.1-Pro-Preview-Thinking",
   },
   "glm-5.2": { label: "GLM-5.2", short: "GLM-5.2" },
-  "gpt-5.5-xhigh": { label: "GPT-5.5 xhigh", short: "GPT-5.5" },
-  "kimi-k3": { label: "Kimi K3", short: "Kimi K3" },
+  "gpt-5.5-xhigh": { label: "GPT-5.5 (xhigh)", short: "GPT-5.5 (xhigh)" },
+  "kimi-k3": { label: "Kimi-K3", short: "Kimi-K3" },
 };
 
 function analyzeOutcome(record) {
@@ -95,9 +125,14 @@ function analyzeOutcome(record) {
   if (record.eval?.official_pass) {
     return {
       code: "verified_counterexample",
-      label: "已验证反例",
-      short: "程序确认雅可比、碰撞点与任务约束均成立。",
+      label: "Verified counterexample (novelty not assessed)",
+      short:
+        "The offline verifier confirmed the Jacobian, collision, and task constraints.",
       detail:
+        "The algebraic certificate passed deterministic verification. Any global novelty or inequivalence requirement remains a separate research question.",
+      labelZh: "已验证反例（未验证创新性）",
+      shortZh: "程序确认雅可比、碰撞点与任务约束均成立。",
+      detailZh:
         "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
       tone: "pass",
     };
@@ -106,9 +141,14 @@ function analyzeOutcome(record) {
   if (record.eval?.math_valid && !record.eval?.objective_pass) {
     return {
       code: "constraint_miss",
-      label: "反例有效，但未满足任务约束",
-      short: "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
+      label: "Valid counterexample, but task constraints were missed",
+      short:
+        "The base certificate is valid, but a degree, fiber-size, or task-specific constraint failed.",
       detail:
+        "This is not a false counterexample; the failure occurs at the task-objective layer. See metrics for the measured constraint.",
+      labelZh: "反例有效，但未满足任务约束",
+      shortZh: "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
+      detailZh:
         "这不是伪反例；失败发生在题目目标层。评测详情中的 metrics 给出具体约束测量值。",
       tone: "near",
     };
@@ -117,9 +157,14 @@ function analyzeOutcome(record) {
   if (/timeout|504|internalserver|bad response|openai_error/i.test(error)) {
     return {
       code: "api_failure",
-      label: "接口异常，未形成可评测回答",
-      short: "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+      label: "Model response failure",
+      short:
+        "The request timed out or the upstream service failed before an evaluable response was produced.",
       detail:
+        "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
+      labelZh: "模型响应异常",
+      shortZh: "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
+      detailZh:
         "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
       tone: "system",
     };
@@ -128,9 +173,14 @@ function analyzeOutcome(record) {
   if (/missing FINAL_CERTIFICATE_JSON/i.test(error)) {
     return {
       code: "missing_certificate",
-      label: "未提交可评测证书",
-      short: "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+      label: "No evaluable counterexample submitted",
+      short:
+        "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
       detail:
+        "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+      labelZh: "未提交可评测反例",
+      shortZh: "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+      detailZh:
         "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
       tone: "protocol",
     };
@@ -139,9 +189,14 @@ function analyzeOutcome(record) {
   if (/unsupported keys|certificate.*(?:schema|format)|invalid json/i.test(error)) {
     return {
       code: "format_error",
-      label: "证书格式不符合协议",
-      short: "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+      label: "Counterexample format does not follow the evaluation protocol",
+      short:
+        "A certificate fragment was present, but its fields or structure violated the standard output schema.",
       detail:
+        "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+      labelZh: "反例格式不符合评测协议",
+      shortZh: "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+      detailZh:
         "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
       tone: "protocol",
     };
@@ -150,10 +205,14 @@ function analyzeOutcome(record) {
   if (/Jacobian determinant is not a nonzero constant/i.test(error)) {
     return {
       code: "jacobian_failure",
-      label: "错误反例：雅可比条件失败",
-      short: "候选映射的雅可比行列式不是非零常数。",
+      label: "False counterexample: Jacobian condition failed",
+      short:
+        "The candidate map does not have a nonzero constant Jacobian determinant.",
       detail:
-        "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+      labelZh: "错误反例：雅可比条件失败",
+      shortZh: "候选映射的雅可比行列式不是非零常数。",
+      detailZh: "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
       tone: "math",
     };
   }
@@ -161,10 +220,14 @@ function analyzeOutcome(record) {
   if (/do not have a common image/i.test(error)) {
     return {
       code: "collision_failure",
-      label: "错误反例：碰撞证书失败",
-      short: "提交的不同点经候选映射后没有得到同一个像。",
+      label: "False counterexample: collision certificate failed",
+      short:
+        "The submitted points do not share a common image under the candidate map.",
       detail:
-        "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+      labelZh: "错误反例：碰撞证书失败",
+      shortZh: "提交的不同点经候选映射后没有得到同一个像。",
+      detailZh: "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
       tone: "math",
     };
   }
@@ -172,19 +235,28 @@ function analyzeOutcome(record) {
   if (/pairwise distinct/i.test(error)) {
     return {
       code: "duplicate_points",
-      label: "错误反例：碰撞点不互异",
-      short: "所谓碰撞使用了重复点，无法证明映射不是单射。",
+      label: "False counterexample: collision points are not distinct",
+      short:
+        "The claimed collision repeats an input point and cannot establish non-injectivity.",
       detail:
-        "反例证书要求至少两个两两不同的代数点位于同一纤维。",
+        "A counterexample certificate requires at least two pairwise-distinct algebraic points in one fiber.",
+      labelZh: "错误反例：碰撞点不互异",
+      shortZh: "所谓碰撞使用了重复点，无法证明映射不是单射。",
+      detailZh: "反例证书要求至少两个两两不同的代数点位于同一纤维。",
       tone: "math",
     };
   }
 
   return {
     code: "invalid_certificate",
-    label: "证书未通过验证",
-    short: "确定性程序未能确认该提交同时满足全部代数条件。",
+    label: "Counterexample failed deterministic verification",
+    short: "The offline program could not confirm all required algebraic conditions.",
     detail:
+      error ||
+      "The base certificate or task objective failed; inspect the full evaluation object for details.",
+    labelZh: "证书未通过验证",
+    shortZh: "确定性程序未能确认该提交同时满足全部代数条件。",
+    detailZh:
       error || "基础证书或任务目标未通过；请查看完整评测对象了解机器记录。",
     tone: "math",
   };
@@ -305,7 +377,7 @@ const models = modelDirs.map((id) => {
 const benchmark = {
   generatedAt: new Date().toISOString(),
   dataset: {
-    name: "Jacobian Counterexample Construction",
+    name: "Conjecture Frontier · Jacobian Counterexample Construction",
     context,
     tasks,
     taskCount: tasks.length,

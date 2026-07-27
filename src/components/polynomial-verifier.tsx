@@ -24,6 +24,7 @@ import {
   type MathNode,
 } from "mathjs";
 import { useEffect, useMemo, useState } from "react";
+import type { Language } from "../lib/types";
 import { InlineMath } from "./math";
 
 type PointInput = { id: string; x: string; y: string; z: string };
@@ -295,7 +296,8 @@ function valuesEqual(a: unknown, b: unknown) {
   }
 }
 
-export function PolynomialVerifier() {
+export function PolynomialVerifier({ language }: { language: Language }) {
+  const english = language === "en";
   const [expressions, setExpressions] = useState(KNOWN_MAP);
   const [points, setPoints] = useState<PointInput[]>(KNOWN_POINTS);
   const [result, setResult] = useState<Verification | null>(null);
@@ -321,7 +323,13 @@ export function PolynomialVerifier() {
       try {
         const polynomials = nextExpressions.map((expression, index) => {
           const node = parse(expression);
-          if (!expression.trim()) throw new Error(`F${index + 1} 不能为空。`);
+          if (!expression.trim()) {
+            throw new Error(
+              english
+                ? `F${index + 1} cannot be empty.`
+                : `F${index + 1} 不能为空。`,
+            );
+          }
           return nodeToPolynomial(node);
         });
         const matrixPolynomials = polynomials.map((polynomial) =>
@@ -417,7 +425,9 @@ export function PolynomialVerifier() {
           collision: collision && distinct,
           error:
             collision && !distinct
-              ? "像相同，但输入点并非两两不同。"
+              ? english
+                ? "The images agree, but the submitted input points are not pairwise distinct."
+                : "像相同，但输入点并非两两不同。"
               : undefined,
         });
       } catch (error) {
@@ -428,7 +438,12 @@ export function PolynomialVerifier() {
           determinantNonzero: false,
           images: [],
           collision: false,
-          error: error instanceof Error ? error.message : "无法解析输入。",
+          error:
+            error instanceof Error
+              ? error.message
+              : english
+                ? "The input could not be parsed."
+                : "无法解析输入。",
         });
       } finally {
         setBusy(false);
@@ -480,10 +495,24 @@ export function PolynomialVerifier() {
     <section className="verifier section-shell" id="verify">
       <div className="section-lead">
         <span className="section-index">04 / SYMBOLIC LAB</span>
-        <h2>把候选反例放上检验台</h2>
+        <h2>
+          {english
+            ? "Test a candidate counterexample interactively"
+            : "把候选反例放上检验台"}
+        </h2>
         <p>
-          输入三个多项式与至少两个点。浏览器会符号求导、展开
-          <InlineMath>\det J_F</InlineMath>，并逐点计算像；数据不会发送给模型。
+          {english ? (
+            <>
+              Enter three polynomials and at least two points. The browser
+              differentiates symbolically, expands <InlineMath>\det J_F</InlineMath>,
+              and evaluates every image. Nothing is sent to a model.
+            </>
+          ) : (
+            <>
+              输入三个多项式与至少两个点。浏览器会符号求导、展开
+              <InlineMath>\det J_F</InlineMath>，并逐点计算像；数据不会发送给模型。
+            </>
+          )}
         </p>
       </div>
 
@@ -494,9 +523,18 @@ export function PolynomialVerifier() {
             <span>3-variable polynomial verifier</span>
           </div>
           <div>
-            <button onClick={reset}><RotateCcw size={14} /> 载入已知证书</button>
+            <button onClick={reset}>
+              <RotateCcw size={16} /> {english ? "Load known example" : "载入已知证书"}
+            </button>
             <button onClick={() => void copyCertificate()} disabled={!result}>
-              <Copy size={14} /> {copied ? "已复制" : "复制结果"}
+              <Copy size={16} />{" "}
+              {copied
+                ? english
+                  ? "Copied"
+                  : "已复制"
+                : english
+                  ? "Copy result"
+                  : "复制结果"}
             </button>
           </div>
         </div>
@@ -505,7 +543,14 @@ export function PolynomialVerifier() {
           <div className="polynomial-inputs">
             <div className="panel-heading">
               <span>01</span>
-              <div><b>映射分量</b><small>支持 x, y, z, i；乘法请写 *</small></div>
+              <div>
+                <b>{english ? "Polynomial map" : "映射分量"}</b>
+                <small>
+                  {english
+                    ? "Use x, y, z, i; write multiplication with *"
+                    : "支持 x, y, z, i；乘法请写 *"}
+                </small>
+              </div>
             </div>
             {expressions.map((expression, index) => (
               <label className="expression-field" key={index}>
@@ -523,15 +568,28 @@ export function PolynomialVerifier() {
                   }
                 />
                 <small>
-                  {degrees ? `total degree ${degrees[index]}` : "检查表达式语法"}
+                  {degrees
+                    ? `total degree ${degrees[index]}`
+                    : english
+                      ? "Check expression syntax"
+                      : "检查表达式语法"}
                 </small>
               </label>
             ))}
 
             <div className="panel-heading points-heading">
               <span>02</span>
-              <div><b>碰撞候选点</b><small>支持分数与复数，如 1/2、2*i</small></div>
-              <button onClick={addPoint}><Plus size={14} /> 添加点</button>
+              <div>
+                <b>{english ? "Candidate collision points" : "碰撞候选点"}</b>
+                <small>
+                  {english
+                    ? "Fractions and complex values are supported, e.g. 1/2 and 2*i"
+                    : "支持分数与复数，如 1/2、2*i"}
+                </small>
+              </div>
+              <button onClick={addPoint}>
+                <Plus size={16} /> {english ? "Add point" : "添加点"}
+              </button>
             </div>
             <div className="point-input-list">
               {points.map((point, index) => (
@@ -549,7 +607,9 @@ export function PolynomialVerifier() {
                     </label>
                   ))}
                   <button
-                    aria-label={`删除点 ${index + 1}`}
+                    aria-label={
+                      english ? `Delete point ${index + 1}` : `删除点 ${index + 1}`
+                    }
                     disabled={points.length <= 2}
                     onClick={() =>
                       setPoints((current) =>
@@ -568,14 +628,28 @@ export function PolynomialVerifier() {
               onClick={() => verify()}
               disabled={busy}
             >
-              <Sigma size={17} /> {busy ? "符号计算中…" : "计算雅可比并验证碰撞"}
+              <Sigma size={19} />{" "}
+              {busy
+                ? english
+                  ? "Computing symbolically…"
+                  : "符号计算中…"
+                : english
+                  ? "Compute the Jacobian and test the collision"
+                  : "计算雅可比并验证碰撞"}
             </button>
           </div>
 
           <div className="verification-output">
             <div className="panel-heading">
               <span>03</span>
-              <div><b>确定性结果</b><small>客户端符号微分 + 数值代入</small></div>
+              <div>
+                <b>{english ? "Deterministic result" : "确定性结果"}</b>
+                <small>
+                  {english
+                    ? "In-browser symbolic differentiation and numerical substitution"
+                    : "客户端符号微分 + 数值代入"}
+                </small>
+              </div>
             </div>
             {result?.error && (
               <div className="verifier-error"><AlertCircle size={17} /> {result.error}</div>
@@ -601,8 +675,16 @@ export function PolynomialVerifier() {
                     <b>= {result.determinant}</b>
                   </div>
                   <div className="condition-grid">
-                    <Condition ok={result.determinantConstant} label="与 x, y, z 无关" />
-                    <Condition ok={result.determinantNonzero} label="常数非零" />
+                    <Condition
+                      ok={result.determinantConstant}
+                      label={
+                        english ? "Independent of x, y, z" : "与 x, y, z 无关"
+                      }
+                    />
+                    <Condition
+                      ok={result.determinantNonzero}
+                      label={english ? "Nonzero constant" : "常数非零"}
+                    />
                   </div>
                 </div>
                 <div className="image-result">
@@ -630,12 +712,34 @@ export function PolynomialVerifier() {
                   result.determinantNonzero ? (
                     <>
                       <CheckCircle2 />
-                      <div><b>证书成立</b><span>非零常雅可比，且所列不同点具有共同像。</span></div>
+                      <div>
+                        <b>
+                          {english
+                            ? "Counterexample verified"
+                            : "证书成立"}
+                        </b>
+                        <span>
+                          {english
+                            ? "The Jacobian determinant is a nonzero constant and the distinct points share one image."
+                            : "非零常雅可比，且所列不同点具有共同像。"}
+                        </span>
+                      </div>
                     </>
                   ) : (
                     <>
                       <AlertCircle />
-                      <div><b>尚未构成反例证书</b><span>请同时满足常雅可比、非零与不同点同像。</span></div>
+                      <div>
+                        <b>
+                          {english
+                            ? "Not yet a counterexample"
+                            : "尚未构成反例证书"}
+                        </b>
+                        <span>
+                          {english
+                            ? "A valid submission needs a constant nonzero Jacobian and distinct points with the same image."
+                            : "请同时满足常雅可比、非零与不同点同像。"}
+                        </span>
+                      </div>
                     </>
                   )}
                 </div>
@@ -643,16 +747,33 @@ export function PolynomialVerifier() {
             ) : (
               <div className="verifier-empty">
                 <Sigma />
-                <p>修改表达式后点击“计算”以生成雅可比矩阵和碰撞结果。</p>
+                <p>
+                  {english
+                    ? "Edit the expressions, then compute the Jacobian matrix and collision result."
+                    : "修改表达式后点击“计算”以生成雅可比矩阵和碰撞结果。"}
+                </p>
               </div>
             )}
           </div>
         </div>
       </div>
       <p className="verifier-note">
-        范围说明：此交互工具接受有理/实数及显式复数 <code>i</code> 语法；
-        评测脚本支持更一般的代数系数证书。浏览器中的同像比较采用 10⁻⁹ 数值容差，
-        正式成绩仍以离线精确程序为准。
+        {english ? (
+          <>
+            Scope note: this interactive tool accepts rational and real
+            coefficients plus explicit complex <code>i</code> syntax. The
+            benchmark verifier accepts more general algebraic-coefficient
+            certificates. Browser collision checks use a 10⁻⁹ numerical
+            tolerance; reported scores always come from the exact offline
+            program.
+          </>
+        ) : (
+          <>
+            范围说明：此交互工具接受有理/实数及显式复数 <code>i</code> 语法；
+            评测脚本支持更一般的代数系数证书。浏览器中的同像比较采用 10⁻⁹ 数值容差，
+            正式成绩仍以离线精确程序为准。
+          </>
+        )}
       </p>
     </section>
   );

@@ -8,7 +8,7 @@ interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
-  conjecture: "jacobian";
+  conjecture: "jacobian" | "new";
   task: TaskKey | "general";
   status: MessageStatus;
   likes: number;
@@ -17,6 +17,7 @@ interface CommunityMessage {
 
 interface CommunitySnapshot {
   taskLikes: Record<TaskKey, number>;
+  likedTasks: TaskKey[];
   messages: CommunityMessage[];
   pendingCount: number;
 }
@@ -49,7 +50,10 @@ function cleanText(input: unknown, max: number) {
 }
 
 export class CommunityStore extends DurableObject<CloudflareEnv> {
-  async snapshot(sort: "recent" | "popular"): Promise<CommunitySnapshot> {
+  async snapshot(
+    sort: "recent" | "popular",
+    clientKey: string,
+  ): Promise<CommunitySnapshot> {
     const taskLikes =
       (await this.ctx.storage.get<Record<TaskKey, number>>("taskLikes")) ??
       EMPTY_LIKES;
@@ -61,8 +65,26 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
         ? b.likes - a.likes || b.createdAt.localeCompare(a.createdAt)
         : b.createdAt.localeCompare(a.createdAt),
     );
+    const likedTasks =
+      clientKey.length >= 8
+        ? (
+            await Promise.all(
+              TASKS.map(async (task) => [
+                task,
+                Boolean(
+                  await this.ctx.storage.get(
+                    `vote:task:${task}:${clientKey}`,
+                  ),
+                ),
+              ] as const),
+            )
+          )
+            .filter(([, liked]) => liked)
+            .map(([task]) => task)
+        : [];
     return {
       taskLikes,
+      likedTasks,
       messages: approved,
       pendingCount: messages.filter((message) => message.status === "pending")
         .length,
@@ -77,26 +99,30 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     }
 
     const voteKey = `vote:task:${task}:${clientKey}`;
-    if (await this.ctx.storage.get(voteKey)) {
-      return json({ error: "already_liked" }, 409);
-    }
-
     const likes =
       (await this.ctx.storage.get<Record<TaskKey, number>>("taskLikes")) ??
       structuredClone(EMPTY_LIKES);
+    if (await this.ctx.storage.get(voteKey)) {
+      likes[task] = Math.max(0, likes[task] - 1);
+      await this.ctx.storage.put("taskLikes", likes);
+      await this.ctx.storage.delete(voteKey);
+      return json({ ok: true, task, likes: likes[task], liked: false });
+    }
+
     likes[task] += 1;
     await this.ctx.storage.put({
       taskLikes: likes,
       [voteKey]: true,
     });
-    return json({ ok: true, task, likes: likes[task] });
+    return json({ ok: true, task, likes: likes[task], liked: true });
   }
 
   async submitMessage(body: Record<string, unknown>) {
     const nickname = cleanText(body.nickname, 40);
     const title = cleanText(body.title, 120);
     const messageBody = cleanText(body.body, 1800);
-    const conjecture: "jacobian" = "jacobian";
+    const conjecture: "jacobian" | "new" =
+      cleanText(body.conjecture, 24) === "new" ? "new" : "jacobian";
     const rawTask = cleanText(body.task, 8);
     const task = (TASKS.includes(rawTask as TaskKey)
       ? rawTask
@@ -186,7 +212,8 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const url = new URL(request.url);
     if (request.method === "GET") {
       const sort = url.searchParams.get("sort") === "popular" ? "popular" : "recent";
-      return json(await this.snapshot(sort));
+      const clientKey = cleanText(url.searchParams.get("clientKey"), 80);
+      return json(await this.snapshot(sort, clientKey));
     }
     if (request.method !== "POST") {
       return json({ error: "method_not_allowed" }, 405);

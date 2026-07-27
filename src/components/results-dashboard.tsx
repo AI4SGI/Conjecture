@@ -243,12 +243,8 @@ export function ResultsDashboard({
         : 0,
     };
   });
-  const matrixModels = data.models.filter(
-    (candidate) => model === "all" || candidate.id === model,
-  );
-  const matrixTasks = data.dataset.tasks.filter(
-    (candidate) => task === "all" || candidate.key === task,
-  );
+  const matrixModels = data.models;
+  const matrixTasks = data.dataset.tasks;
   const selectedSummary = data.records.find(
     (candidate) => candidate.key === selectedKey,
   );
@@ -269,6 +265,15 @@ export function ResultsDashboard({
     await navigator.clipboard.writeText(value);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1400);
+  }
+
+  function selectMatrixRecord(candidate: RecordSummary) {
+    setTraceModel(candidate.model);
+    setTraceTask(candidate.taskKey);
+    setTraceHint(candidate.hint ? "hint" : "nohint");
+    setTraceRun(String(candidate.repeatIndex));
+    setSelectedKey(candidate.key);
+    setTab("content");
   }
 
   return (
@@ -378,8 +383,8 @@ export function ResultsDashboard({
             </span>
             <small>
               {english
-                ? "Fixed semantic order · deterministic attribution · no LLM judge"
-                : "固定语义顺序 · 确定性归因 · 不使用 LLM judge"}
+                ? "Deterministic attribution · no LLM judge"
+                : "确定性归因 · 不使用 LLM judge"}
             </small>
           </div>
           <div className="outcome-grid">
@@ -457,80 +462,99 @@ export function ResultsDashboard({
                   <span>{english ? candidate.title : candidate.titleZh}</span>
                 </div>
               ))}
-              {matrixModels.map((candidate) => (
-                <div className="matrix-row" key={candidate.id}>
-                  <button
-                    className={
-                      model === candidate.id
-                        ? "matrix-model active"
-                        : "matrix-model"
-                    }
-                    onClick={() =>
-                      setModel((current) =>
-                        current === candidate.id ? "all" : candidate.id,
-                      )
-                    }
-                  >
-                    <b>{candidate.label}</b>
-                    <small>
-                      10 {english ? "records" : "条记录"} · 5{" "}
-                      {english ? "problems" : "题"} × 2{" "}
-                      {english ? "runs" : "次运行"}
-                    </small>
-                  </button>
-                  {matrixTasks.map((matrixTask) => {
-                    const cellRecords = data.records.filter(
-                      (item) =>
-                        item.model === candidate.id &&
-                        item.taskKey === matrixTask.key &&
-                        (hint === "all" ||
-                          (hint === "hint" ? item.hint : !item.hint)),
-                    );
-                    return (
-                      <div className="matrix-cell" key={matrixTask.key}>
-                        {[false, true].map((hintMode) => {
-                          const run = cellRecords.find(
-                            (item) => item.hint === hintMode,
-                          );
-                          if (
-                            !run ||
-                            (hint !== "all" &&
-                              (hint === "hint") !== hintMode)
-                          ) {
-                            return (
-                              <span
-                                className="matrix-run empty"
-                                key={String(hintMode)}
-                              >
-                                —
-                              </span>
+              {matrixModels.map((candidate) => {
+                const matrixRecords = data.records.filter(
+                  (item) => item.model === candidate.id,
+                );
+                const problemCount = new Set(
+                  matrixRecords.map((item) => item.taskKey),
+                ).size;
+                const typeCount = new Set(
+                  matrixRecords.map((item) =>
+                    item.hint ? "hint" : "nohint",
+                  ),
+                ).size;
+                const runCount = new Set(
+                  matrixRecords.map((item) => item.repeatIndex),
+                ).size;
+                return (
+                  <div className="matrix-row" key={candidate.id}>
+                    <button
+                      className={
+                        model === candidate.id
+                          ? "matrix-model active"
+                          : "matrix-model"
+                      }
+                      onClick={() =>
+                        setModel((current) =>
+                          current === candidate.id ? "all" : candidate.id,
+                        )
+                      }
+                    >
+                      <b>{candidate.label}</b>
+                      <small>
+                        {matrixRecords.length}{" "}
+                        {english ? "records" : "条记录"} · {problemCount}{" "}
+                        {english ? "problems" : "题"} × {typeCount}{" "}
+                        {english ? "types" : "种提示类型"} × {runCount}{" "}
+                        {english
+                          ? `run${runCount === 1 ? "" : "s"}`
+                          : "次运行"}
+                      </small>
+                    </button>
+                    {matrixTasks.map((matrixTask) => {
+                      const cellRecords = data.records.filter(
+                        (item) =>
+                          item.model === candidate.id &&
+                          item.taskKey === matrixTask.key &&
+                          (hint === "all" ||
+                            (hint === "hint" ? item.hint : !item.hint)),
+                      );
+                      return (
+                        <div className="matrix-cell" key={matrixTask.key}>
+                          {[false, true].map((hintMode) => {
+                            const run = cellRecords.find(
+                              (item) => item.hint === hintMode,
                             );
-                          }
-                          const text = outcomeText(run.analysis, language);
-                          return (
-                            <button
-                              className={`matrix-run ${run.analysis.tone} ${
-                                selectedKey === run.key ? "selected" : ""
-                              }`}
-                              key={String(hintMode)}
-                              onClick={() => {
-                                setSelectedKey(run.key);
-                                setTab("content");
-                              }}
-                              title={`${candidate.label} · ${matrixTask.key} · ${
-                                hintMode ? "HINT" : "NO HINT"
-                              } · ${text.label}`}
-                            >
-                              <span>{hintMode ? "H" : "Ø"}</span>
-                              <i />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
+                            if (
+                              !run ||
+                              (hint !== "all" &&
+                                (hint === "hint") !== hintMode)
+                            ) {
+                              return (
+                                <span
+                                  className="matrix-run empty"
+                                  key={String(hintMode)}
+                                >
+                                  —
+                                </span>
+                              );
+                            }
+                            const text = outcomeText(run.analysis, language);
+                            return (
+                              <button
+                                className={`matrix-run ${run.analysis.tone} ${
+                                  selectedKey === run.key ? "selected" : ""
+                                }`}
+                                key={String(hintMode)}
+                                onClick={() => {
+                                  selectMatrixRecord(run);
+                                }}
+                                title={`${candidate.label} · ${matrixTask.key} · ${
+                                  hintMode ? "HINT" : "NO HINT"
+                                } · ${text.label}`}
+                              >
+                                <span>{hintMode ? "H" : "Ø"}</span>
+                                <i />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

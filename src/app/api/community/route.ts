@@ -24,9 +24,9 @@ export async function GET(request: Request) {
   try {
     const stub = await communityStub();
     const url = new URL(request.url);
-    const response = await stub.fetch(
-      `https://community.internal/?sort=${url.searchParams.get("sort") ?? "recent"}`,
-    );
+    const target = new URL("https://community.internal/");
+    target.search = url.search;
+    const response = await stub.fetch(target);
     return new Response(response.body, response);
   } catch {
     return unavailable();

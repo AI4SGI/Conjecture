@@ -145,7 +145,7 @@ export interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
-  conjecture?: "jacobian";
+  conjecture?: "jacobian" | "new";
   task: Task["key"] | "general";
   status: "approved";
   likes: number;
@@ -154,6 +154,7 @@ export interface CommunityMessage {
 
 export interface CommunitySnapshot {
   taskLikes: Record<Task["key"], number>;
+  likedTasks?: Task["key"][];
   messages: CommunityMessage[];
   pendingCount: number;
   unavailable?: boolean;

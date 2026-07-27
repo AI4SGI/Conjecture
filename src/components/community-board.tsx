@@ -21,6 +21,15 @@ const TASK_LABELS = {
   P5: "P5 · Dimension-two frontier",
 } as const;
 
+const TASK_LABELS_ZH = {
+  general: "一般讨论",
+  P1: "P1 · 开放构造",
+  P2: "P2 · 七次边界",
+  P3: "P3 · 六次压缩",
+  P4: "P4 · 四点纤维",
+  P5: "P5 · 二维前沿",
+} as const;
+
 export function CommunityBoard({
   apiUrl,
   snapshot,
@@ -185,6 +194,9 @@ export function CommunityBoard({
                 <option value="jacobian">
                   {english ? "Jacobian conjecture" : "雅可比猜想"}
                 </option>
+                <option value="new">
+                  {english ? "New conjecture" : "新猜想"}
+                </option>
               </select>
             </label>
             <label>
@@ -198,9 +210,9 @@ export function CommunityBoard({
                   <option value={value} key={value}>
                     {english
                       ? label
-                      : value === "general"
-                        ? "一般讨论"
-                        : value}
+                      : TASK_LABELS_ZH[
+                          value as keyof typeof TASK_LABELS_ZH
+                        ]}
                   </option>
                 ))}
               </select>
@@ -228,7 +240,13 @@ export function CommunityBoard({
                   <header>
                     <div className="message-tags">
                       <span className="message-conjecture">
-                        {english ? "JACOBIAN" : "雅可比猜想"}
+                        {(item.conjecture ?? "jacobian") === "new"
+                          ? english
+                            ? "NEW CONJECTURE"
+                            : "新猜想"
+                          : english
+                            ? "JACOBIAN"
+                            : "雅可比猜想"}
                       </span>
                       <span className="message-task">
                         {item.task === "general" ? "GENERAL" : item.task}
@@ -305,6 +323,9 @@ export function CommunityBoard({
               <option value="jacobian">
                 {english ? "Jacobian conjecture" : "雅可比猜想"}
               </option>
+              <option value="new">
+                {english ? "New conjecture" : "新猜想"}
+              </option>
             </select>
           </label>
           <label>
@@ -319,9 +340,9 @@ export function CommunityBoard({
                 <option value={value} key={value}>
                   {english
                     ? label
-                    : value === "general"
-                      ? "一般讨论"
-                      : `${value} · 任务`}
+                    : TASK_LABELS_ZH[
+                        value as keyof typeof TASK_LABELS_ZH
+                      ]}
                 </option>
               ))}
             </select>

@@ -3,10 +3,9 @@
 import {
   ArrowDown,
   ArrowUpRight,
-  GitFork,
-  Languages,
   Menu,
   ShieldCheck,
+  Star,
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -25,6 +24,7 @@ import { CommunityBoard } from "./community-board";
 
 const EMPTY_COMMUNITY: CommunitySnapshot = {
   taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+  likedTasks: [],
   messages: [],
   pendingCount: 0,
 };
@@ -45,6 +45,56 @@ const COMMUNITY_API_URL = EXTERNAL_COMMUNITY_BASE
 const GITHUB_REPOSITORY =
   process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
 const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
+
+const FRONTIER_NEWS = [
+  {
+    date: "2026-07-19",
+    source: "JACOBIAN ATLAS",
+    href: "https://jacobianconjectures.com/",
+    title:
+      "Alpöge reports a Claude Fable 5–assisted counterexample in complex dimension three",
+    titleZh: "Alpöge 公布由 Claude Fable 5 协助发现的三维复空间反例",
+    summary:
+      "An explicit polynomial map with constant Jacobian −2 and a three-point collision is released and independently checkable.",
+    summaryZh:
+      "一个雅可比行列式恒为 −2、具有三点碰撞的显式多项式映射被公布，并可独立核验。",
+  },
+  {
+    date: "2026-05-20",
+    source: "OPENAI",
+    href: "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+    title:
+      "An AI-generated construction disproves a central unit-distance conjecture",
+    titleZh: "AI 生成的构造推翻单位距离问题中的一个核心猜想",
+    summary:
+      "The counterexample was subsequently digested and checked by mathematicians, highlighting the discovery–verification loop.",
+    summaryZh:
+      "该反例随后由数学家整理并核验，展示了“发现—验证”闭环的重要性。",
+  },
+  {
+    date: "2026-05-13",
+    source: "FORMAL CONJECTURES",
+    href: "https://arxiv.org/abs/2605.13171",
+    title:
+      "Formal Conjectures launches an evolving benchmark for verified mathematical discovery",
+    titleZh: "Formal Conjectures 发布面向可验证数学发现的动态评测集",
+    summary:
+      "Open research conjectures are formalized in Lean so that proof and disproof attempts can be machine checked.",
+    summaryZh:
+      "开放研究猜想被形式化为 Lean 陈述，使证明与反驳尝试能够接受机器核验。",
+  },
+  {
+    date: "2026-04-04",
+    source: "RETHLAS + ARCHON",
+    href: "https://arxiv.org/abs/2604.03789",
+    title:
+      "A dual-agent system resolves a conjecture and formalizes the proof in Lean",
+    titleZh: "双智能体系统解决一个猜想，并在 Lean 中完成形式化证明",
+    summary:
+      "Informal discovery and formal verification are separated into complementary agents.",
+    summaryZh: "非形式化发现与形式化验证被拆分为两个互补的智能体。",
+  },
+] as const;
 
 function getClientKey() {
   const key = "conjecture-frontier-client-key";
@@ -82,7 +132,11 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
       return;
     }
     try {
-      const response = await fetch(`${COMMUNITY_API_URL}?sort=${sort}`, {
+      const query = new URLSearchParams({
+        sort,
+        clientKey: getClientKey(),
+      });
+      const response = await fetch(`${COMMUNITY_API_URL}?${query}`, {
         cache: "no-store",
       });
       const snapshot = (await response.json()) as CommunitySnapshot;
@@ -136,14 +190,19 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
       }),
     });
     if (response.ok) {
-      const result = (await response.json()) as { likes: number };
+      const result = (await response.json()) as {
+        likes: number;
+        liked: boolean;
+      };
       setCommunity((current) => ({
         ...current,
         taskLikes: { ...current.taskLikes, [task]: result.likes },
+        likedTasks: result.liked
+          ? [...new Set([...(current.likedTasks ?? []), task])]
+          : (current.likedTasks ?? []).filter((candidate) => candidate !== task),
       }));
-      return "liked" as const;
+      return result.liked ? ("liked" as const) : ("unliked" as const);
     }
-    if (response.status === 409) return "duplicate" as const;
     return "error" as const;
   }
 
@@ -156,8 +215,8 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
         ["#community", "Community"],
       ]
     : [
-        ["#atlas", "图谱"],
-        ["#benchmark", "任务"],
+        ["#atlas", "进展"],
+        ["#benchmark", "题目"],
         ["#results", "结果"],
         ["#verify", "验证器"],
         ["#community", "留言"],
@@ -188,7 +247,6 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
         </nav>
         <div className="header-actions">
           <label className="language-switcher">
-            <Languages size={16} />
             <span className="sr-only">Language</span>
             <select
               aria-label="Language"
@@ -207,14 +265,14 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
             title={
               github.available
                 ? english
-                  ? "Follow the project on GitHub"
-                  : "在 GitHub 上关注项目"
+                  ? "Open GitHub to star or unstar this repository"
+                  : "前往 GitHub 收藏或取消收藏此仓库"
                 : english
                   ? "Open the GitHub repository"
                   : "打开 GitHub 仓库"
             }
           >
-            <GitFork size={17} />
+            <Star size={17} />
             <span>Star</span>
             {github.available && <b>{github.stars?.toLocaleString()}</b>}
           </a>
@@ -249,7 +307,7 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
             <h1>
               {english
                 ? "Conjecture Frontier"
-                : "局部可逆，并不保证全局唯一。"}
+                : "猜想前沿"}
             </h1>
             {english ? (
               <figure className="hero-quote">
@@ -269,14 +327,17 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
                 </figcaption>
               </figure>
             ) : (
-              <p className="hero-legacy-line">
-                一个用于反例构造能力的紧凑评测集，以雅可比猜想为首个案例。
-              </p>
+              <figure className="hero-quote">
+                <blockquote>
+                  “证明助手是一类用于检验数学论证是否正确的计算机工具。”
+                </blockquote>
+                <figcaption>— 陶哲轩，《大西洋月刊》，2024</figcaption>
+              </figure>
             )}
             <p className="hero-lead">
               {english
                 ? "A benchmark for constructing counterexamples to frontier mathematical conjectures, with the Jacobian conjecture as its first case study."
-                : "一个用于前沿数学猜想的反例构造能力评测集，以雅可比猜想为例。"}
+                : "面向前沿数学猜想的反例构造能力评测集，以雅可比猜想作为首个研究案例。"}
             </p>
           </div>
 
@@ -295,6 +356,43 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
             </button>
           </div>
 
+          <section className="frontier-news" aria-label="Frontier news">
+            <div className="frontier-news-head">
+              <div>
+                <span className="micro-label">
+                  {english ? "FRONTIER NEWS" : "前沿动态"}
+                </span>
+                <h2>
+                  {english
+                    ? "Counterexamples, conjectures, and verified discovery"
+                    : "反例、猜想与可验证的数学发现"}
+                </h2>
+              </div>
+              <p>
+                {english
+                  ? "A compact timeline of developments shaping AI-assisted mathematical research."
+                  : "一条紧凑时间线，记录正在塑造 AI 辅助数学研究的重要进展。"}
+              </p>
+            </div>
+            <div className="frontier-news-timeline">
+              {FRONTIER_NEWS.map((item, index) => (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={item.date}
+                  className={index === 0 ? "featured" : ""}
+                >
+                  <time>{item.date.replaceAll("-", ".")}</time>
+                  <span>{item.source}</span>
+                  <h3>{english ? item.title : item.titleZh}</h3>
+                  <p>{english ? item.summary : item.summaryZh}</p>
+                  <ArrowUpRight size={17} />
+                </a>
+              ))}
+            </div>
+          </section>
+
           <div className="hero-case-grid">
             <div className="hero-case-copy">
               <span className="micro-label">
@@ -310,7 +408,7 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
               </p>
               <div className="hero-actions">
                 <a className="button button-primary" href="#benchmark">
-                  {english ? "Explore five problems" : "查看五级任务"}{" "}
+                  {english ? "Explore five problems" : "查看五级问题"}{" "}
                   <ArrowDown size={17} />
                 </a>
                 <a className="button button-quiet" href="#verify">
@@ -388,8 +486,8 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
             eyebrow="MATHEMATICAL ATLAS"
             title={
               english
-                ? "From the conjecture to the first counterexample in complex dimension three"
-                : "从猜想到三维复空间的首个反例"
+                ? "From the conjecture to the first counterexample"
+                : "从猜想到首个反例"
             }
             body={
               english
@@ -549,6 +647,7 @@ F(0,0,-\tfrac14)=F(1,-\tfrac32,\tfrac{13}2)\\
         <TaskSection
           data={data}
           likes={community.taskLikes}
+          likedTasks={community.likedTasks ?? []}
           onLike={likeTask}
           communityOnline={communityOnline}
           language={language}
@@ -644,8 +743,8 @@ F(0,0,-\tfrac14)=F(1,-\tfrac32,\tfrac{13}2)\\
             </p>
           </div>
           <div className="footer-meta">
-            <p>Shanghai Artificial Intelligence Laboratory</p>
-            <p>yufangchen at pjlab.org.cn</p>
+            <p>ExoMind Team, Shanghai Artificial Intelligence Laboratory</p>
+            <p>Contact: yufangchen at pjlab.org.cn</p>
             <p>Page assisted by Codex with GPT-5.6 Sol</p>
           </div>
           <a href="#top">

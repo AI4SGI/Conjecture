@@ -20,18 +20,30 @@ import type { BenchmarkData, Language, Task } from "../lib/types";
 export function TaskSection({
   data,
   likes,
+  likedTasks,
   onLike,
   communityOnline,
   language,
 }: {
   data: BenchmarkData;
   likes: Record<Task["key"], number>;
-  onLike: (task: Task["key"]) => Promise<"liked" | "duplicate" | "error">;
+  likedTasks: Task["key"][];
+  onLike: (task: Task["key"]) => Promise<"liked" | "unliked" | "error">;
   communityOnline: boolean;
   language: Language;
 }) {
   const [notice, setNotice] = useState<Record<string, string>>({});
+  const [copied, setCopied] = useState("");
   const english = language === "en";
+
+  async function copySource(key: string, source: string) {
+    await navigator.clipboard.writeText(source);
+    setCopied(key);
+    window.setTimeout(
+      () => setCopied((current) => (current === key ? "" : current)),
+      1400,
+    );
+  }
 
   async function handleLike(task: Task["key"]) {
     const result = await onLike(task);
@@ -42,10 +54,10 @@ export function TaskSection({
           ? english
             ? "Following"
             : "已关注"
-          : result === "duplicate"
+          : result === "unliked"
             ? english
-              ? "Already followed"
-              : "你已关注"
+              ? "Follow"
+              : "关注"
             : english
               ? "Try later"
               : "稍后重试",
@@ -56,7 +68,7 @@ export function TaskSection({
     <section className="benchmark section-shell" id="benchmark">
       <div className="section-lead">
         <span className="section-index">02 / BENCHMARK</span>
-        <h2>{english ? "Five problems, one capability curve" : "五级任务，一条能力曲线"}</h2>
+        <h2>{english ? "Five problems, one capability curve" : "五级问题，一条能力曲线"}</h2>
         <p>
           {english
             ? "The benchmark moves from unconstrained construction in three variables to lower-degree, higher-fiber, and open two-dimensional frontiers. Every task shares one mathematical premise while isolating a different research capability."
@@ -64,7 +76,7 @@ export function TaskSection({
         </p>
       </div>
 
-      <details className="shared-context">
+      <details className="shared-context" open>
         <summary>
           <span>
             <Network size={19} />{" "}
@@ -76,9 +88,18 @@ export function TaskSection({
           <MathText>{data.dataset.context}</MathText>
           <button
             className="copy-mini"
-            onClick={() => navigator.clipboard.writeText(data.dataset.context)}
+            onClick={() =>
+              void copySource("shared-context", data.dataset.context)
+            }
           >
-            <Copy size={15} /> {english ? "Copy source prompt" : "复制原文"}
+            <Copy size={15} />{" "}
+            {copied === "shared-context"
+              ? english
+                ? "Copied"
+                : "已复制"
+              : english
+                ? "Copy source prompt"
+                : "复制原文"}
           </button>
         </div>
       </details>
@@ -106,9 +127,7 @@ export function TaskSection({
               <div className="task-main">
                 <div className="task-heading">
                   <div>
-                    <span className="tier">
-                      {tierLabel} · {task.tier}
-                    </span>
+                    <span className="tier">{tierLabel}</span>
                     <h3>{title}</h3>
                     <p>{subtitle}</p>
                   </div>
@@ -163,6 +182,21 @@ export function TaskSection({
                       <ChevronDown size={17} />
                     </summary>
                     <MathText>{task.question}</MathText>
+                    <button
+                      className="detail-copy"
+                      onClick={() =>
+                        void copySource(`${task.key}-question`, task.question)
+                      }
+                    >
+                      <Copy size={14} />{" "}
+                      {copied === `${task.key}-question`
+                        ? english
+                          ? "Copied"
+                          : "已复制"
+                        : english
+                          ? "Copy LaTeX source"
+                          : "复制 LaTeX 源码"}
+                    </button>
                   </details>
                   <details>
                     <summary>
@@ -173,27 +207,59 @@ export function TaskSection({
                       <ChevronDown size={17} />
                     </summary>
                     <MathText>{task.hint}</MathText>
+                    <button
+                      className="detail-copy"
+                      onClick={() =>
+                        void copySource(`${task.key}-hint`, task.hint)
+                      }
+                    >
+                      <Copy size={14} />{" "}
+                      {copied === `${task.key}-hint`
+                        ? english
+                          ? "Copied"
+                          : "已复制"
+                        : english
+                          ? "Copy LaTeX source"
+                          : "复制 LaTeX 源码"}
+                    </button>
                   </details>
                 </div>
               </div>
               <div className="task-actions">
                 <button
+                  className={likedTasks.includes(task.key) ? "liked" : ""}
                   onClick={() => void handleLike(task.key)}
                   disabled={!communityOnline}
                   title={
                     communityOnline
                       ? english
-                        ? "Follow this research problem"
-                        : "关注这个研究问题"
+                        ? likedTasks.includes(task.key)
+                          ? "Unfollow this research problem"
+                          : "Follow this research problem"
+                        : likedTasks.includes(task.key)
+                          ? "取消关注这个研究问题"
+                          : "关注这个研究问题"
                       : english
                         ? "Community backend unavailable"
                         : "社区后端暂不可用"
                   }
                 >
-                  <Heart size={18} />
+                  <Heart
+                    size={18}
+                    fill={
+                      likedTasks.includes(task.key) ? "currentColor" : "none"
+                    }
+                  />
                   <b>{likes[task.key]}</b>
                   <span>
-                    {notice[task.key] ?? (english ? "Follow" : "关注")}
+                    {notice[task.key] ??
+                      (likedTasks.includes(task.key)
+                        ? english
+                          ? "Following"
+                          : "已关注"
+                        : english
+                          ? "Follow"
+                          : "关注")}
                   </span>
                 </button>
                 <span className="task-order">
@@ -224,13 +290,18 @@ export function TaskSection({
 }
 
 function MathText({ children }: { children: string }) {
+  const normalized = children
+    .replaceAll(String.raw`\[`, "\n$$\n")
+    .replaceAll(String.raw`\]`, "\n$$\n")
+    .replaceAll(String.raw`\(`, "$")
+    .replaceAll(String.raw`\)`, "$");
   return (
     <div className="prompt-math">
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]}
         rehypePlugins={[rehypeKatex]}
       >
-        {children}
+        {normalized}
       </ReactMarkdown>
     </div>
   );

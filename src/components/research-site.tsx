@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import type {
   BenchmarkData,
   CommunitySnapshot,
+  FrontierNewsItem,
   Language,
   Task,
 } from "../lib/types";
@@ -46,56 +47,6 @@ const GITHUB_REPOSITORY =
   process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
 const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
 
-const FRONTIER_NEWS = [
-  {
-    date: "2026-07-19",
-    source: "JACOBIAN ATLAS",
-    href: "https://jacobianconjectures.com/",
-    title:
-      "Alpöge reports a Claude Fable 5–assisted counterexample in complex dimension three",
-    titleZh: "Alpöge 公布由 Claude Fable 5 协助发现的三维复空间反例",
-    summary:
-      "An explicit polynomial map with constant Jacobian −2 and a three-point collision is released and independently checkable.",
-    summaryZh:
-      "一个雅可比行列式恒为 −2、具有三点碰撞的显式多项式映射被公布，并可独立核验。",
-  },
-  {
-    date: "2026-05-20",
-    source: "OPENAI",
-    href: "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
-    title:
-      "An AI-generated construction disproves a central unit-distance conjecture",
-    titleZh: "AI 生成的构造推翻单位距离问题中的一个核心猜想",
-    summary:
-      "The counterexample was subsequently digested and checked by mathematicians, highlighting the discovery–verification loop.",
-    summaryZh:
-      "该反例随后由数学家整理并核验，展示了“发现—验证”闭环的重要性。",
-  },
-  {
-    date: "2026-05-13",
-    source: "FORMAL CONJECTURES",
-    href: "https://arxiv.org/abs/2605.13171",
-    title:
-      "Formal Conjectures launches an evolving benchmark for verified mathematical discovery",
-    titleZh: "Formal Conjectures 发布面向可验证数学发现的动态评测集",
-    summary:
-      "Open research conjectures are formalized in Lean so that proof and disproof attempts can be machine checked.",
-    summaryZh:
-      "开放研究猜想被形式化为 Lean 陈述，使证明与反驳尝试能够接受机器核验。",
-  },
-  {
-    date: "2026-04-04",
-    source: "RETHLAS + ARCHON",
-    href: "https://arxiv.org/abs/2604.03789",
-    title:
-      "A dual-agent system resolves a conjecture and formalizes the proof in Lean",
-    titleZh: "双智能体系统解决一个猜想，并在 Lean 中完成形式化证明",
-    summary:
-      "Informal discovery and formal verification are separated into complementary agents.",
-    summaryZh: "非形式化发现与形式化验证被拆分为两个互补的智能体。",
-  },
-] as const;
-
 function getClientKey() {
   const key = "conjecture-frontier-client-key";
   let value = window.localStorage.getItem(key);
@@ -106,7 +57,13 @@ function getClientKey() {
   return value;
 }
 
-export function ResearchSite({ data }: { data: BenchmarkData }) {
+export function ResearchSite({
+  data,
+  news,
+}: {
+  data: BenchmarkData;
+  news: FrontierNewsItem[];
+}) {
   const [language, setLanguage] = useState<Language>("en");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeConjecture] = useState("jacobian");
@@ -247,7 +204,6 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
         </nav>
         <div className="header-actions">
           <label className="language-switcher">
-            <span className="sr-only">Language</span>
             <select
               aria-label="Language"
               value={language}
@@ -312,26 +268,28 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
             {english ? (
               <figure className="hero-quote">
                 <blockquote>
-                  “Proof assistants are useful computer tools that check whether
-                  a mathematical argument is correct or not.”
+                  “… the distinctively human features of our profession are not
+                  lost in this transformation.”
                 </blockquote>
                 <figcaption>
                   — Terence Tao,{" "}
                   <a
-                    href="https://www.theatlantic.com/technology/archive/2024/10/terence-tao-ai-interview/680153/"
+                    href="https://www.simonsfoundation.org/2026/05/04/ai-will-be-top-of-mind-at-icm-maths-biggest-conference/"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    The Atlantic, 2024
+                    “Mathematics in the Age of AI,” ICM 2026 preview
                   </a>
                 </figcaption>
               </figure>
             ) : (
               <figure className="hero-quote">
                 <blockquote>
-                  “证明助手是一类用于检验数学论证是否正确的计算机工具。”
+                  “在这场转变中，我们这个职业独具的人文特质不应被遗失。”
                 </blockquote>
-                <figcaption>— 陶哲轩，《大西洋月刊》，2024</figcaption>
+                <figcaption>
+                  — 陶哲轩，“AI 时代的数学”，ICM 2026 演讲预告
+                </figcaption>
               </figure>
             )}
             <p className="hero-lead">
@@ -375,19 +333,25 @@ export function ResearchSite({ data }: { data: BenchmarkData }) {
               </p>
             </div>
             <div className="frontier-news-timeline">
-              {FRONTIER_NEWS.map((item, index) => (
+              {news.map((item, index) => (
                 <a
-                  href={item.href}
+                  href={item.link}
                   target="_blank"
                   rel="noreferrer"
-                  key={item.date}
+                  key={item.id}
                   className={index === 0 ? "featured" : ""}
                 >
                   <time>{item.date.replaceAll("-", ".")}</time>
-                  <span>{item.source}</span>
+                  <span>{english ? item.label : item.labelZh}</span>
                   <h3>{english ? item.title : item.titleZh}</h3>
-                  <p>{english ? item.summary : item.summaryZh}</p>
-                  <ArrowUpRight size={17} />
+                  <p>{english ? item.content : item.contentZh}</p>
+                  <div className="frontier-news-meta">
+                    <small>
+                      {english ? item.statusLabel : item.statusLabelZh}
+                    </small>
+                    <small>{item.source}</small>
+                    <ArrowUpRight size={17} />
+                  </div>
                 </a>
               ))}
             </div>

@@ -38,6 +38,7 @@ jobs:
 
       - name: Validate source and generated data
         run: |
+          npm run data
           npm run typecheck
           npm run test:data
 

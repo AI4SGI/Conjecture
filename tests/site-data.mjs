@@ -7,6 +7,9 @@ const root = process.cwd();
 const benchmark = JSON.parse(
   await readFile(path.join(root, "src/data/benchmark.json"), "utf8"),
 );
+const generatedNews = JSON.parse(
+  await readFile(path.join(root, "src/data/frontier-news.json"), "utf8"),
+);
 const problemLines = (await readFile(
   path.join(root, "problems/jacobian_conjecture.jsonl"),
   "utf8",
@@ -47,6 +50,58 @@ assert.deepEqual(
     .map((task) => task.tier),
   ["Research", "Research"],
   "P3 and P4 must both be research-level tasks",
+);
+assert(
+  problemLines[2].question.includes(
+    "strictly smaller than the currently known minimum \\(7\\)",
+  ),
+  "P3 must target an improvement over the known degree-seven construction",
+);
+assert.equal(
+  problemLines[3].constraints.generic_fiber_degree,
+  4,
+  "P4 must target generic fiber degree four",
+);
+assert.equal(
+  problemLines[3].objective.value,
+  11,
+  "P4 must improve the known degree-twelve construction",
+);
+
+const newsLines = (await readFile(
+  path.join(root, "news/frontier_news.jsonl"),
+  "utf8",
+))
+  .split(/\r?\n/)
+  .filter(Boolean)
+  .map((line) => JSON.parse(line));
+assert(
+  newsLines.length >= 12,
+  "the timeline should cover the major 2026 AI-mathematics developments",
+);
+assert.deepEqual(
+  generatedNews,
+  newsLines,
+  "generated frontier news must exactly follow the standalone JSONL source",
+);
+assert.deepEqual(
+  newsLines.map((item) => item.date),
+  newsLines.map((item) => item.date).toSorted().reverse(),
+  "frontier news must be sorted newest first",
+);
+assert.equal(
+  new Set(newsLines.map((item) => item.id)).size,
+  newsLines.length,
+  "frontier news ids must be unique",
+);
+assert(
+  newsLines.every(
+    (item) =>
+      item.label.includes(" · ") &&
+      item.link.startsWith("https://") &&
+      item.statusLabel,
+  ),
+  "each news item needs a normalized label, source link, and status",
 );
 
 const sourceFiles = [];
@@ -113,5 +168,5 @@ for (const summary of benchmark.records) {
 }
 
 console.log(
-  `Site data audit passed: ${problemLines.length} tasks, ${sourceFiles.length} records, ${actualCodes.size} outcome categories.`,
+  `Site data audit passed: ${problemLines.length} tasks, ${sourceFiles.length} records, ${newsLines.length} news items, ${actualCodes.size} outcome categories.`,
 );

@@ -3492,6 +3492,114 @@ footer {
   align-self: center;
 }
 
+/* Iteration 3 · data-driven frontier news and task taxonomy */
+
+.frontier-news-timeline {
+  display: grid;
+  grid-auto-columns: 25%;
+  grid-auto-flow: column;
+  grid-template-columns: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-padding-inline: 1px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--acid) rgba(255, 255, 255, 0.12);
+  scrollbar-width: thin;
+}
+
+.frontier-news-timeline::-webkit-scrollbar {
+  height: 8px;
+}
+
+.frontier-news-timeline::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.frontier-news-timeline::-webkit-scrollbar-thumb {
+  background: var(--acid);
+}
+
+.frontier-news-timeline a {
+  min-width: 0;
+  min-height: 360px;
+  scroll-snap-align: start;
+}
+
+.frontier-news-timeline > a > span {
+  min-height: 31px;
+  font-size: 10px;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.frontier-news-timeline h3 {
+  margin-top: 18px;
+}
+
+.frontier-news-timeline p {
+  font-size: 13px;
+}
+
+.frontier-news-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.frontier-news-meta small {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.045em;
+  line-height: 1.45;
+}
+
+.frontier-news-meta small:first-child {
+  color: var(--acid);
+}
+
+.frontier-news-meta small:nth-child(2) {
+  flex-basis: 100%;
+}
+
+.frontier-news-meta svg {
+  margin: 0 0 0 auto;
+}
+
+.frontier-news-timeline a:hover .frontier-news-meta small {
+  color: var(--ink);
+}
+
+.capability svg {
+  grid-row: 1;
+  align-self: center;
+  margin-top: 0;
+  transform: translateY(-1px);
+}
+
+.capability b {
+  grid-column: 2;
+}
+
+@media (max-width: 960px) {
+  .frontier-news-timeline {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    max-height: 660px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-snap-type: y proximity;
+  }
+
+  .frontier-news-timeline a {
+    min-height: 280px;
+    scroll-snap-align: start;
+  }
+}
+
 @media (max-width: 1100px) {
   .frontier-news-timeline {
     grid-template-columns: 1fr 1fr;
@@ -4738,4 +4846,36 @@ body {
 
 .footer-brand .brand-mark {
   align-self: center;
+}
+
+/* Final cascade guards for the data-driven news rail and capability icon. */
+
+.frontier-news-timeline {
+  grid-auto-columns: 25%;
+  grid-auto-flow: column;
+  grid-template-columns: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.capability svg {
+  grid-row: 1;
+  align-self: center;
+  margin-top: 0;
+  transform: translateY(-1px);
+}
+
+.capability b {
+  grid-column: 2;
+}
+
+@media (max-width: 960px) {
+  .frontier-news-timeline {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    max-height: 660px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }

@@ -20,6 +20,8 @@ export interface Task {
     dimension: number;
     min_points: number;
     coefficient_domain: string;
+    generic_fiber_degree?: number;
+    known_degree?: number;
   };
   objective: {
     kind: string;
@@ -62,6 +64,22 @@ export interface OutcomeAnalysis {
 }
 
 export type Language = "en" | "zh";
+
+export interface FrontierNewsItem {
+  id: string;
+  date: string;
+  label: string;
+  title: string;
+  content: string;
+  link: string;
+  source: string;
+  status: string;
+  statusLabel: string;
+  labelZh: string;
+  titleZh: string;
+  contentZh: string;
+  statusLabelZh: string;
+}
 
 export interface Usage {
   prompt_tokens: number;

@@ -16,9 +16,9 @@ test("desktop research flow and symbolic certificate", async ({ page }) => {
   ).toHaveText("English");
   await expect(page.locator(".language-switcher svg")).toHaveCount(0);
   await expect(page.locator(".hero-quote")).toContainText("Terence Tao");
-  await expect(page.locator(".frontier-news-timeline a")).toHaveCount(4);
+  await expect(page.locator(".frontier-news-timeline a")).toHaveCount(16);
   await expect(page.locator(".frontier-news-timeline a").first()).toContainText(
-    "Claude Fable 5",
+    "Hessian Conjecture",
   );
   await expect(page.getByText("50", { exact: true }).first()).toBeVisible();
   await expect(page.locator(".task-card")).toHaveCount(5);

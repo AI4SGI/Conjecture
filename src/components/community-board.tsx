@@ -15,18 +15,18 @@ import type { CommunitySnapshot, Language } from "../lib/types";
 const TASK_LABELS = {
   general: "General discussion",
   P1: "P1 · Open construction",
-  P2: "P2 · Degree-seven boundary",
-  P3: "P3 · Degree-six compression",
-  P4: "P4 · Four-point fiber",
+  P2: "P2 · Degree-seven rediscovery",
+  P3: "P3 · Lower-degree frontier",
+  P4: "P4 · Four-sheet frontier",
   P5: "P5 · Dimension-two frontier",
 } as const;
 
 const TASK_LABELS_ZH = {
   general: "一般讨论",
   P1: "P1 · 开放构造",
-  P2: "P2 · 七次边界",
-  P3: "P3 · 六次压缩",
-  P4: "P4 · 四点纤维",
+  P2: "P2 · 七次重发现",
+  P3: "P3 · 低次前沿",
+  P4: "P4 · 四叶前沿",
   P5: "P5 · 二维前沿",
 } as const;
 

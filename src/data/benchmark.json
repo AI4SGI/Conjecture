@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T09:44:42.558Z",
+  "generatedAt": "2026-07-28T11:15:44.282Z",
   "dataset": {
     "name": "Conjecture Frontier · Jacobian Counterexample Construction",
     "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
@@ -22,13 +22,13 @@
         "subtitle": "Complex dimension 3 · no degree bound",
         "tier": "Exploration",
         "tierLabel": "Exploration Level",
-        "capability": "De novo construction and global algebraic reasoning",
-        "significance": "Tests whether a model can move beyond local-invertibility intuition and propose a genuinely new global collision mechanism.",
+        "capability": "Novel algebraic construction",
+        "significance": "A new étale-but-noninjective map would reveal fresh global geometry; the task tests AI invention together with exact certificate construction.",
         "titleZh": "开放构造",
         "subtitleZh": "三维 · 无次数上限",
         "tierLabelZh": "探索级",
-        "capabilityZh": "从零构造与全局代数推理",
-        "significanceZh": "检验模型能否越过局部可逆性的直觉陷阱，独立提出与已知构造不等价的全局碰撞机制。",
+        "capabilityZh": "新颖代数构造",
+        "significanceZh": "新的处处局部可逆却非单射映射将揭示全新全局几何；该题同时测试 AI 的结构创新与精确证书构造。",
         "questionZh": "在三维复空间中构造一个反例；不限制次数或稀疏性，但必须与参考构造代数不等价。"
       },
       {
@@ -46,24 +46,24 @@
           "value": 7
         },
         "key": "P2",
-        "title": "Degree-Seven Boundary",
-        "subtitle": "Complex dimension 3 · max degree ≤ 7",
+        "title": "Degree-Seven Rediscovery",
+        "subtitle": "Complex dimension 3 · known scale ≤ 7",
         "tier": "Constrained",
         "tierLabel": "Constrained Level",
-        "capability": "Novel construction under a tight degree budget",
-        "significance": "Demands a new algebraic structure at the known degree scale while jointly testing the constant-Jacobian and collision conditions.",
-        "titleZh": "七次边界",
-        "subtitleZh": "三维 · max degree ≤ 7",
+        "capability": "Constraint-aware rediscovery",
+        "significance": "The known degree scale creates a controlled rediscovery target; the task tests whether AI can reconstruct the mechanism while still producing an inequivalent certified example.",
+        "titleZh": "七次重发现",
+        "subtitleZh": "三维 · 已知次数尺度 ≤ 7",
         "tierLabelZh": "约束级",
-        "capabilityZh": "紧次数预算下的新颖构造",
-        "significanceZh": "在已知次数尺度内要求全新代数结构，同时验证常雅可比、碰撞证书与代数系数，兼顾搜索和证明。",
+        "capabilityZh": "约束感知的重发现",
+        "significanceZh": "已知次数尺度提供可控的重发现目标；该题测试 AI 能否重建核心机制，同时给出不等价且证书完备的新构造。",
         "questionZh": "构造三维复多项式反例，分量最高次数不超过 7，并给出同一纤维中至少两个不同的代数点；不得提交参考构造的等价表达。"
       },
       {
         "id": "jacobian_conjecture_3",
         "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
-        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\max_i\\deg F_i\\le 6\\). Supply at least two distinct algebraic points \\(p_1,p_2\\) satisfying \\(F(p_1)=F(p_2)\\).",
-        "hint": "For reference only, let \\(u=1+xy\\) and consider \\[F_1=u^3z+y^2u(4+3xy),\\qquad F_2=y+3xu^2z+3xy^2(4+3xy),\\qquad F_3=2x-3x^2y-x^3z.\\] This map has \\(\\det J_F=-2\\) and three known collision points, but \\(\\max_i\\deg F_i=7\\); therefore it does not satisfy this task's degree bound.",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) whose polynomial degree \\(\\deg F:=\\max_i\\deg F_i\\) is strictly smaller than the currently known minimum \\(7\\). Supply at least two distinct algebraic points \\(p_1,p_2\\) in one common fiber, so that \\(F(p_1)=F(p_2)\\).",
+        "hint": "For reference only, let \\(u=1+xy\\) and consider \\[F_1=u^3z+y^2u(4+3xy),\\qquad F_2=y+3xu^2z+3xy^2(4+3xy),\\qquad F_3=2x-3x^2y-x^3z.\\] This map has \\(\\det J_F=-2\\), three known collision points, and \\(\\deg F=7\\). The task is to improve the currently known minimum, so the reference construction itself does not qualify.",
         "constraints": {
           "dimension": 3,
           "min_points": 2,
@@ -74,46 +74,48 @@
           "value": 6
         },
         "key": "P3",
-        "title": "Degree-Six Compression",
-        "subtitle": "Complex dimension 3 · max degree ≤ 6",
+        "title": "Lower-Degree Frontier",
+        "subtitle": "Complex dimension 3 · improve the known degree 7",
         "tier": "Research",
         "tierLabel": "Research Level",
-        "capability": "Structural compression and lower-degree search",
-        "significance": "Pushes below the known degree-seven scale; success would expose a shorter and potentially more interpretable counterexample structure.",
-        "titleZh": "六次压缩",
-        "subtitleZh": "三维 · max degree ≤ 6",
+        "capability": "Record-level degree reduction",
+        "significance": "Beating degree seven would expose a simpler counterexample geometry; the task tests whether AI can compress algebraic structure beyond the current record.",
+        "titleZh": "低次前沿",
+        "subtitleZh": "三维 · 改进已知七次纪录",
         "tierLabelZh": "研究级",
-        "capabilityZh": "结构压缩与更低次数搜索",
-        "significanceZh": "把最高次数从已知七次结构继续压低；若成功，将给出更短、更易分析的反例证书。",
-        "questionZh": "构造三维复多项式反例，分量最高次数不超过 6，并给出同一纤维中至少两个不同的代数点。"
+        "capabilityZh": "纪录级次数降低",
+        "significanceZh": "突破七次将揭示更简洁的反例几何；该题测试 AI 能否把代数结构压缩到当前纪录以下。",
+        "questionZh": "构造三维复多项式反例，使多项式次数严格低于当前已知最小值 7，并给出同一纤维中至少两个不同的代数点。"
       },
       {
         "id": "jacobian_conjecture_4",
         "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
-        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\max_i\\deg F_i\\le 11\\), witnessed by at least four pairwise-distinct algebraic points \\(p_1,p_2,p_3,p_4\\) in one common fiber.",
-        "hint": "For reference only, the known map \\[F_1=(1+xy)^3z+y^2(1+xy)(4+3xy),\\quad F_2=y+3xz(1+xy)^2+3xy^2(4+3xy),\\quad F_3=2x-3x^2y-x^3z\\] satisfies \\(\\det J_F=-2\\) and has three supplied collision points mapping to \\((-\\tfrac14,0,0)\\). It is a structural reference rather than a solution because this task requires at least four pairwise-distinct points in one fiber.",
+        "question": "Construct a counterexample \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with generic fiber degree \\(\\deg_{\\mathrm{gen}}F=4\\) and polynomial degree \\(\\deg F:=\\max_i\\deg F_i\\le 11\\). The currently known construction with generic fiber degree \\(4\\) has polynomial degree \\(12\\); improve this bound and supply four pairwise-distinct algebraic points \\(p_1,p_2,p_3,p_4\\) in one common fiber.",
+        "hint": "For structural reference only, the first known three-dimensional map \\[F_1=(1+xy)^3z+y^2(1+xy)(4+3xy),\\quad F_2=y+3xz(1+xy)^2+3xy^2(4+3xy),\\quad F_3=2x-3x^2y-x^3z\\] satisfies \\(\\det J_F=-2\\) and has three supplied collision points mapping to \\((-\\tfrac14,0,0)\\). It is not a solution to this task: the target is a four-sheeted generic fiber with \\(\\deg F\\le 11\\), improving the currently known degree-\\(12\\) construction.",
         "constraints": {
           "dimension": 3,
           "min_points": 4,
-          "coefficient_domain": "algebraic"
+          "coefficient_domain": "algebraic",
+          "generic_fiber_degree": 4,
+          "known_degree": 12
         },
         "objective": {
           "kind": "max_degree",
           "value": 11
         },
         "key": "P4",
-        "title": "Four-Point Fiber",
-        "subtitle": "Complex dimension 3 · ≥ 4 points · max degree ≤ 11",
+        "title": "Four-Sheet Frontier",
+        "subtitle": "Complex dimension 3 · generic fiber degree 4 · degree ≤ 11",
         "tier": "Research",
         "tierLabel": "Research Level",
-        "capability": "Fiber engineering under degree control",
-        "significance": "Requires an explicit higher-cardinality fiber under a controlled degree budget, probing non-properness and collision geometry.",
-        "titleZh": "四点纤维",
-        "subtitleZh": "三维 · ≥ 4 点 · max degree ≤ 11",
+        "capability": "Generic-fiber optimization",
+        "significance": "Improving the degree of a four-sheeted étale map probes non-properness at higher multiplicity; the task tests joint control of fiber geometry and algebraic complexity.",
+        "titleZh": "四叶前沿",
+        "subtitleZh": "三维 · 一般纤维度数 4 · 次数 ≤ 11",
         "tierLabelZh": "研究级",
-        "capabilityZh": "纤维工程与次数控制",
-        "significanceZh": "要求在较低次数预算下显式制造更高重数纤维，考察模型是否理解非适当性、纤维度数与碰撞结构。",
-        "questionZh": "构造三维复多项式反例，分量最高次数不超过 11，并给出同一纤维中至少四个不同的代数点。"
+        "capabilityZh": "一般纤维优化",
+        "significanceZh": "降低四叶 étale 映射的次数将揭示高重数下的非适当性；该题测试 AI 同时控制纤维几何与代数复杂度的能力。",
+        "questionZh": "构造一般纤维度数为 4、最高多项式次数不超过 11 的三维复多项式反例；当前满足一般纤维度数 4 的已知构造次数为 12。"
       },
       {
         "id": "jacobian_conjecture_5",
@@ -133,13 +135,13 @@
         "subtitle": "Complex dimension 2 · no degree bound",
         "tier": "Open Frontier",
         "tierLabel": "Open-Problem Level",
-        "capability": "Recognizing an open boundary and rejecting false certificates",
-        "significance": "The two-dimensional case remains open. This task tests both construction and the discipline to avoid misreporting 3D or merely local evidence.",
+        "capability": "Open-problem judgment",
+        "significance": "Dimension two is the remaining open frontier; the task tests genuine discovery, boundary awareness, and the discipline to reject persuasive but invalid certificates.",
         "titleZh": "二维前沿",
         "subtitleZh": "二维 · 无次数上限",
         "tierLabelZh": "开放问题级",
-        "capabilityZh": "识别开放边界与拒绝伪证",
-        "significanceZh": "二维情形仍是独立前沿。该题不仅测试构造能力，也测试模型能否避免把三维结构或局部证据误报为二维反例。",
+        "capabilityZh": "开放问题判断",
+        "significanceZh": "二维是仍未解决的前沿；该题测试真实发现、边界意识，以及拒绝貌似可信却无效证书的研究纪律。",
         "questionZh": "在二维复空间中构造一个反例；不限制次数或稀疏性，并给出可由确定性程序核验的碰撞证书。"
       }
     ],
@@ -325,7 +327,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01",
@@ -374,7 +376,7 @@
       "contentChars": 2747,
       "reasoningChars": 3981,
       "outputChars": 482,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01",
@@ -423,7 +425,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01",
@@ -472,7 +474,7 @@
       "contentChars": 2732,
       "reasoningChars": 4856,
       "outputChars": 314,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01",
@@ -521,7 +523,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01",
@@ -570,7 +572,7 @@
       "contentChars": 2805,
       "reasoningChars": 2700,
       "outputChars": 242,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01",
@@ -619,7 +621,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01",
@@ -668,7 +670,7 @@
       "contentChars": 2662,
       "reasoningChars": 4139,
       "outputChars": 334,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01",
@@ -717,7 +719,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01",
@@ -766,7 +768,7 @@
       "contentChars": 1900,
       "reasoningChars": 877,
       "outputChars": 221,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
+      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01",
@@ -828,7 +830,7 @@
       "contentChars": 2650,
       "reasoningChars": 0,
       "outputChars": 1035,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01",
@@ -877,7 +879,7 @@
       "contentChars": 1594,
       "reasoningChars": 1572,
       "outputChars": 580,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01",
@@ -926,7 +928,7 @@
       "contentChars": 1606,
       "reasoningChars": 0,
       "outputChars": 708,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01",
@@ -975,7 +977,7 @@
       "contentChars": 2041,
       "reasoningChars": 2953,
       "outputChars": 579,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01",
@@ -1037,7 +1039,7 @@
       "contentChars": 1103,
       "reasoningChars": 0,
       "outputChars": 727,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01",
@@ -1086,7 +1088,7 @@
       "contentChars": 2153,
       "reasoningChars": 2837,
       "outputChars": 674,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01",
@@ -1135,7 +1137,7 @@
       "contentChars": 1437,
       "reasoningChars": 0,
       "outputChars": 733,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01",
@@ -1184,7 +1186,7 @@
       "contentChars": 1821,
       "reasoningChars": 3980,
       "outputChars": 837,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01",
@@ -1233,7 +1235,7 @@
       "contentChars": 1394,
       "reasoningChars": 0,
       "outputChars": 330,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01",
@@ -1282,7 +1284,7 @@
       "contentChars": 1725,
       "reasoningChars": 3898,
       "outputChars": 359,
-      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
+      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_1_hint_01",
@@ -1331,7 +1333,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_1_nohint_01",
@@ -1380,7 +1382,7 @@
       "contentChars": 1271,
       "reasoningChars": 64135,
       "outputChars": 482,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_2_hint_01",
@@ -1429,7 +1431,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_2_nohint_01",
@@ -1478,7 +1480,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_3_hint_01",
@@ -1527,7 +1529,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_3_nohint_01",
@@ -1576,7 +1578,7 @@
       "contentChars": 373,
       "reasoningChars": 167083,
       "outputChars": 349,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_4_hint_01",
@@ -1625,7 +1627,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_4_nohint_01",
@@ -1674,7 +1676,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_5_hint_01",
@@ -1723,7 +1725,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
@@ -1772,7 +1774,7 @@
       "contentChars": 476,
       "reasoningChars": 195178,
       "outputChars": 452,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
+      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_1_hint_01",
@@ -1821,7 +1823,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01",
@@ -1870,7 +1872,7 @@
       "contentChars": 437,
       "reasoningChars": 0,
       "outputChars": 220,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_2_hint_01",
@@ -1919,7 +1921,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_hint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01",
@@ -1968,7 +1970,7 @@
       "contentChars": 369,
       "reasoningChars": 0,
       "outputChars": 136,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_3_hint_01",
@@ -2017,7 +2019,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_hint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01",
@@ -2066,7 +2068,7 @@
       "contentChars": 507,
       "reasoningChars": 0,
       "outputChars": 174,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_4_hint_01",
@@ -2115,7 +2117,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01",
@@ -2164,7 +2166,7 @@
       "contentChars": 268,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_5_hint_01",
@@ -2213,7 +2215,7 @@
       "contentChars": 493,
       "reasoningChars": 0,
       "outputChars": 208,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01",
@@ -2262,7 +2264,7 @@
       "contentChars": 397,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
+      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_1_hint_01",
@@ -2311,7 +2313,7 @@
       "contentChars": 906,
       "reasoningChars": 12398,
       "outputChars": 176,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_1_nohint_01",
@@ -2360,7 +2362,7 @@
       "contentChars": 613,
       "reasoningChars": 24370,
       "outputChars": 189,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_2_hint_01",
@@ -2409,7 +2411,7 @@
       "contentChars": 1377,
       "reasoningChars": 51149,
       "outputChars": 741,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_2_nohint_01",
@@ -2458,7 +2460,7 @@
       "contentChars": 541,
       "reasoningChars": 23431,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_3_hint_01",
@@ -2507,7 +2509,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_3_nohint_01",
@@ -2556,7 +2558,7 @@
       "contentChars": 544,
       "reasoningChars": 47721,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_4_hint_01",
@@ -2605,7 +2607,7 @@
       "contentChars": 1172,
       "reasoningChars": 78602,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_4_nohint_01",
@@ -2654,7 +2656,7 @@
       "contentChars": 743,
       "reasoningChars": 83995,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_5_hint_01",
@@ -2703,7 +2705,7 @@
       "contentChars": 0,
       "reasoningChars": 52066,
       "outputChars": 0,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_5_nohint_01",
@@ -2752,7 +2754,7 @@
       "contentChars": 686,
       "reasoningChars": 28716,
       "outputChars": 228,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
+      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
     }
   ]
 }

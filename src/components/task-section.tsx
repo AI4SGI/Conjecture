@@ -17,6 +17,49 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { BenchmarkData, Language, Task } from "../lib/types";
 
+function constraintLabels(task: Task, english: boolean) {
+  const dimension = task.constraints.dimension;
+  const common = english
+    ? [
+        `ℂ${dimension === 3 ? "³" : "²"} polynomial map`,
+        "det J_F ∈ ℂ×",
+        "Algebraic coefficients",
+      ]
+    : [
+        `ℂ${dimension === 3 ? "³" : "²"} 多项式映射`,
+        "det J_F ∈ ℂ×",
+        "代数系数",
+      ];
+
+  const taskSpecific: Record<Task["key"], string[]> = english
+    ? {
+        P1: ["No degree bound", "≥ 2-point collision", "Novel up to equivalence"],
+        P2: ["deg F ≤ 7", "≥ 2-point collision", "Novel up to equivalence"],
+        P3: ["deg F < 7", "≥ 2-point collision", "Record target"],
+        P4: [
+          "generic fiber degree = 4",
+          "deg F ≤ 11",
+          "4-point fiber witness",
+          "Beat known degree 12",
+        ],
+        P5: ["No degree bound", "≥ 2-point collision", "Open frontier"],
+      }
+    : {
+        P1: ["无次数上限", "至少二点碰撞", "模等价意义下新颖"],
+        P2: ["deg F ≤ 7", "至少二点碰撞", "模等价意义下新颖"],
+        P3: ["deg F < 7", "至少二点碰撞", "纪录目标"],
+        P4: [
+          "一般纤维度数 = 4",
+          "deg F ≤ 11",
+          "四点纤维见证",
+          "突破已知 12 次",
+        ],
+        P5: ["无次数上限", "至少二点碰撞", "开放前沿"],
+      };
+
+  return [...common, ...taskSpecific[task.key]];
+}
+
 export function TaskSection({
   data,
   likes,
@@ -121,6 +164,7 @@ export function TaskSection({
           const significance = english
             ? task.significance
             : task.significanceZh;
+          const constraints = constraintLabels(task, english);
           return (
             <article className="task-card" key={task.id}>
               <div className="task-index">{task.key}</div>
@@ -145,29 +189,11 @@ export function TaskSection({
                 </div>
 
                 <div className="constraint-row">
-                  <span>
-                    <Check size={15} /> {task.constraints.dimension}{" "}
-                    {english ? "variables" : "变量"}
-                  </span>
-                  <span>
-                    <Check size={15} />{" "}
-                    {english
-                      ? "Nonzero constant Jacobian"
-                      : "非零常雅可比"}
-                  </span>
-                  <span>
-                    <Check size={15} /> ≥ {task.constraints.min_points}{" "}
-                    {english ? "distinct algebraic points" : "个不同代数点"}
-                  </span>
-                  {task.objective.value && (
-                    <span>
-                      <Check size={15} /> max degree ≤ {task.objective.value}
+                  {constraints.map((constraint) => (
+                    <span key={constraint}>
+                      <Check size={15} /> {constraint}
                     </span>
-                  )}
-                  <span>
-                    <Check size={15} />{" "}
-                    {english ? "Algebraic coefficients" : "代数系数"}
-                  </span>
+                  ))}
                 </div>
 
                 <div className="task-significance">

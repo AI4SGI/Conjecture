@@ -128,13 +128,13 @@ function analyzeOutcome(record) {
       code: "verified_counterexample",
       label: "Verified counterexample (novelty not assessed)",
       short:
-        "The offline verifier confirmed the Jacobian, collision, and task constraints.",
+        "The offline verifier confirmed the Jacobian, collision, and machine-checkable task constraints.",
       detail:
-        "The algebraic certificate passed deterministic verification. Any global novelty or inequivalence requirement remains a separate research question.",
+        "The algebraic certificate passed deterministic verification. Global novelty, inequivalence, and P4's exact generic-fiber degree remain separate research requirements.",
       labelZh: "已验证反例（未验证创新性）",
-      shortZh: "程序确认雅可比、碰撞点与任务约束均成立。",
+      shortZh: "程序确认雅可比、碰撞点与可机器核验的任务约束成立。",
       detailZh:
-        "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
+        "该记录通过离线确定性验证。全局新颖性、代数不等价性，以及 P4 的精确一般纤维度数仍是独立研究要求。",
       tone: "pass",
     };
   }

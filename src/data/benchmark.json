@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-28T11:15:44.282Z",
+  "generatedAt": "2026-07-28T11:27:08.673Z",
   "dataset": {
     "name": "Conjecture Frontier · Jacobian Counterexample Construction",
     "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
@@ -327,7 +327,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01",
@@ -376,7 +376,7 @@
       "contentChars": 2747,
       "reasoningChars": 3981,
       "outputChars": 482,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01",
@@ -425,7 +425,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01",
@@ -474,7 +474,7 @@
       "contentChars": 2732,
       "reasoningChars": 4856,
       "outputChars": 314,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01",
@@ -523,7 +523,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01",
@@ -572,7 +572,7 @@
       "contentChars": 2805,
       "reasoningChars": 2700,
       "outputChars": 242,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01",
@@ -621,7 +621,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01",
@@ -670,7 +670,7 @@
       "contentChars": 2662,
       "reasoningChars": 4139,
       "outputChars": 334,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01",
@@ -719,7 +719,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01",
@@ -768,7 +768,7 @@
       "contentChars": 1900,
       "reasoningChars": 877,
       "outputChars": 221,
-      "url": "/Conjecture/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01",
@@ -810,11 +810,11 @@
       "analysis": {
         "code": "verified_counterexample",
         "label": "Verified counterexample (novelty not assessed)",
-        "short": "The offline verifier confirmed the Jacobian, collision, and task constraints.",
-        "detail": "The algebraic certificate passed deterministic verification. Any global novelty or inequivalence requirement remains a separate research question.",
+        "short": "The offline verifier confirmed the Jacobian, collision, and machine-checkable task constraints.",
+        "detail": "The algebraic certificate passed deterministic verification. Global novelty, inequivalence, and P4's exact generic-fiber degree remain separate research requirements.",
         "labelZh": "已验证反例（未验证创新性）",
-        "shortZh": "程序确认雅可比、碰撞点与任务约束均成立。",
-        "detailZh": "该记录通过离线确定性验证。若题目另含全局新颖性要求，其代数不等价性仍需人工研究确认。",
+        "shortZh": "程序确认雅可比、碰撞点与可机器核验的任务约束成立。",
+        "detailZh": "该记录通过离线确定性验证。全局新颖性、代数不等价性，以及 P4 的精确一般纤维度数仍是独立研究要求。",
         "tone": "pass"
       },
       "timing": {
@@ -830,7 +830,7 @@
       "contentChars": 2650,
       "reasoningChars": 0,
       "outputChars": 1035,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01",
@@ -879,7 +879,7 @@
       "contentChars": 1594,
       "reasoningChars": 1572,
       "outputChars": 580,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01",
@@ -928,7 +928,7 @@
       "contentChars": 1606,
       "reasoningChars": 0,
       "outputChars": 708,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01",
@@ -977,7 +977,7 @@
       "contentChars": 2041,
       "reasoningChars": 2953,
       "outputChars": 579,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01",
@@ -1039,7 +1039,7 @@
       "contentChars": 1103,
       "reasoningChars": 0,
       "outputChars": 727,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01",
@@ -1088,7 +1088,7 @@
       "contentChars": 2153,
       "reasoningChars": 2837,
       "outputChars": 674,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01",
@@ -1137,7 +1137,7 @@
       "contentChars": 1437,
       "reasoningChars": 0,
       "outputChars": 733,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01",
@@ -1186,7 +1186,7 @@
       "contentChars": 1821,
       "reasoningChars": 3980,
       "outputChars": 837,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01",
@@ -1235,7 +1235,7 @@
       "contentChars": 1394,
       "reasoningChars": 0,
       "outputChars": 330,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01",
@@ -1284,7 +1284,7 @@
       "contentChars": 1725,
       "reasoningChars": 3898,
       "outputChars": 359,
-      "url": "/Conjecture/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
+      "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_1_hint_01",
@@ -1333,7 +1333,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_1_nohint_01",
@@ -1382,7 +1382,7 @@
       "contentChars": 1271,
       "reasoningChars": 64135,
       "outputChars": 482,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_2_hint_01",
@@ -1431,7 +1431,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_2_nohint_01",
@@ -1480,7 +1480,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_3_hint_01",
@@ -1529,7 +1529,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_3_nohint_01",
@@ -1578,7 +1578,7 @@
       "contentChars": 373,
       "reasoningChars": 167083,
       "outputChars": 349,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_4_hint_01",
@@ -1627,7 +1627,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_4_nohint_01",
@@ -1676,7 +1676,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_5_hint_01",
@@ -1725,7 +1725,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
@@ -1774,7 +1774,7 @@
       "contentChars": 476,
       "reasoningChars": 195178,
       "outputChars": 452,
-      "url": "/Conjecture/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
+      "url": "/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_1_hint_01",
@@ -1823,7 +1823,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01",
@@ -1872,7 +1872,7 @@
       "contentChars": 437,
       "reasoningChars": 0,
       "outputChars": 220,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_2_hint_01",
@@ -1921,7 +1921,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_hint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01",
@@ -1970,7 +1970,7 @@
       "contentChars": 369,
       "reasoningChars": 0,
       "outputChars": 136,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_3_hint_01",
@@ -2019,7 +2019,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_hint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01",
@@ -2068,7 +2068,7 @@
       "contentChars": 507,
       "reasoningChars": 0,
       "outputChars": 174,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_4_hint_01",
@@ -2117,7 +2117,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01",
@@ -2166,7 +2166,7 @@
       "contentChars": 268,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_5_hint_01",
@@ -2215,7 +2215,7 @@
       "contentChars": 493,
       "reasoningChars": 0,
       "outputChars": 208,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01",
@@ -2264,7 +2264,7 @@
       "contentChars": 397,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_1_hint_01",
@@ -2313,7 +2313,7 @@
       "contentChars": 906,
       "reasoningChars": 12398,
       "outputChars": 176,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_1_nohint_01",
@@ -2362,7 +2362,7 @@
       "contentChars": 613,
       "reasoningChars": 24370,
       "outputChars": 189,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_2_hint_01",
@@ -2411,7 +2411,7 @@
       "contentChars": 1377,
       "reasoningChars": 51149,
       "outputChars": 741,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_2_nohint_01",
@@ -2460,7 +2460,7 @@
       "contentChars": 541,
       "reasoningChars": 23431,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_3_hint_01",
@@ -2509,7 +2509,7 @@
       "contentChars": 0,
       "reasoningChars": 0,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_3_nohint_01",
@@ -2558,7 +2558,7 @@
       "contentChars": 544,
       "reasoningChars": 47721,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_4_hint_01",
@@ -2607,7 +2607,7 @@
       "contentChars": 1172,
       "reasoningChars": 78602,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_4_nohint_01",
@@ -2656,7 +2656,7 @@
       "contentChars": 743,
       "reasoningChars": 83995,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_5_hint_01",
@@ -2705,7 +2705,7 @@
       "contentChars": 0,
       "reasoningChars": 52066,
       "outputChars": 0,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
     },
     {
       "key": "kimi-k3--jacobian_conjecture_5_nohint_01",
@@ -2754,7 +2754,7 @@
       "contentChars": 686,
       "reasoningChars": 28716,
       "outputChars": 228,
-      "url": "/Conjecture/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
+      "url": "/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
     }
   ]
 }

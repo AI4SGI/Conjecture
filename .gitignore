@@ -11,3 +11,5 @@ test-results/
 .dev.vars
 *.log
 *.tsbuildinfo
+__pycache__/
+*.pyc

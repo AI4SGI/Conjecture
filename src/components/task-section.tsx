@@ -37,7 +37,7 @@ function constraintLabels(task: Task, english: boolean) {
         P2: ["deg F ≤ 7", "≥ 2-point collision", "Novel up to equivalence"],
         P3: ["deg F < 7", "≥ 2-point collision", "Record target"],
         P4: [
-          "generic fiber degree = 4",
+          "generic fiber degree = 4 target",
           "deg F ≤ 11",
           "4-point fiber witness",
           "Beat known degree 12",
@@ -49,7 +49,7 @@ function constraintLabels(task: Task, english: boolean) {
         P2: ["deg F ≤ 7", "至少二点碰撞", "模等价意义下新颖"],
         P3: ["deg F < 7", "至少二点碰撞", "纪录目标"],
         P4: [
-          "一般纤维度数 = 4",
+          "一般纤维度数 = 4 研究目标",
           "deg F ≤ 11",
           "四点纤维见证",
           "突破已知 12 次",
@@ -302,12 +302,17 @@ export function TaskSection({
             P1–P2 require a genuinely new counterexample. The offline program
             verifies the submitted algebraic certificate but does not decide
             global algebraic inequivalence; novelty is reported separately as{" "}
-            <code>not_machine_verified</code>, never delegated to an LLM judge.
+            <code>not_machine_verified</code>. For P4, it verifies the
+            four-point witness and degree bound, while exact generic fiber
+            degree remains <code>not_machine_verified</code>. Neither boundary
+            is delegated to an LLM judge.
           </>
         ) : (
           <>
             注：P1–P2 的“新反例”要求目前不能由离线程序完全判定；程序只验证代数证书，
-            新颖性状态单独标记为 <code>not_machine_verified</code>，不以语言模型代判。
+            新颖性状态单独标记为 <code>not_machine_verified</code>。P4
+            可核验四点纤维见证与次数上限，但精确的一般纤维度数仍标记为{" "}
+            <code>not_machine_verified</code>；两者均不以语言模型代判。
           </>
         )}
       </p>

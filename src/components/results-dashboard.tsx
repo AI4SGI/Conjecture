@@ -863,8 +863,8 @@ export function ResultsDashboard({
 
         <p className="results-disclaimer">
           {english
-            ? "An OFFLINE PASS means that the submitted algebraic object satisfies the machine-checkable conditions for that task. Global algebraic inequivalence in P1–P2 remains not machine verified. Model text is retained for auditability and is not endorsed by this site."
-            : "“程序通过”表示代数反例满足当前题目的可机检条件；P1–P2 的全局代数不等价性仍标记为未机器验证。原始模型文本仅作可审计记录，不代表本站观点。"}
+            ? "An OFFLINE PASS means that the submitted algebraic object satisfies the machine-checkable conditions for that task. Global algebraic inequivalence in P1–P2 and exact generic fiber degree in P4 remain not machine verified. Model text is retained for auditability and is not endorsed by this site."
+            : "“程序通过”表示代数反例满足当前题目的可机检条件；P1–P2 的全局代数不等价性与 P4 的精确一般纤维度数仍标记为未机器验证。原始模型文本仅作可审计记录，不代表本站观点。"}
         </p>
       </div>
     </section>

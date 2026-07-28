@@ -677,6 +677,14 @@ def build_prompt(task: Mapping[str, Any], include_hint: bool) -> str:
     constraints = task["constraints"]
     dimension = constraints["dimension"]
     min_points = constraints["min_points"]
+    generic_fiber_note = ""
+    if constraints.get("generic_fiber_degree") is not None:
+        generic_fiber_note = (
+            "\n- The exact generic-fiber degree is a research requirement. "
+            "The current\n  deterministic verifier checks the submitted "
+            "finite fiber witness and degree\n  bound, and reports the exact "
+            "generic-fiber condition as not_machine_verified."
+        )
     example = json.dumps(
         syntax_example(dimension, min_points),
         ensure_ascii=False,
@@ -698,7 +706,7 @@ def build_prompt(task: Mapping[str, Any], include_hint: bool) -> str:
 - A polynomial is a sparse list of terms {{"c": COEFFICIENT, "e": [e_1,...,e_d]}}.
   Expression strings are not accepted. Repeated exponent vectors are combined.
 - Supply exactly {dimension} coordinate polynomials and at least {min_points}
-  pairwise-distinct exact points in one common fiber.
+  pairwise-distinct exact points in one common fiber.{generic_fiber_note}
 - The verifier differentiates the submitted map, expands its Jacobian determinant,
   and evaluates all points using exact arithmetic. Natural-language assertions,
   executable code, floating-point evidence, and random tests are ignored.
@@ -773,6 +781,26 @@ def validate_dataset(tasks: Sequence[Mapping[str, Any]]) -> None:
             raise SystemExit(f"{task['id']}: min_points must be at least 2")
         if constraints.get("coefficient_domain") != "algebraic":
             raise SystemExit(f"{task['id']}: coefficient_domain must be algebraic")
+        allowed_constraint_keys = {
+            "dimension",
+            "min_points",
+            "coefficient_domain",
+            "generic_fiber_degree",
+            "known_degree",
+        }
+        if set(constraints) - allowed_constraint_keys:
+            raise SystemExit(f"{task['id']}: unsupported constraint field")
+        if task["id"] == "jacobian_conjecture_4":
+            if constraints.get("generic_fiber_degree") != 4:
+                raise SystemExit(
+                    f"{task['id']}: generic_fiber_degree must equal 4"
+                )
+            if constraints.get("known_degree") != 12:
+                raise SystemExit(f"{task['id']}: known_degree must equal 12")
+        elif "generic_fiber_degree" in constraints or "known_degree" in constraints:
+            raise SystemExit(
+                f"{task['id']}: generic-fiber metadata is only valid for task 4"
+            )
         objective = task.get("objective")
         if not isinstance(objective, dict) or objective.get("kind") not in {
             "counterexample",
@@ -931,6 +959,12 @@ def novelty_fields(task_id: str) -> Tuple[str, str]:
     return "not_required", "not_applicable"
 
 
+def generic_fiber_fields(task_id: str) -> Tuple[str, str]:
+    if task_id == "jacobian_conjecture_4":
+        return "degree_4_required", "not_machine_verified"
+    return "not_required", "not_applicable"
+
+
 def base_evaluation_record(
     task: Mapping[str, Any],
     include_hint: bool,
@@ -938,6 +972,9 @@ def base_evaluation_record(
     args: argparse.Namespace,
 ) -> Dict[str, Any]:
     novelty_requirement, novelty_status = novelty_fields(str(task["id"]))
+    generic_fiber_requirement, generic_fiber_status = generic_fiber_fields(
+        str(task["id"])
+    )
     return {
         "id": task["id"],
         "hint": include_hint,
@@ -958,6 +995,8 @@ def base_evaluation_record(
             "official_pass": False,
             "novelty_requirement": novelty_requirement,
             "novelty_status": novelty_status,
+            "generic_fiber_requirement": generic_fiber_requirement,
+            "generic_fiber_status": generic_fiber_status,
             "error": None,
             "metrics": {},
             "symbolic_work": 0,
@@ -1131,6 +1170,11 @@ def build_summary(
         ),
         "novelty_not_machine_verified": sum(
             record.get("eval", {}).get("novelty_status")
+            == "not_machine_verified"
+            for record in records
+        ),
+        "generic_fiber_not_machine_verified": sum(
+            record.get("eval", {}).get("generic_fiber_status")
             == "not_machine_verified"
             for record in records
         ),
@@ -1415,6 +1459,10 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
         assert task["hint"] in with_hint
         assert BANNED_PROMPT_PHRASE not in without_hint.lower()
         assert BANNED_PROMPT_PHRASE not in with_hint.lower()
+    assert generic_fiber_fields("jacobian_conjecture_4") == (
+        "degree_4_required",
+        "not_machine_verified",
+    )
 
     known = known_threefold_candidate()
     first = verify_candidate(tasks[0], known)

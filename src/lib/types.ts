@@ -36,6 +36,8 @@ export interface EvalResult {
   official_pass: boolean;
   novelty_requirement: string;
   novelty_status: string;
+  generic_fiber_requirement?: string;
+  generic_fiber_status?: string;
   error: string | null;
   metrics: Record<string, unknown>;
   symbolic_work: number;

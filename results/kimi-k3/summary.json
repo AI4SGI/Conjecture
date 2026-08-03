@@ -4,6 +4,7 @@
   "deterministic_passes": 0,
   "deterministic_accuracy": 0.0,
   "novelty_not_machine_verified": 4,
+  "generic_fiber_not_machine_verified": 2,
   "task_stats": {
     "jacobian_conjecture_1": {
       "nohint": {
@@ -67,14 +68,14 @@
     }
   },
   "usage_totals": {
-    "prompt_tokens": 7283,
-    "completion_tokens": 97502,
-    "reasoning_tokens": 79320,
-    "total_tokens": 104785
+    "prompt_tokens": 8656,
+    "completion_tokens": 122615,
+    "reasoning_tokens": 121010,
+    "total_tokens": 131271
   },
   "timing": {
-    "wall_seconds": 2705.017748,
-    "sum_inference_seconds": 12702.334338,
-    "sum_verification_seconds": 2.349508
+    "wall_seconds": 639.198601,
+    "sum_inference_seconds": 4537.280707,
+    "sum_verification_seconds": 20.431379
   }
 }

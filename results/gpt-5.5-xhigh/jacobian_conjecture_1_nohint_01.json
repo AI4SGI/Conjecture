@@ -6,10 +6,10 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
-  "output": "{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would constitute a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open; no valid counterexample is known.\"\n}",
-  "content": "A valid certificate of the requested form would be a counterexample to the complex Jacobian conjecture in dimension 3, which is a major open problem. I cannot construct such a counterexample.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would constitute a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open; no valid counterexample is known.\"\n}",
+  "output": "{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid counterexample would disprove the open Jacobian conjecture in dimension 3; no such counterexample is known.\"\n}",
+  "content": "I can’t construct such a counterexample: it would disprove the Jacobian conjecture in dimension 3, which is a famous open problem. Providing a valid certificate with constant nonzero Jacobian determinant and two distinct points in one fiber would constitute a major mathematical breakthrough, so I will not fabricate one.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid counterexample would disprove the open Jacobian conjecture in dimension 3; no such counterexample is known.\"\n}",
   "reasoning_content": "",
   "eval": {
     "certificate_parsed": true,
@@ -18,18 +18,20 @@
     "official_pass": false,
     "novelty_requirement": "required",
     "novelty_status": "not_machine_verified",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
     "error": "certificate has unsupported keys: ['reason']",
     "metrics": {},
     "symbolic_work": 0
   },
   "timing": {
-    "inference_seconds": 28.629496,
-    "verification_seconds": 0.105808
+    "inference_seconds": 15.19567,
+    "verification_seconds": 0.120777
   },
   "usage": {
-    "prompt_tokens": 653,
-    "completion_tokens": 1132,
-    "reasoning_tokens": 1024,
-    "total_tokens": 1785
+    "prompt_tokens": 710,
+    "completion_tokens": 629,
+    "reasoning_tokens": 512,
+    "total_tokens": 1339
   }
 }

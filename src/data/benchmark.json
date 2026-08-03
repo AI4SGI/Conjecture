@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-28T11:27:08.673Z",
+  "generatedAt": "2026-08-03T12:39:55.692Z",
   "dataset": {
     "name": "Conjecture Frontier · Jacobian Counterexample Construction",
     "context": "Let \\(F=(F_1,\\ldots,F_d):\\mathbb{C}^d\\to\\mathbb{C}^d\\) be a polynomial map. The statement under investigation asserts that if \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) is constant, then \\(F\\) is injective and hence admits a polynomial inverse. A counterexample must satisfy \\(\\det J_F\\in\\mathbb{C}^{\\times}\\) while admitting distinct points \\(p\\ne q\\) with \\(F(p)=F(q)\\).",
@@ -156,20 +156,20 @@
   },
   "aggregate": {
     "records": 50,
-    "officialPasses": 1,
-    "mathValid": 2,
-    "parsed": 26,
-    "apiErrors": 17,
-    "passRate": 0.02,
-    "parseRate": 0.52,
-    "mathValidRate": 0.04,
-    "inferenceSeconds": 350580.1913170001,
-    "verificationSeconds": 17.901997,
+    "officialPasses": 0,
+    "mathValid": 0,
+    "parsed": 30,
+    "apiErrors": 0,
+    "passRate": 0,
+    "parseRate": 0.6,
+    "mathValidRate": 0,
+    "inferenceSeconds": 24766.690268000002,
+    "verificationSeconds": 55.60571599999999,
     "usage": {
-      "prompt_tokens": 26301,
-      "completion_tokens": 619298,
-      "reasoning_tokens": 568674,
-      "total_tokens": 645599
+      "prompt_tokens": 46485,
+      "completion_tokens": 1282921,
+      "reasoning_tokens": 945242,
+      "total_tokens": 1329406
     }
   },
   "models": [
@@ -181,17 +181,17 @@
       "officialPasses": 0,
       "mathValid": 0,
       "parsed": 5,
-      "apiErrors": 5,
+      "apiErrors": 0,
       "passRate": 0,
       "parseRate": 0.5,
       "mathValidRate": 0,
-      "inferenceSeconds": 61392.26056699999,
-      "verificationSeconds": 5.098006,
+      "inferenceSeconds": 3690.655753,
+      "verificationSeconds": 2.5775930000000002,
       "usage": {
-        "prompt_tokens": 4913,
-        "completion_tokens": 24615,
+        "prompt_tokens": 12252,
+        "completion_tokens": 327496,
         "reasoning_tokens": 0,
-        "total_tokens": 29528
+        "total_tokens": 339748
       }
     },
     {
@@ -199,20 +199,20 @@
       "label": "Gemini-3.1-Pro-Preview-Thinking",
       "short": "Gemini-3.1-Pro-Preview-Thinking",
       "records": 10,
-      "officialPasses": 1,
-      "mathValid": 2,
-      "parsed": 10,
+      "officialPasses": 0,
+      "mathValid": 0,
+      "parsed": 9,
       "apiErrors": 0,
-      "passRate": 0.1,
-      "parseRate": 1,
-      "mathValidRate": 0.2,
-      "inferenceSeconds": 3298.9140799999996,
-      "verificationSeconds": 8.232398,
+      "passRate": 0,
+      "parseRate": 0.9,
+      "mathValidRate": 0,
+      "inferenceSeconds": 3024.278223,
+      "verificationSeconds": 5.907204,
       "usage": {
-        "prompt_tokens": 8100,
-        "completion_tokens": 352437,
-        "reasoning_tokens": 346057,
-        "total_tokens": 360537
+        "prompt_tokens": 8805,
+        "completion_tokens": 352718,
+        "reasoning_tokens": 346459,
+        "total_tokens": 361523
       }
     },
     {
@@ -223,17 +223,17 @@
       "officialPasses": 0,
       "mathValid": 0,
       "parsed": 3,
-      "apiErrors": 7,
+      "apiErrors": 0,
       "passRate": 0,
       "parseRate": 0.3,
       "mathValidRate": 0,
-      "inferenceSeconds": 252122.22808600002,
-      "verificationSeconds": 1.795669,
+      "inferenceSeconds": 7850.814091000001,
+      "verificationSeconds": 25.967649,
       "usage": {
-        "prompt_tokens": 1931,
-        "completion_tokens": 110687,
-        "reasoning_tokens": 110176,
-        "total_tokens": 112618
+        "prompt_tokens": 8393,
+        "completion_tokens": 351576,
+        "reasoning_tokens": 350810,
+        "total_tokens": 359969
       }
     },
     {
@@ -243,18 +243,18 @@
       "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
-      "parsed": 4,
-      "apiErrors": 4,
+      "parsed": 6,
+      "apiErrors": 0,
       "passRate": 0,
-      "parseRate": 0.4,
+      "parseRate": 0.6,
       "mathValidRate": 0,
-      "inferenceSeconds": 21064.454246,
-      "verificationSeconds": 0.426416,
+      "inferenceSeconds": 5663.661494000001,
+      "verificationSeconds": 0.7218910000000001,
       "usage": {
-        "prompt_tokens": 4074,
-        "completion_tokens": 34057,
-        "reasoning_tokens": 33121,
-        "total_tokens": 38131
+        "prompt_tokens": 8379,
+        "completion_tokens": 128516,
+        "reasoning_tokens": 126963,
+        "total_tokens": 136895
       }
     },
     {
@@ -264,18 +264,18 @@
       "records": 10,
       "officialPasses": 0,
       "mathValid": 0,
-      "parsed": 4,
-      "apiErrors": 1,
+      "parsed": 7,
+      "apiErrors": 0,
       "passRate": 0,
-      "parseRate": 0.4,
+      "parseRate": 0.7,
       "mathValidRate": 0,
-      "inferenceSeconds": 12702.334337999999,
-      "verificationSeconds": 2.3495079999999997,
+      "inferenceSeconds": 4537.280707,
+      "verificationSeconds": 20.431379000000003,
       "usage": {
-        "prompt_tokens": 7283,
-        "completion_tokens": 97502,
-        "reasoning_tokens": 79320,
-        "total_tokens": 104785
+        "prompt_tokens": 8656,
+        "completion_tokens": 122615,
+        "reasoning_tokens": 121010,
+        "total_tokens": 131271
       }
     }
   ],
@@ -291,7 +291,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": false,
@@ -300,32 +300,34 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321118300590258268d9d6y6roPKZa)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 12205.467795,
-        "verification_seconds": 0
+        "inference_seconds": 731.538639,
+        "verification_seconds": 0.000006
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 1335,
+        "completion_tokens": 65536,
+        "reasoning_tokens": 0,
+        "total_tokens": 66871
       },
       "contentChars": 0,
-      "reasoningChars": 0,
+      "reasoningChars": 52539,
       "outputChars": 0,
       "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_hint_01.json"
     },
@@ -340,7 +342,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -349,300 +351,8 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "the submitted points do not have a common image",
-        "metrics": {},
-        "symbolic_work": 4
-      },
-      "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
-        "tone": "math"
-      },
-      "timing": {
-        "inference_seconds": 83.539582,
-        "verification_seconds": 1.086028
-      },
-      "usage": {
-        "prompt_tokens": 968,
-        "completion_tokens": 5787,
-        "reasoning_tokens": 0,
-        "total_tokens": 6755
-      },
-      "contentChars": 2747,
-      "reasoningChars": 3981,
-      "outputChars": 482,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01",
-      "id": "jacobian_conjecture_2",
-      "taskKey": "P2",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321118879056078268d9d6IgNhlKiX)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 12205.766857,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01",
-      "id": "jacobian_conjecture_2",
-      "taskKey": "P2",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": true,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
-        "error": "the submitted points do not have a common image",
-        "metrics": {},
-        "symbolic_work": 4
-      },
-      "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
-        "tone": "math"
-      },
-      "timing": {
-        "inference_seconds": 87.260045,
-        "verification_seconds": 1.002742
-      },
-      "usage": {
-        "prompt_tokens": 986,
-        "completion_tokens": 6144,
-        "reasoning_tokens": 0,
-        "total_tokens": 7130
-      },
-      "contentChars": 2732,
-      "reasoningChars": 4856,
-      "outputChars": 314,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01",
-      "id": "jacobian_conjecture_3",
-      "taskKey": "P3",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321116720054198268d9d6ICm76p54)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 12205.377207,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01",
-      "id": "jacobian_conjecture_3",
-      "taskKey": "P3",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": true,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "the submitted points do not have a common image",
-        "metrics": {},
-        "symbolic_work": 4
-      },
-      "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
-        "tone": "math"
-      },
-      "timing": {
-        "inference_seconds": 74.310885,
-        "verification_seconds": 1.011618
-      },
-      "usage": {
-        "prompt_tokens": 986,
-        "completion_tokens": 4977,
-        "reasoning_tokens": 0,
-        "total_tokens": 5963
-      },
-      "contentChars": 2805,
-      "reasoningChars": 2700,
-      "outputChars": 242,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01",
-      "id": "jacobian_conjecture_4",
-      "taskKey": "P4",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321116718199128268d9d6OctIGfbu)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 12205.30411,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
-    },
-    {
-      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01",
-      "id": "jacobian_conjecture_4",
-      "taskKey": "P4",
-      "model": "claude-opus-4-8-thinking",
-      "modelLabel": "Claude-Opus-4.8-Thinking",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": true,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
@@ -658,18 +368,324 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 76.94978,
-        "verification_seconds": 0.970005
+        "inference_seconds": 67.663912,
+        "verification_seconds": 0.137378
       },
       "usage": {
-        "prompt_tokens": 1063,
-        "completion_tokens": 5582,
+        "prompt_tokens": 1044,
+        "completion_tokens": 4856,
         "reasoning_tokens": 0,
-        "total_tokens": 6645
+        "total_tokens": 5900
       },
-      "contentChars": 2662,
-      "reasoningChars": 4139,
-      "outputChars": 334,
+      "contentChars": 2326,
+      "reasoningChars": 2878,
+      "outputChars": 502,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 726.510782,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 1378,
+        "completion_tokens": 65536,
+        "reasoning_tokens": 0,
+        "total_tokens": 66914
+      },
+      "contentChars": 0,
+      "reasoningChars": 57481,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "collision points must be pairwise distinct",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "analysis": {
+        "code": "duplicate_points",
+        "label": "False counterexample: collision points are not distinct",
+        "short": "The claimed collision repeats an input point and cannot establish non-injectivity.",
+        "detail": "A counterexample certificate requires at least two pairwise-distinct algebraic points in one fiber.",
+        "labelZh": "错误反例：碰撞点不互异",
+        "shortZh": "所谓碰撞使用了重复点，无法证明映射不是单射。",
+        "detailZh": "反例证书要求至少两个两两不同的代数点位于同一纤维。",
+        "tone": "math"
+      },
+      "timing": {
+        "inference_seconds": 62.697947,
+        "verification_seconds": 0.114762
+      },
+      "usage": {
+        "prompt_tokens": 1098,
+        "completion_tokens": 4736,
+        "reasoning_tokens": 0,
+        "total_tokens": 5834
+      },
+      "contentChars": 2366,
+      "reasoningChars": 3052,
+      "outputChars": 314,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 347.008828,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 1287,
+        "completion_tokens": 32768,
+        "reasoning_tokens": 0,
+        "total_tokens": 34055
+      },
+      "contentChars": 0,
+      "reasoningChars": 30069,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 54.78467,
+        "verification_seconds": 0.119357
+      },
+      "usage": {
+        "prompt_tokens": 1127,
+        "completion_tokens": 4018,
+        "reasoning_tokens": 0,
+        "total_tokens": 5145
+      },
+      "contentChars": 2487,
+      "reasoningChars": 2539,
+      "outputChars": 319,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_3_nohint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 695.717463,
+        "verification_seconds": 0.000008
+      },
+      "usage": {
+        "prompt_tokens": 1528,
+        "completion_tokens": 65536,
+        "reasoning_tokens": 0,
+        "total_tokens": 67064
+      },
+      "contentChars": 0,
+      "reasoningChars": 61239,
+      "outputChars": 0,
+      "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_hint_01.json"
+    },
+    {
+      "key": "claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01",
+      "id": "jacobian_conjecture_4",
+      "taskKey": "P4",
+      "model": "claude-opus-4-8-thinking",
+      "modelLabel": "Claude-Opus-4.8-Thinking",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "Jacobian determinant is not a nonzero constant",
+        "metrics": {},
+        "symbolic_work": 4
+      },
+      "analysis": {
+        "code": "jacobian_failure",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "tone": "math"
+      },
+      "timing": {
+        "inference_seconds": 197.259163,
+        "verification_seconds": 2.070409
+      },
+      "usage": {
+        "prompt_tokens": 1318,
+        "completion_tokens": 15441,
+        "reasoning_tokens": 0,
+        "total_tokens": 16759
+      },
+      "contentChars": 1458,
+      "reasoningChars": 15758,
+      "outputChars": 366,
       "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
@@ -683,7 +699,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": false,
@@ -692,32 +708,34 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'bad response status code 504 (request id: 202607241321128279964668268d9d6d2xbUli0)', 'type': 'bad_response_status_code', 'param': '', 'code': None}}",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 12206.687831,
-        "verification_seconds": 0
+        "inference_seconds": 758.30573,
+        "verification_seconds": 0.000006
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 1151,
+        "completion_tokens": 65536,
+        "reasoning_tokens": 0,
+        "total_tokens": 66687
       },
       "contentChars": 0,
-      "reasoningChars": 0,
+      "reasoningChars": 62167,
       "outputChars": 0,
       "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_hint_01.json"
     },
@@ -732,7 +750,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -741,33 +759,35 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "the submitted points do not have a common image",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
         "symbolic_work": 2
       },
       "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "code": "jacobian_failure",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 41.596475,
-        "verification_seconds": 1.027613
+        "inference_seconds": 49.168619,
+        "verification_seconds": 0.135653
       },
       "usage": {
-        "prompt_tokens": 910,
-        "completion_tokens": 2125,
+        "prompt_tokens": 986,
+        "completion_tokens": 3533,
         "reasoning_tokens": 0,
-        "total_tokens": 3035
+        "total_tokens": 4519
       },
-      "contentChars": 1900,
-      "reasoningChars": 877,
-      "outputChars": 221,
+      "contentChars": 2349,
+      "reasoningChars": 1980,
+      "outputChars": 196,
       "url": "/data/records/claude-opus-4-8-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
@@ -781,55 +801,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
-        "math_valid": true,
-        "objective_pass": true,
-        "official_pass": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": null,
-        "metrics": {
-          "dimension": 3,
-          "component_degrees": [
-            8,
-            7,
-            5
-          ],
-          "max_component_degree": 8,
-          "total_monomials": 24,
-          "point_count": 3,
-          "field_degree": 1,
-          "coefficient_domain": "Q",
-          "jacobian_determinant": -2
-        },
-        "symbolic_work": 507
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "Jacobian determinant is not a nonzero constant",
+        "metrics": {},
+        "symbolic_work": 323
       },
       "analysis": {
-        "code": "verified_counterexample",
-        "label": "Verified counterexample (novelty not assessed)",
-        "short": "The offline verifier confirmed the Jacobian, collision, and machine-checkable task constraints.",
-        "detail": "The algebraic certificate passed deterministic verification. Global novelty, inequivalence, and P4's exact generic-fiber degree remain separate research requirements.",
-        "labelZh": "已验证反例（未验证创新性）",
-        "shortZh": "程序确认雅可比、碰撞点与可机器核验的任务约束成立。",
-        "detailZh": "该记录通过离线确定性验证。全局新颖性、代数不等价性，以及 P4 的精确一般纤维度数仍是独立研究要求。",
-        "tone": "pass"
+        "code": "jacobian_failure",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "tone": "math"
       },
       "timing": {
-        "inference_seconds": 424.833962,
-        "verification_seconds": 0.819514
+        "inference_seconds": 316.862419,
+        "verification_seconds": 0.158898
       },
       "usage": {
-        "prompt_tokens": 921,
-        "completion_tokens": 50364,
-        "reasoning_tokens": 49110,
-        "total_tokens": 51285
+        "prompt_tokens": 947,
+        "completion_tokens": 44386,
+        "reasoning_tokens": 43618,
+        "total_tokens": 45333
       },
-      "contentChars": 2650,
+      "contentChars": 1809,
       "reasoningChars": 0,
-      "outputChars": 1035,
+      "outputChars": 694,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_hint_01.json"
     },
     {
@@ -843,7 +852,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -852,33 +861,35 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "Jacobian determinant is not a nonzero constant",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
         "metrics": {},
-        "symbolic_work": 8
+        "symbolic_work": 61
       },
       "analysis": {
-        "code": "jacobian_failure",
-        "label": "False counterexample: Jacobian condition failed",
-        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
-        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
-        "labelZh": "错误反例：雅可比条件失败",
-        "shortZh": "候选映射的雅可比行列式不是非零常数。",
-        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
+        "code": "collision_failure",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 196.679575,
-        "verification_seconds": 1.048406
+        "inference_seconds": 242.059226,
+        "verification_seconds": 0.199468
       },
       "usage": {
-        "prompt_tokens": 705,
-        "completion_tokens": 30321,
-        "reasoning_tokens": 29814,
-        "total_tokens": 31026
+        "prompt_tokens": 750,
+        "completion_tokens": 28433,
+        "reasoning_tokens": 27751,
+        "total_tokens": 29183
       },
-      "contentChars": 1594,
-      "reasoningChars": 1572,
-      "outputChars": 580,
+      "contentChars": 2161,
+      "reasoningChars": 0,
+      "outputChars": 1061,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_1_nohint_01.json"
     },
     {
@@ -892,7 +903,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -901,9 +912,11 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
-        "symbolic_work": 243
+        "symbolic_work": 246
       },
       "analysis": {
         "code": "jacobian_failure",
@@ -916,18 +929,18 @@
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 659.412201,
-        "verification_seconds": 0.946624
+        "inference_seconds": 404.854366,
+        "verification_seconds": 0.134161
       },
       "usage": {
-        "prompt_tokens": 945,
-        "completion_tokens": 44284,
-        "reasoning_tokens": 43517,
-        "total_tokens": 45229
+        "prompt_tokens": 991,
+        "completion_tokens": 56245,
+        "reasoning_tokens": 55230,
+        "total_tokens": 57236
       },
-      "contentChars": 1606,
+      "contentChars": 2509,
       "reasoningChars": 0,
-      "outputChars": 708,
+      "outputChars": 1168,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_hint_01.json"
     },
     {
@@ -941,7 +954,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -950,9 +963,11 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
-        "symbolic_work": 8
+        "symbolic_work": 4
       },
       "analysis": {
         "code": "jacobian_failure",
@@ -965,18 +980,18 @@
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 284.032514,
-        "verification_seconds": 0.770062
+        "inference_seconds": 384.295659,
+        "verification_seconds": 0.150571
       },
       "usage": {
-        "prompt_tokens": 718,
-        "completion_tokens": 30101,
-        "reasoning_tokens": 29524,
-        "total_tokens": 30819
+        "prompt_tokens": 796,
+        "completion_tokens": 17698,
+        "reasoning_tokens": 17099,
+        "total_tokens": 18494
       },
-      "contentChars": 2041,
-      "reasoningChars": 2953,
-      "outputChars": 579,
+      "contentChars": 2067,
+      "reasoningChars": 3726,
+      "outputChars": 483,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_2_nohint_01.json"
     },
     {
@@ -990,55 +1005,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
-        "math_valid": true,
+        "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": null,
-        "metrics": {
-          "dimension": 3,
-          "component_degrees": [
-            7,
-            6,
-            4
-          ],
-          "max_component_degree": 7,
-          "total_monomials": 16,
-          "point_count": 2,
-          "field_degree": 1,
-          "coefficient_domain": "Q",
-          "jacobian_determinant": -2
-        },
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "the submitted points do not have a common image",
+        "metrics": {},
         "symbolic_work": 268
       },
       "analysis": {
-        "code": "constraint_miss",
-        "label": "Valid counterexample, but task constraints were missed",
-        "short": "The base certificate is valid, but a degree, fiber-size, or task-specific constraint failed.",
-        "detail": "This is not a false counterexample; the failure occurs at the task-objective layer. See metrics for the measured constraint.",
-        "labelZh": "反例有效，但未满足任务约束",
-        "shortZh": "基础反例证书成立，但次数上限、纤维大小或本题专项指标没有通过。",
-        "detailZh": "这不是伪反例；失败发生在题目目标层。评测详情中的 metrics 给出具体约束测量值。",
-        "tone": "near"
+        "code": "collision_failure",
+        "label": "False counterexample: collision certificate failed",
+        "short": "The submitted points do not share a common image under the candidate map.",
+        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
+        "labelZh": "错误反例：碰撞证书失败",
+        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
+        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
+        "tone": "math"
       },
       "timing": {
-        "inference_seconds": 365.98127,
-        "verification_seconds": 0.764339
+        "inference_seconds": 339.384343,
+        "verification_seconds": 0.143552
       },
       "usage": {
-        "prompt_tokens": 881,
-        "completion_tokens": 44595,
-        "reasoning_tokens": 44024,
-        "total_tokens": 45476
+        "prompt_tokens": 935,
+        "completion_tokens": 46158,
+        "reasoning_tokens": 45383,
+        "total_tokens": 47093
       },
-      "contentChars": 1103,
+      "contentChars": 1757,
       "reasoningChars": 0,
-      "outputChars": 727,
+      "outputChars": 752,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_hint_01.json"
     },
     {
@@ -1052,7 +1056,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1061,9 +1065,11 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "the submitted points do not have a common image",
         "metrics": {},
-        "symbolic_work": 8
+        "symbolic_work": 4
       },
       "analysis": {
         "code": "collision_failure",
@@ -1076,18 +1082,18 @@
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 244.922659,
-        "verification_seconds": 0.786186
+        "inference_seconds": 268.001054,
+        "verification_seconds": 4.535323
       },
       "usage": {
-        "prompt_tokens": 718,
-        "completion_tokens": 27317,
-        "reasoning_tokens": 26745,
-        "total_tokens": 28035
+        "prompt_tokens": 808,
+        "completion_tokens": 32471,
+        "reasoning_tokens": 32100,
+        "total_tokens": 33279
       },
-      "contentChars": 2153,
-      "reasoningChars": 2837,
-      "outputChars": 674,
+      "contentChars": 1236,
+      "reasoningChars": 2490,
+      "outputChars": 619,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_3_nohint_01.json"
     },
     {
@@ -1101,7 +1107,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1110,6 +1116,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 268
@@ -1125,18 +1133,18 @@
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 330.923862,
-        "verification_seconds": 0.8396
+        "inference_seconds": 314.214213,
+        "verification_seconds": 0.182662
       },
       "usage": {
-        "prompt_tokens": 959,
-        "completion_tokens": 39222,
-        "reasoning_tokens": 38568,
-        "total_tokens": 40181
+        "prompt_tokens": 1110,
+        "completion_tokens": 41250,
+        "reasoning_tokens": 40284,
+        "total_tokens": 42360
       },
-      "contentChars": 1437,
+      "contentChars": 2816,
       "reasoningChars": 0,
-      "outputChars": 733,
+      "outputChars": 1992,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_hint_01.json"
     },
     {
@@ -1150,42 +1158,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": true,
+        "certificate_parsed": false,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "the submitted points do not have a common image",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
-        "symbolic_work": 73
+        "symbolic_work": 0
       },
       "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
-        "tone": "math"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 237.729175,
-        "verification_seconds": 0.788264
+        "inference_seconds": 282.987315,
+        "verification_seconds": 0.000007
       },
       "usage": {
-        "prompt_tokens": 791,
-        "completion_tokens": 26097,
-        "reasoning_tokens": 25412,
-        "total_tokens": 26888
+        "prompt_tokens": 951,
+        "completion_tokens": 30669,
+        "reasoning_tokens": 30333,
+        "total_tokens": 31620
       },
-      "contentChars": 1821,
-      "reasoningChars": 3980,
-      "outputChars": 837,
+      "contentChars": 864,
+      "reasoningChars": 3911,
+      "outputChars": 0,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_4_nohint_01.json"
     },
     {
@@ -1199,7 +1209,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1208,6 +1218,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "the submitted points do not have a common image",
         "metrics": {},
         "symbolic_work": 2
@@ -1223,16 +1235,16 @@
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 313.361713,
-        "verification_seconds": 0.735645
+        "inference_seconds": 287.552158,
+        "verification_seconds": 0.184014
       },
       "usage": {
-        "prompt_tokens": 813,
-        "completion_tokens": 35588,
-        "reasoning_tokens": 35227,
-        "total_tokens": 36401
+        "prompt_tokens": 822,
+        "completion_tokens": 34542,
+        "reasoning_tokens": 34209,
+        "total_tokens": 35364
       },
-      "contentChars": 1394,
+      "contentChars": 1268,
       "reasoningChars": 0,
       "outputChars": 330,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_hint_01.json"
@@ -1248,7 +1260,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1257,33 +1269,35 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "collision points must be pairwise distinct",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "Jacobian determinant is not a nonzero constant",
         "metrics": {},
         "symbolic_work": 2
       },
       "analysis": {
-        "code": "duplicate_points",
-        "label": "False counterexample: collision points are not distinct",
-        "short": "The claimed collision repeats an input point and cannot establish non-injectivity.",
-        "detail": "A counterexample certificate requires at least two pairwise-distinct algebraic points in one fiber.",
-        "labelZh": "错误反例：碰撞点不互异",
-        "shortZh": "所谓碰撞使用了重复点，无法证明映射不是单射。",
-        "detailZh": "反例证书要求至少两个两两不同的代数点位于同一纤维。",
+        "code": "jacobian_failure",
+        "label": "False counterexample: Jacobian condition failed",
+        "short": "The candidate map does not have a nonzero constant Jacobian determinant.",
+        "detail": "The candidate violates the local nonsingularity premise and therefore cannot be a counterexample.",
+        "labelZh": "错误反例：雅可比条件失败",
+        "shortZh": "候选映射的雅可比行列式不是非零常数。",
+        "detailZh": "该候选不满足问题的局部非奇异性前提，因此不能构成反例。",
         "tone": "math"
       },
       "timing": {
-        "inference_seconds": 241.037149,
-        "verification_seconds": 0.733758
+        "inference_seconds": 184.06747,
+        "verification_seconds": 0.218548
       },
       "usage": {
-        "prompt_tokens": 649,
-        "completion_tokens": 24548,
-        "reasoning_tokens": 24116,
-        "total_tokens": 25197
+        "prompt_tokens": 695,
+        "completion_tokens": 20866,
+        "reasoning_tokens": 20452,
+        "total_tokens": 21561
       },
-      "contentChars": 1725,
-      "reasoningChars": 3898,
-      "outputChars": 359,
+      "contentChars": 1456,
+      "reasoningChars": 2953,
+      "outputChars": 331,
       "url": "/data/records/gemini-3.1-pro-preview-thinking--jacobian_conjecture_5_nohint_01.json"
     },
     {
@@ -1297,7 +1311,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 32768
       },
       "eval": {
         "certificate_parsed": false,
@@ -1306,32 +1320,34 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "APITimeoutError: Request timed out.",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 31204.21367,
-        "verification_seconds": 0
+        "inference_seconds": 586.64799,
+        "verification_seconds": 0.000006
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 918,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33687
       },
       "contentChars": 0,
-      "reasoningChars": 0,
+      "reasoningChars": 87468,
       "outputChars": 0,
       "url": "/data/records/glm-5.2--jacobian_conjecture_1_hint_01.json"
     },
@@ -1346,7 +1362,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1355,203 +1371,9 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "the submitted points do not have a common image",
-        "metrics": {},
-        "symbolic_work": 4
-      },
-      "analysis": {
-        "code": "collision_failure",
-        "label": "False counterexample: collision certificate failed",
-        "short": "The submitted points do not share a common image under the candidate map.",
-        "detail": "Even if the map has constant Jacobian, this submission does not establish non-injectivity.",
-        "labelZh": "错误反例：碰撞证书失败",
-        "shortZh": "提交的不同点经候选映射后没有得到同一个像。",
-        "detailZh": "即使映射可能满足常雅可比，本次提交也未证明非单射性。",
-        "tone": "math"
-      },
-      "timing": {
-        "inference_seconds": 10720.137768,
-        "verification_seconds": 0.637785
-      },
-      "usage": {
-        "prompt_tokens": 656,
-        "completion_tokens": 17230,
-        "reasoning_tokens": 16892,
-        "total_tokens": 17886
-      },
-      "contentChars": 1271,
-      "reasoningChars": 64135,
-      "outputChars": 482,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_2_hint_01",
-      "id": "jacobian_conjecture_2",
-      "taskKey": "P2",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
-        "error": "APITimeoutError: Request timed out.",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 31204.263136,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_2_nohint_01",
-      "id": "jacobian_conjecture_2",
-      "taskKey": "P2",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
-        "error": "APITimeoutError: Request timed out.",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 31204.205456,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_3_hint_01",
-      "id": "jacobian_conjecture_3",
-      "taskKey": "P3",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "APITimeoutError: Request timed out.",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 31204.180238,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_3_nohint_01",
-      "id": "jacobian_conjecture_3",
-      "taskKey": "P3",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": true,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "certificate has unsupported keys: ['max_degree', 'reason']",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['note']",
         "metrics": {},
         "symbolic_work": 0
       },
@@ -1566,18 +1388,222 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 21845.067974,
-        "verification_seconds": 0.56675
+        "inference_seconds": 300.080569,
+        "verification_seconds": 0.121051
       },
       "usage": {
-        "prompt_tokens": 669,
-        "completion_tokens": 43365,
-        "reasoning_tokens": 43287,
-        "total_tokens": 44034
+        "prompt_tokens": 713,
+        "completion_tokens": 11164,
+        "reasoning_tokens": 10661,
+        "total_tokens": 11877
       },
-      "contentChars": 373,
-      "reasoningChars": 167083,
-      "outputChars": 349,
+      "contentChars": 1930,
+      "reasoningChars": 43164,
+      "outputChars": 383,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_1_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_2_hint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 1165.235679,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 957,
+        "completion_tokens": 65537,
+        "reasoning_tokens": 65536,
+        "total_tokens": 66494
+      },
+      "contentChars": 0,
+      "reasoningChars": 147449,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 767.624956,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 753,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33522
+      },
+      "contentChars": 0,
+      "reasoningChars": 129217,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_2_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_3_hint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 777.116114,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 892,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33661
+      },
+      "contentChars": 0,
+      "reasoningChars": 110491,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_3_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_3_nohint_01",
+      "id": "jacobian_conjecture_3",
+      "taskKey": "P3",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason', 'valid']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 1188.922095,
+        "verification_seconds": 25.7314
+      },
+      "usage": {
+        "prompt_tokens": 766,
+        "completion_tokens": 44310,
+        "reasoning_tokens": 44168,
+        "total_tokens": 45076
+      },
+      "contentChars": 581,
+      "reasoningChars": 161857,
+      "outputChars": 187,
       "url": "/data/records/glm-5.2--jacobian_conjecture_3_nohint_01.json"
     },
     {
@@ -1591,7 +1617,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 32768
       },
       "eval": {
         "certificate_parsed": false,
@@ -1600,32 +1626,34 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "APITimeoutError: Request timed out.",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 31204.20035,
-        "verification_seconds": 0
+        "inference_seconds": 682.178824,
+        "verification_seconds": 0.000007
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 1048,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33817
       },
       "contentChars": 0,
-      "reasoningChars": 0,
+      "reasoningChars": 87077,
       "outputChars": 0,
       "url": "/data/records/glm-5.2--jacobian_conjecture_4_hint_01.json"
     },
@@ -1640,105 +1668,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "APITimeoutError: Request timed out.",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 31204.230485,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_5_hint_01",
-      "id": "jacobian_conjecture_5",
-      "taskKey": "P5",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "APITimeoutError: Request timed out.",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
-      },
-      "timing": {
-        "inference_seconds": 31205.341215,
-        "verification_seconds": 0
-      },
-      "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
-      },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
-    },
-    {
-      "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
-      "id": "jacobian_conjecture_5",
-      "taskKey": "P5",
-      "model": "glm-5.2",
-      "modelLabel": "GLM-5.2",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1747,6 +1677,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
@@ -1762,18 +1694,120 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 1126.387794,
-        "verification_seconds": 0.591134
+        "inference_seconds": 951.438264,
+        "verification_seconds": 0.115151
       },
       "usage": {
-        "prompt_tokens": 606,
-        "completion_tokens": 50092,
-        "reasoning_tokens": 49997,
-        "total_tokens": 50698
+        "prompt_tokens": 895,
+        "completion_tokens": 33951,
+        "reasoning_tokens": 33837,
+        "total_tokens": 34846
       },
-      "contentChars": 476,
-      "reasoningChars": 195178,
-      "outputChars": 452,
+      "contentChars": 544,
+      "reasoningChars": 136774,
+      "outputChars": 520,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_4_nohint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_5_hint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 678.207121,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 788,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33557
+      },
+      "contentChars": 0,
+      "reasoningChars": 94499,
+      "outputChars": 0,
+      "url": "/data/records/glm-5.2--jacobian_conjecture_5_hint_01.json"
+    },
+    {
+      "key": "glm-5.2--jacobian_conjecture_5_nohint_01",
+      "id": "jacobian_conjecture_5",
+      "taskKey": "P5",
+      "model": "glm-5.2",
+      "modelLabel": "GLM-5.2",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 753.362479,
+        "verification_seconds": 0.000006
+      },
+      "usage": {
+        "prompt_tokens": 663,
+        "completion_tokens": 32769,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33432
+      },
+      "contentChars": 0,
+      "reasoningChars": 122810,
+      "outputChars": 0,
       "url": "/data/records/glm-5.2--jacobian_conjecture_5_nohint_01.json"
     },
     {
@@ -1787,7 +1821,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": false,
@@ -1796,31 +1830,33 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "APITimeoutError: Request timed out.",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 12203.165648,
-        "verification_seconds": 0
+        "inference_seconds": 2239.890199,
+        "verification_seconds": 0.000008
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 912,
+        "completion_tokens": 27525,
+        "reasoning_tokens": 27131,
+        "total_tokens": 28437
       },
-      "contentChars": 0,
+      "contentChars": 348,
       "reasoningChars": 0,
       "outputChars": 0,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_hint_01.json"
@@ -1836,7 +1872,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1845,6 +1881,8 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
@@ -1860,18 +1898,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 28.629496,
-        "verification_seconds": 0.105808
+        "inference_seconds": 15.19567,
+        "verification_seconds": 0.120777
       },
       "usage": {
-        "prompt_tokens": 653,
-        "completion_tokens": 1132,
-        "reasoning_tokens": 1024,
-        "total_tokens": 1785
+        "prompt_tokens": 710,
+        "completion_tokens": 629,
+        "reasoning_tokens": 512,
+        "total_tokens": 1339
       },
-      "contentChars": 437,
+      "contentChars": 508,
       "reasoningChars": 0,
-      "outputChars": 220,
+      "outputChars": 161,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_1_nohint_01.json"
     },
     {
@@ -1885,7 +1923,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 32768
       },
       "eval": {
         "certificate_parsed": false,
@@ -1894,29 +1932,31 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 2703.433697,
-        "verification_seconds": 0
+        "inference_seconds": 539.63488,
+        "verification_seconds": 0.000006
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 954,
+        "completion_tokens": 32768,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33722
       },
       "contentChars": 0,
       "reasoningChars": 0,
@@ -1934,7 +1974,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -1943,6 +1983,8 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
@@ -1958,18 +2000,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 76.462227,
-        "verification_seconds": 0.097221
+        "inference_seconds": 117.219728,
+        "verification_seconds": 0.116548
       },
       "usage": {
-        "prompt_tokens": 666,
-        "completion_tokens": 3185,
-        "reasoning_tokens": 3072,
-        "total_tokens": 3851
+        "prompt_tokens": 752,
+        "completion_tokens": 5813,
+        "reasoning_tokens": 5632,
+        "total_tokens": 6565
       },
-      "contentChars": 369,
+      "contentChars": 499,
       "reasoningChars": 0,
-      "outputChars": 136,
+      "outputChars": 203,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_2_nohint_01.json"
     },
     {
@@ -1983,7 +2025,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 32768
       },
       "eval": {
         "certificate_parsed": false,
@@ -1992,29 +2034,31 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 2703.494911,
-        "verification_seconds": 0
+        "inference_seconds": 503.933075,
+        "verification_seconds": 0.000007
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 892,
+        "completion_tokens": 32768,
+        "reasoning_tokens": 32768,
+        "total_tokens": 33660
       },
       "contentChars": 0,
       "reasoningChars": 0,
@@ -2032,42 +2076,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": true,
+        "certificate_parsed": false,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "certificate has unsupported keys: ['reason']",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "format_error",
-        "label": "Counterexample format does not follow the evaluation protocol",
-        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
-        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
-        "labelZh": "反例格式不符合评测协议",
-        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
-        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 126.897956,
-        "verification_seconds": 0.10496
+        "inference_seconds": 27.189604,
+        "verification_seconds": 0.00001
       },
       "usage": {
-        "prompt_tokens": 666,
-        "completion_tokens": 5135,
-        "reasoning_tokens": 4968,
-        "total_tokens": 5801
+        "prompt_tokens": 766,
+        "completion_tokens": 1093,
+        "reasoning_tokens": 1024,
+        "total_tokens": 1859
       },
-      "contentChars": 507,
+      "contentChars": 245,
       "reasoningChars": 0,
-      "outputChars": 174,
+      "outputChars": 0,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_3_nohint_01.json"
     },
     {
@@ -2081,42 +2127,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": false,
+        "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 2703.198769,
-        "verification_seconds": 0
+        "inference_seconds": 1799.304431,
+        "verification_seconds": 0.140151
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 1051,
+        "completion_tokens": 2166,
+        "reasoning_tokens": 2048,
+        "total_tokens": 3217
       },
-      "contentChars": 0,
+      "contentChars": 395,
       "reasoningChars": 0,
-      "outputChars": 0,
+      "outputChars": 371,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_hint_01.json"
     },
     {
@@ -2130,42 +2178,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": false,
+        "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "missing_certificate",
-        "label": "No evaluable counterexample submitted",
-        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
-        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
-        "labelZh": "未提交可评测反例",
-        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 66.770117,
-        "verification_seconds": 0.00001
+        "inference_seconds": 17.699801,
+        "verification_seconds": 0.114724
       },
       "usage": {
-        "prompt_tokens": 729,
-        "completion_tokens": 2645,
-        "reasoning_tokens": 2560,
-        "total_tokens": 3374
+        "prompt_tokens": 896,
+        "completion_tokens": 679,
+        "reasoning_tokens": 512,
+        "total_tokens": 1575
       },
-      "contentChars": 268,
+      "contentChars": 663,
       "reasoningChars": 0,
-      "outputChars": 0,
+      "outputChars": 178,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_4_nohint_01.json"
     },
     {
@@ -2179,7 +2229,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -2188,6 +2238,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
@@ -2203,18 +2255,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 436.1552,
-        "verification_seconds": 0.118408
+        "inference_seconds": 378.005556,
+        "verification_seconds": 0.115793
       },
       "usage": {
-        "prompt_tokens": 757,
-        "completion_tokens": 21347,
-        "reasoning_tokens": 20985,
-        "total_tokens": 22104
+        "prompt_tokens": 786,
+        "completion_tokens": 23935,
+        "reasoning_tokens": 23544,
+        "total_tokens": 24721
       },
-      "contentChars": 493,
+      "contentChars": 457,
       "reasoningChars": 0,
-      "outputChars": 208,
+      "outputChars": 194,
       "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_hint_01.json"
     },
     {
@@ -2228,64 +2280,17 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "not_required",
-        "novelty_status": "not_applicable",
-        "error": "missing FINAL_CERTIFICATE_JSON:",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "missing_certificate",
-        "label": "No evaluable counterexample submitted",
-        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
-        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
-        "labelZh": "未提交可评测反例",
-        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
-        "tone": "protocol"
-      },
-      "timing": {
-        "inference_seconds": 16.246225,
-        "verification_seconds": 0.000009
-      },
-      "usage": {
-        "prompt_tokens": 603,
-        "completion_tokens": 613,
-        "reasoning_tokens": 512,
-        "total_tokens": 1216
-      },
-      "contentChars": 397,
-      "reasoningChars": 0,
-      "outputChars": 0,
-      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
-    },
-    {
-      "key": "kimi-k3--jacobian_conjecture_1_hint_01",
-      "id": "jacobian_conjecture_1",
-      "taskKey": "P1",
-      "model": "kimi-k3",
-      "modelLabel": "Kimi-K3",
-      "hint": true,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
+        "novelty_requirement": "not_required",
+        "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
@@ -2301,18 +2306,69 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 1951.679316,
-        "verification_seconds": 0.494508
+        "inference_seconds": 25.58855,
+        "verification_seconds": 0.113867
       },
       "usage": {
-        "prompt_tokens": 929,
-        "completion_tokens": 3839,
-        "reasoning_tokens": 3657,
-        "total_tokens": 4768
+        "prompt_tokens": 660,
+        "completion_tokens": 1140,
+        "reasoning_tokens": 1024,
+        "total_tokens": 1800
       },
-      "contentChars": 906,
-      "reasoningChars": 12398,
-      "outputChars": 176,
+      "contentChars": 472,
+      "reasoningChars": 0,
+      "outputChars": 195,
+      "url": "/data/records/gpt-5.5-xhigh--jacobian_conjecture_5_nohint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_1_hint_01",
+      "id": "jacobian_conjecture_1",
+      "taskKey": "P1",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi-K3",
+      "hint": true,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": true,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['evaluations', 'reason']",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 647.811221,
+        "verification_seconds": 0.132042
+      },
+      "usage": {
+        "prompt_tokens": 944,
+        "completion_tokens": 16535,
+        "reasoning_tokens": 16270,
+        "total_tokens": 17479
+      },
+      "contentChars": 889,
+      "reasoningChars": 68349,
+      "outputChars": 159,
       "url": "/data/records/kimi-k3--jacobian_conjecture_1_hint_01.json"
     },
     {
@@ -2326,7 +2382,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -2335,6 +2391,8 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
@@ -2350,18 +2408,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 1099.08567,
-        "verification_seconds": 0.667789
+        "inference_seconds": 46.348055,
+        "verification_seconds": 0.118433
       },
       "usage": {
-        "prompt_tokens": 718,
-        "completion_tokens": 4932,
-        "reasoning_tokens": 4788,
-        "total_tokens": 5650
+        "prompt_tokens": 746,
+        "completion_tokens": 1137,
+        "reasoning_tokens": 1007,
+        "total_tokens": 1883
       },
-      "contentChars": 613,
-      "reasoningChars": 24370,
-      "outputChars": 189,
+      "contentChars": 594,
+      "reasoningChars": 5208,
+      "outputChars": 324,
       "url": "/data/records/kimi-k3--jacobian_conjecture_1_nohint_01.json"
     },
     {
@@ -2375,7 +2433,58 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
+      },
+      "eval": {
+        "certificate_parsed": false,
+        "math_valid": false,
+        "objective_pass": false,
+        "official_pass": false,
+        "novelty_requirement": "required",
+        "novelty_status": "not_machine_verified",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "metrics": {},
+        "symbolic_work": 0
+      },
+      "analysis": {
+        "code": "missing_certificate",
+        "label": "No evaluable counterexample submitted",
+        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
+        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
+        "labelZh": "未提交可评测反例",
+        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
+        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "tone": "protocol"
+      },
+      "timing": {
+        "inference_seconds": 803.989047,
+        "verification_seconds": 0.000007
+      },
+      "usage": {
+        "prompt_tokens": 979,
+        "completion_tokens": 17880,
+        "reasoning_tokens": 17611,
+        "total_tokens": 18859
+      },
+      "contentChars": 755,
+      "reasoningChars": 67221,
+      "outputChars": 0,
+      "url": "/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
+    },
+    {
+      "key": "kimi-k3--jacobian_conjecture_2_nohint_01",
+      "id": "jacobian_conjecture_2",
+      "taskKey": "P2",
+      "model": "kimi-k3",
+      "modelLabel": "Kimi-K3",
+      "hint": false,
+      "repeatIndex": 1,
+      "parameters": {
+        "temperature": 1,
+        "top_p": 0.95,
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -2384,7 +2493,9 @@
         "official_pass": false,
         "novelty_requirement": "required",
         "novelty_status": "not_machine_verified",
-        "error": "certificate has unsupported keys: ['jacobian_determinant_on_line', 'reason', 'reference_line', 'status', 'witness_values']",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['certificate_supplied', 'degree_bound', 'problem', 'status']",
         "metrics": {},
         "symbolic_work": 0
       },
@@ -2399,67 +2510,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 1396.233267,
-        "verification_seconds": 0.410677
+        "inference_seconds": 458.260816,
+        "verification_seconds": 19.663352
       },
       "usage": {
-        "prompt_tokens": 951,
-        "completion_tokens": 12368,
-        "reasoning_tokens": 11921,
-        "total_tokens": 13319
+        "prompt_tokens": 782,
+        "completion_tokens": 13087,
+        "reasoning_tokens": 12919,
+        "total_tokens": 13869
       },
-      "contentChars": 1377,
-      "reasoningChars": 51149,
-      "outputChars": 741,
-      "url": "/data/records/kimi-k3--jacobian_conjecture_2_hint_01.json"
-    },
-    {
-      "key": "kimi-k3--jacobian_conjecture_2_nohint_01",
-      "id": "jacobian_conjecture_2",
-      "taskKey": "P2",
-      "model": "kimi-k3",
-      "modelLabel": "Kimi-K3",
-      "hint": false,
-      "repeatIndex": 1,
-      "parameters": {
-        "temperature": 1,
-        "top_p": 0.95,
-        "max_tokens": 128000
-      },
-      "eval": {
-        "certificate_parsed": false,
-        "math_valid": false,
-        "objective_pass": false,
-        "official_pass": false,
-        "novelty_requirement": "required",
-        "novelty_status": "not_machine_verified",
-        "error": "missing FINAL_CERTIFICATE_JSON:",
-        "metrics": {},
-        "symbolic_work": 0
-      },
-      "analysis": {
-        "code": "missing_certificate",
-        "label": "No evaluable counterexample submitted",
-        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
-        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
-        "labelZh": "未提交可评测反例",
-        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
-        "tone": "protocol"
-      },
-      "timing": {
-        "inference_seconds": 206.295355,
-        "verification_seconds": 0.000008
-      },
-      "usage": {
-        "prompt_tokens": 729,
-        "completion_tokens": 5012,
-        "reasoning_tokens": 4883,
-        "total_tokens": 5741
-      },
-      "contentChars": 541,
-      "reasoningChars": 23431,
-      "outputChars": 0,
+      "contentChars": 676,
+      "reasoningChars": 59591,
+      "outputChars": 186,
       "url": "/data/records/kimi-k3--jacobian_conjecture_2_nohint_01.json"
     },
     {
@@ -2473,42 +2535,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": false,
+        "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason']",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "api_failure",
-        "label": "Model response failure",
-        "short": "The request timed out or the upstream service failed before an evaluable response was produced.",
-        "detail": "This counts toward run reliability, but should be interpreted separately from a model-submitted mathematical error.",
-        "labelZh": "模型响应异常",
-        "shortZh": "请求超时或上游服务返回异常，因此不能据此判断模型的数学能力。",
-        "detailZh": "该记录计入运行完整性统计，但应与模型主动提交的错误答案分开解读。",
-        "tone": "system"
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
+        "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 2705.000296,
-        "verification_seconds": 0
+        "inference_seconds": 265.376275,
+        "verification_seconds": 0.115684
       },
       "usage": {
-        "prompt_tokens": null,
-        "completion_tokens": null,
-        "reasoning_tokens": null,
-        "total_tokens": null
+        "prompt_tokens": 915,
+        "completion_tokens": 8906,
+        "reasoning_tokens": 8643,
+        "total_tokens": 9821
       },
-      "contentChars": 0,
-      "reasoningChars": 0,
-      "outputChars": 0,
+      "contentChars": 745,
+      "reasoningChars": 33604,
+      "outputChars": 163,
       "url": "/data/records/kimi-k3--jacobian_conjecture_3_hint_01.json"
     },
     {
@@ -2522,42 +2586,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": false,
+        "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
+        "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "missing_certificate",
-        "label": "No evaluable counterexample submitted",
-        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
-        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
-        "labelZh": "未提交可评测反例",
-        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 419.575659,
-        "verification_seconds": 0.000009
+        "inference_seconds": 314.530498,
+        "verification_seconds": 0.11343
       },
       "usage": {
-        "prompt_tokens": 729,
-        "completion_tokens": 10504,
-        "reasoning_tokens": 10354,
-        "total_tokens": 11233
+        "prompt_tokens": 796,
+        "completion_tokens": 9448,
+        "reasoning_tokens": 9264,
+        "total_tokens": 10244
       },
-      "contentChars": 544,
-      "reasoningChars": 47721,
-      "outputChars": 0,
+      "contentChars": 801,
+      "reasoningChars": 44643,
+      "outputChars": 262,
       "url": "/data/records/kimi-k3--jacobian_conjecture_3_nohint_01.json"
     },
     {
@@ -2571,7 +2637,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 16384
       },
       "eval": {
         "certificate_parsed": false,
@@ -2580,6 +2646,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
@@ -2595,17 +2663,17 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 2597.779112,
-        "verification_seconds": 0.000008
+        "inference_seconds": 639.187938,
+        "verification_seconds": 0.000007
       },
       "usage": {
-        "prompt_tokens": 948,
-        "completion_tokens": 19726,
-        "reasoning_tokens": 19317,
-        "total_tokens": 20674
+        "prompt_tokens": 1066,
+        "completion_tokens": 16384,
+        "reasoning_tokens": 16381,
+        "total_tokens": 17450
       },
-      "contentChars": 1172,
-      "reasoningChars": 78602,
+      "contentChars": 0,
+      "reasoningChars": 45008,
       "outputChars": 0,
       "url": "/data/records/kimi-k3--jacobian_conjecture_4_hint_01.json"
     },
@@ -2620,42 +2688,44 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
-        "certificate_parsed": false,
+        "certificate_parsed": true,
         "math_valid": false,
         "objective_pass": false,
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
-        "error": "missing FINAL_CERTIFICATE_JSON:",
+        "generic_fiber_requirement": "degree_4_required",
+        "generic_fiber_status": "not_machine_verified",
+        "error": "certificate has unsupported keys: ['certificate_supplied', 'reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
       },
       "analysis": {
-        "code": "missing_certificate",
-        "label": "No evaluable counterexample submitted",
-        "short": "The response did not contain the required FINAL_CERTIFICATE_JSON block.",
-        "detail": "The model may have reasoned or declined, but it did not provide the structured object required by the offline verifier.",
-        "labelZh": "未提交可评测反例",
-        "shortZh": "回答中没有找到约定的 FINAL_CERTIFICATE_JSON 区块。",
-        "detailZh": "模型可能进行了推理或拒答，但没有提供离线验证器所需的结构化最终证书。",
+        "code": "format_error",
+        "label": "Counterexample format does not follow the evaluation protocol",
+        "short": "A certificate fragment was present, but its fields or structure violated the standard output schema.",
+        "detail": "This is an executability failure: the verifier does not infer missing structure or guess intent from prose.",
+        "labelZh": "反例格式不符合评测协议",
+        "shortZh": "模型给出了证书片段，但字段集合或结构不满足标准输出协议。",
+        "detailZh": "这是可执行性失败：验证器拒绝未声明字段，避免用自然语言补全或猜测模型意图。",
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 718.280267,
-        "verification_seconds": 0.000009
+        "inference_seconds": 639.353392,
+        "verification_seconds": 0.172066
       },
       "usage": {
-        "prompt_tokens": 792,
-        "completion_tokens": 18749,
-        "reasoning_tokens": 18570,
-        "total_tokens": 19541
+        "prompt_tokens": 923,
+        "completion_tokens": 17783,
+        "reasoning_tokens": 17559,
+        "total_tokens": 18706
       },
-      "contentChars": 743,
-      "reasoningChars": 83995,
-      "outputChars": 0,
+      "contentChars": 996,
+      "reasoningChars": 83042,
+      "outputChars": 352,
       "url": "/data/records/kimi-k3--jacobian_conjecture_4_nohint_01.json"
     },
     {
@@ -2669,7 +2739,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 16384
       },
       "eval": {
         "certificate_parsed": false,
@@ -2678,6 +2748,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "missing FINAL_CERTIFICATE_JSON:",
         "metrics": {},
         "symbolic_work": 0
@@ -2693,17 +2765,17 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 1363.469204,
-        "verification_seconds": 0.000008
+        "inference_seconds": 560.944713,
+        "verification_seconds": 0.000006
       },
       "usage": {
-        "prompt_tokens": 819,
-        "completion_tokens": 16381,
-        "reasoning_tokens": null,
-        "total_tokens": 17200
+        "prompt_tokens": 809,
+        "completion_tokens": 16384,
+        "reasoning_tokens": 16381,
+        "total_tokens": 17193
       },
       "contentChars": 0,
-      "reasoningChars": 52066,
+      "reasoningChars": 53436,
       "outputChars": 0,
       "url": "/data/records/kimi-k3--jacobian_conjecture_5_hint_01.json"
     },
@@ -2718,7 +2790,7 @@
       "parameters": {
         "temperature": 1,
         "top_p": 0.95,
-        "max_tokens": 128000
+        "max_tokens": 65536
       },
       "eval": {
         "certificate_parsed": true,
@@ -2727,6 +2799,8 @@
         "official_pass": false,
         "novelty_requirement": "not_required",
         "novelty_status": "not_applicable",
+        "generic_fiber_requirement": "not_required",
+        "generic_fiber_status": "not_applicable",
         "error": "certificate has unsupported keys: ['reason', 'status']",
         "metrics": {},
         "symbolic_work": 0
@@ -2742,18 +2816,18 @@
         "tone": "protocol"
       },
       "timing": {
-        "inference_seconds": 244.936192,
-        "verification_seconds": 0.776492
+        "inference_seconds": 161.478752,
+        "verification_seconds": 0.116352
       },
       "usage": {
-        "prompt_tokens": 668,
-        "completion_tokens": 5991,
-        "reasoning_tokens": 5830,
-        "total_tokens": 6659
+        "prompt_tokens": 696,
+        "completion_tokens": 5071,
+        "reasoning_tokens": 4975,
+        "total_tokens": 5767
       },
-      "contentChars": 686,
-      "reasoningChars": 28716,
-      "outputChars": 228,
+      "contentChars": 408,
+      "reasoningChars": 24577,
+      "outputChars": 142,
       "url": "/data/records/kimi-k3--jacobian_conjecture_5_nohint_01.json"
     }
   ]

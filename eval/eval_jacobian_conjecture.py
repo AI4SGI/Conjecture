@@ -36,7 +36,14 @@ DATASET_PATH = REPOSITORY_ROOT / "problems" / "jacobian_conjecture.jsonl"
 OUTPUT_ROOT = REPOSITORY_ROOT / "results"
 
 # Formal evaluation configuration. Edit these values before running a model.
-MODEL = "claude-opus-4-8-thinking" # "gemini-3.1-pro-preview-thinking"
+MODEL_LIST = [
+    "claude-opus-4-8-thinking",
+    "gemini-3.1-pro-preview-thinking",
+    "glm-5.2",
+    "gpt-5.5-xhigh",
+    "kimi-k3",
+]
+MODEL = MODEL_LIST[0]
 BASE_URL = "http://35.220.164.252:3888/v1"
 API_KEY = os.environ.get("ROLLOUT_API_KEY", "")
 
@@ -44,6 +51,7 @@ TEMPERATURE = 1.0
 TOP_P = 0.95
 MAX_TOKENS = 128_000
 API_TIMEOUT_SEC = 10_400
+API_MAX_RETRIES = 0
 
 MAX_CONCURRENCY = 10
 RUN_NOHINT = True
@@ -920,12 +928,13 @@ def check_runtime_dependencies(*, require_openai: bool) -> None:
         raise SystemExit("configure API_KEY or ROLLOUT_API_KEY before running")
 
 
-def openai_client(timeout_seconds: int) -> Any:
+def openai_client(timeout_seconds: int, max_retries: int) -> Any:
     from openai import OpenAI
 
     kwargs: Dict[str, Any] = {
         "api_key": API_KEY,
         "timeout": timeout_seconds,
+        "max_retries": max_retries,
     }
     if BASE_URL:
         kwargs["base_url"] = BASE_URL
@@ -975,6 +984,10 @@ def base_evaluation_record(
     generic_fiber_requirement, generic_fiber_status = generic_fiber_fields(
         str(task["id"])
     )
+    retry_max_tokens = getattr(args, "retry_max_tokens", None)
+    request_max_tokens = (
+        retry_max_tokens if retry_max_tokens is not None else args.max_tokens
+    )
     return {
         "id": task["id"],
         "hint": include_hint,
@@ -983,7 +996,7 @@ def base_evaluation_record(
         "parameters": {
             "temperature": args.temperature,
             "top_p": args.top_p,
-            "max_tokens": args.max_tokens,
+            "max_tokens": request_max_tokens,
         },
         "output": "",
         "content": "",
@@ -1028,13 +1041,13 @@ def evaluate_once(
 
     inference_started = time.perf_counter()
     try:
-        client = openai_client(args.api_timeout)
+        client = openai_client(args.api_timeout, args.api_max_retries)
         response = client.chat.completions.create(
             model=args.model,
             messages=[{"role": "user", "content": prompt}],
             temperature=args.temperature,
             top_p=args.top_p,
-            max_tokens=args.max_tokens,
+            max_tokens=record["parameters"]["max_tokens"],
         )
         message = response.choices[0].message
         record["content"] = coerce_openai_text(_value(message, "content"))
@@ -1102,13 +1115,40 @@ def record_is_reusable(
         "top_p": args.top_p,
         "max_tokens": args.max_tokens,
     }
+    record_parameters = record.get("parameters")
+    parameters_compatible = record_parameters == expected_parameters
+    if (
+        getattr(args, "retry_max_tokens", None) is not None
+        and isinstance(record_parameters, Mapping)
+    ):
+        record_max_tokens = record_parameters.get("max_tokens")
+        parameters_compatible = (
+            record_parameters.get("temperature") == args.temperature
+            and record_parameters.get("top_p") == args.top_p
+            and isinstance(record_max_tokens, int)
+            and not isinstance(record_max_tokens, bool)
+            and 1 <= record_max_tokens <= args.max_tokens
+        )
+    usage = record.get("usage")
+    has_api_response = (
+        bool(record.get("content"))
+        or bool(record.get("reasoning_content"))
+        or (
+            isinstance(usage, Mapping)
+            and any(
+                isinstance(value, int) and not isinstance(value, bool)
+                for value in usage.values()
+            )
+        )
+    )
     return (
         record.get("id") == task["id"]
         and record.get("hint") is include_hint
         and record.get("repeat_index") == repeat_index
         and record.get("model") == args.model
-        and record.get("parameters") == expected_parameters
+        and parameters_compatible
         and isinstance(record.get("eval"), dict)
+        and has_api_response
     )
 
 
@@ -1249,7 +1289,9 @@ def evaluation_config(
             "top_p": args.top_p,
             "max_tokens": args.max_tokens,
         },
+        "retry_max_tokens": getattr(args, "retry_max_tokens", None),
         "api_timeout_seconds": args.api_timeout,
+        "api_max_retries": args.api_max_retries,
         "verify_timeout_seconds": args.verify_timeout,
         "verify_memory_mb": args.verify_memory_mb,
         "max_concurrency": args.concurrency,
@@ -1273,6 +1315,10 @@ def run_evaluation(
         raise SystemExit("--concurrency must be at least 1")
     if args.repeats < 1:
         raise SystemExit("--repeats must be at least 1")
+    if args.api_max_retries < 0:
+        raise SystemExit("--api-max-retries must be nonnegative")
+    if args.retry_max_tokens is not None and args.retry_max_tokens < 1:
+        raise SystemExit("--retry-max-tokens must be at least 1")
 
     modes = selected_hint_modes()
     units = [
@@ -1287,6 +1333,7 @@ def run_evaluation(
     dataset_hash = file_sha256(Path(args.dataset))
     config = evaluation_config(args, dataset_hash, expected)
     config_path = run_dir / "run_config.json"
+    reusable_not_before = time.time()
     if config_path.is_file() and not args.overwrite:
         try:
             old_config = json.loads(config_path.read_text(encoding="utf-8"))
@@ -1305,6 +1352,15 @@ def run_evaluation(
             raise SystemExit(
                 f"{run_dir} contains a different run; use --overwrite explicitly"
             )
+        try:
+            reusable_not_before = datetime.fromisoformat(
+                str(old_config["created_at"])
+            ).timestamp()
+        except (KeyError, TypeError, ValueError) as exc:
+            raise SystemExit(
+                f"{config_path} has an invalid created_at; use --overwrite explicitly"
+            ) from exc
+        config["created_at"] = old_config["created_at"]
     atomic_write_json(config_path, config)
 
     from tqdm import tqdm
@@ -1320,7 +1376,11 @@ def run_evaluation(
     pending: List[Tuple[Dict[str, Any], bool, int]] = []
     for task, include_hint, repeat_index in units:
         path = result_path(run_dir, task["id"], include_hint, repeat_index)
-        if path.is_file() and not args.overwrite:
+        if (
+            path.is_file()
+            and not args.overwrite
+            and path.stat().st_mtime >= reusable_not_before
+        ):
             try:
                 record = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
@@ -1563,6 +1623,34 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
         result_path(Path("/tmp/results"), tasks[0]["id"], True, 1).name
         == "jacobian_conjecture_1_hint_01.json"
     )
+    assert not record_is_reusable(record, tasks[0], False, 1, mock_args)
+    record["content"] = "model response"
+    assert record_is_reusable(record, tasks[0], False, 1, mock_args)
+
+    retry_args = argparse.Namespace(
+        model="mock-model",
+        temperature=1.0,
+        top_p=0.95,
+        max_tokens=65_536,
+        retry_max_tokens=32_768,
+    )
+    retry_record = base_evaluation_record(tasks[0], False, 1, retry_args)
+    assert retry_record["parameters"]["max_tokens"] == 32_768
+    retry_record["usage"] = {"total_tokens": 32_768}
+    assert record_is_reusable(retry_record, tasks[0], False, 1, retry_args)
+    retry_record["parameters"]["max_tokens"] = 65_536
+    assert record_is_reusable(retry_record, tasks[0], False, 1, retry_args)
+    lower_retry_args = argparse.Namespace(
+        model="mock-model",
+        temperature=1.0,
+        top_p=0.95,
+        max_tokens=65_536,
+        retry_max_tokens=16_384,
+    )
+    retry_record["parameters"]["max_tokens"] = 32_768
+    assert record_is_reusable(
+        retry_record, tasks[0], False, 1, lower_retry_args
+    )
 
     certificate_text = json.dumps(known)
     fake_response = SimpleNamespace(
@@ -1595,7 +1683,7 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
         chat=SimpleNamespace(completions=FakeCompletions())
     )
     original_openai_client = globals()["openai_client"]
-    globals()["openai_client"] = lambda _: fake_client
+    globals()["openai_client"] = lambda _timeout, _max_retries: fake_client
     try:
         with tempfile.TemporaryDirectory(prefix="jacobian-eval-self-test-") as temp_dir:
             mock_run_args = argparse.Namespace(
@@ -1604,6 +1692,7 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
                 top_p=0.95,
                 max_tokens=128_000,
                 api_timeout=30,
+                api_max_retries=0,
                 verify_timeout=30,
                 verify_memory_mb=1_024,
             )
@@ -1652,7 +1741,9 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--temperature", type=float, default=TEMPERATURE)
     parser.add_argument("--top-p", type=float, default=TOP_P)
     parser.add_argument("--max-tokens", type=int, default=MAX_TOKENS)
+    parser.add_argument("--retry-max-tokens", type=int)
     parser.add_argument("--api-timeout", type=int, default=API_TIMEOUT_SEC)
+    parser.add_argument("--api-max-retries", type=int, default=API_MAX_RETRIES)
     parser.add_argument("--verify-timeout", type=int, default=VERIFY_TIMEOUT_SEC)
     parser.add_argument("--verify-memory-mb", type=int, default=VERIFY_MEMORY_MB)
     parser.add_argument("--overwrite", action="store_true")

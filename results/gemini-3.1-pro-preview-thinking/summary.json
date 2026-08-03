@@ -1,9 +1,10 @@
 {
   "expected_records": 10,
   "completed_records": 10,
-  "deterministic_passes": 1,
-  "deterministic_accuracy": 0.1,
+  "deterministic_passes": 0,
+  "deterministic_accuracy": 0.0,
   "novelty_not_machine_verified": 4,
+  "generic_fiber_not_machine_verified": 2,
   "task_stats": {
     "jacobian_conjecture_1": {
       "nohint": {
@@ -13,8 +14,8 @@
       },
       "hint": {
         "completed": 1,
-        "deterministic_passes": 1,
-        "accuracy": 1.0
+        "deterministic_passes": 0,
+        "accuracy": 0.0
       }
     },
     "jacobian_conjecture_2": {
@@ -67,14 +68,14 @@
     }
   },
   "usage_totals": {
-    "prompt_tokens": 8100,
-    "completion_tokens": 352437,
-    "reasoning_tokens": 346057,
-    "total_tokens": 360537
+    "prompt_tokens": 8805,
+    "completion_tokens": 352718,
+    "reasoning_tokens": 346459,
+    "total_tokens": 361523
   },
   "timing": {
-    "wall_seconds": 660.383179,
-    "sum_inference_seconds": 3298.91408,
-    "sum_verification_seconds": 8.232398
+    "wall_seconds": 405.004912,
+    "sum_inference_seconds": 3024.278223,
+    "sum_verification_seconds": 5.907204
   }
 }

@@ -6,7 +6,7 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 32768
   },
   "output": "",
   "content": "",
@@ -18,18 +18,20 @@
     "official_pass": false,
     "novelty_requirement": "required",
     "novelty_status": "not_machine_verified",
-    "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "missing FINAL_CERTIFICATE_JSON:",
     "metrics": {},
     "symbolic_work": 0
   },
   "timing": {
-    "inference_seconds": 2703.433697,
-    "verification_seconds": 0.0
+    "inference_seconds": 539.63488,
+    "verification_seconds": 6e-06
   },
   "usage": {
-    "prompt_tokens": null,
-    "completion_tokens": null,
-    "reasoning_tokens": null,
-    "total_tokens": null
+    "prompt_tokens": 954,
+    "completion_tokens": 32768,
+    "reasoning_tokens": 32768,
+    "total_tokens": 33722
   }
 }

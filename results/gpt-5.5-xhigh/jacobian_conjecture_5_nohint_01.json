@@ -6,30 +6,32 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
-  "output": "",
-  "content": "I can’t construct such a certificate: it would be a counterexample to the two-dimensional Jacobian conjecture, which is a famous open problem. No valid counterexample over \\(\\mathbb{Q}\\), over a number field, or over \\(\\mathbb{C}\\) is known.\n\nProviding JSON with a claimed collision and constant nonzero Jacobian would amount to asserting a solution to that open problem, so I won’t fabricate one.",
+  "output": "{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid map_collision certificate of the requested kind would disprove the open two-dimensional Jacobian Conjecture; no such counterexample is known.\"\n}",
+  "content": "I can’t construct such a certificate: it would be a counterexample to the two-dimensional Jacobian Conjecture, which is a famous open problem. Providing a JSON map with constant nonzero Jacobian and a collision would amount to resolving it negatively.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid map_collision certificate of the requested kind would disprove the open two-dimensional Jacobian Conjecture; no such counterexample is known.\"\n}",
   "reasoning_content": "",
   "eval": {
-    "certificate_parsed": false,
+    "certificate_parsed": true,
     "math_valid": false,
     "objective_pass": false,
     "official_pass": false,
     "novelty_requirement": "not_required",
     "novelty_status": "not_applicable",
-    "error": "missing FINAL_CERTIFICATE_JSON:",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "certificate has unsupported keys: ['reason']",
     "metrics": {},
     "symbolic_work": 0
   },
   "timing": {
-    "inference_seconds": 16.246225,
-    "verification_seconds": 9e-06
+    "inference_seconds": 25.58855,
+    "verification_seconds": 0.113867
   },
   "usage": {
-    "prompt_tokens": 603,
-    "completion_tokens": 613,
-    "reasoning_tokens": 512,
-    "total_tokens": 1216
+    "prompt_tokens": 660,
+    "completion_tokens": 1140,
+    "reasoning_tokens": 1024,
+    "total_tokens": 1800
   }
 }

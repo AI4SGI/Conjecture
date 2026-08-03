@@ -6,30 +6,32 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
-  "output": "",
-  "content": "I can’t provide such a certificate. A valid object satisfying these conditions would be an explicit counterexample to the complex Jacobian conjecture in dimension 3, which is a major open problem. Fabricating JSON would be misleading and would fail exact verification.",
+  "output": "{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would be a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open.\"\n}",
+  "content": "I can’t provide such a certificate. Constructing the requested \\(F:\\mathbb{C}^3\\to\\mathbb{C}^3\\) with \\(\\det J_F\\in\\mathbb{C}^\\times\\) and a nontrivial collision would constitute a counterexample to the complex Jacobian conjecture in dimension \\(3\\), which is a major open problem. Any explicit JSON object satisfying the verifier’s requirements would therefore represent a breakthrough proof/disproof result, not something that can be supplied reliably here.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate_available\",\n  \"reason\": \"The requested object would be a counterexample to the complex Jacobian conjecture in dimension 3, which is currently open.\"\n}",
   "reasoning_content": "",
   "eval": {
-    "certificate_parsed": false,
+    "certificate_parsed": true,
     "math_valid": false,
     "objective_pass": false,
     "official_pass": false,
     "novelty_requirement": "not_required",
     "novelty_status": "not_applicable",
-    "error": "missing FINAL_CERTIFICATE_JSON:",
+    "generic_fiber_requirement": "degree_4_required",
+    "generic_fiber_status": "not_machine_verified",
+    "error": "certificate has unsupported keys: ['reason']",
     "metrics": {},
     "symbolic_work": 0
   },
   "timing": {
-    "inference_seconds": 66.770117,
-    "verification_seconds": 1e-05
+    "inference_seconds": 17.699801,
+    "verification_seconds": 0.114724
   },
   "usage": {
-    "prompt_tokens": 729,
-    "completion_tokens": 2645,
-    "reasoning_tokens": 2560,
-    "total_tokens": 3374
+    "prompt_tokens": 896,
+    "completion_tokens": 679,
+    "reasoning_tokens": 512,
+    "total_tokens": 1575
   }
 }

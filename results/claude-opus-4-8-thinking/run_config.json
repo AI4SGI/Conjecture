@@ -1,13 +1,15 @@
 {
-  "created_at": "2026-07-24T10:12:46.539213+00:00",
+  "created_at": "2026-08-03T11:07:43.542135+00:00",
   "model": "claude-opus-4-8-thinking",
   "base_url": "http://35.220.164.252:3888/v1",
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
-  "api_timeout_seconds": 10400,
+  "retry_max_tokens": 32768,
+  "api_timeout_seconds": 1800,
+  "api_max_retries": 0,
   "verify_timeout_seconds": 300,
   "verify_memory_mb": 2048,
   "max_concurrency": 10,
@@ -17,8 +19,8 @@
     "hint"
   ],
   "expected_records": 10,
-  "dataset_path": "/mnt/shared-storage-user/ma4agi-gpu/scientific_reasoning_and_research/yufangchen/Counterexample/problems/jacobian_conjecture.jsonl",
-  "dataset_sha256": "071727dd4ee13acdd71bcd05e76e053b27c7b039228eee57dce3ba569530fdd2",
+  "dataset_path": "/mnt/shared-storage-gpfs2/ai4sgi-gpfs2/scientific_reasoning_and_research/yufangchen/Counterexample/problems/jacobian_conjecture.jsonl",
+  "dataset_sha256": "d0426ea25af4da4a2f38b074b23bcd087b89f700c27345ecfb83c378f6ab4d6a",
   "pure_reasoning": true,
   "tools_supplied": false,
   "llm_judge": false

@@ -6,10 +6,10 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
   "output": "{\n  \"kind\": \"map_collision\",\n  \"dimension\": 2,\n  \"map\": [\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          1,\n          0\n        ]\n      }\n    ],\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          0,\n          1\n        ]\n      }\n    ]\n  ],\n  \"points\": [\n    [\n      0,\n      0\n    ],\n    [\n      1,\n      1\n    ]\n  ]\n}",
-  "content": "To construct a counterexample in dimension two, we must provide a polynomial map $F: \\mathbb{C}^2 \\to \\mathbb{C}^2$ that has a nonzero constant Jacobian determinant but is not injective. However, the Jacobian Conjecture in dimension two (which asserts that any such map must be injective) remains one of the most famous open problems in mathematics. As no two-dimensional counterexample is mathematically known to exist to date, providing a strictly valid two-dimensional counterexample is theoretically impossible unless the conjecture is definitively false and a completely novel structural breakthrough (akin to the provided three-dimensional hint) has just been discovered for $d=2$. \n\nBelow is a valid structural JSON mapping encoding $F(x,y) = (x, y)$ over $\\mathbb{Q}$, which acts as a syntactic placeholder. While it satisfies the non-zero constant Jacobian determinant requirement ($\\det J = 1$), it is an automorphism (and thus universally injective) so it will naturally not map two pairwise-distinct points to a common fiber. \n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"map_collision\",\n  \"dimension\": 2,\n  \"map\": [\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          1,\n          0\n        ]\n      }\n    ],\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          0,\n          1\n        ]\n      }\n    ]\n  ],\n  \"points\": [\n    [\n      0,\n      0\n    ],\n    [\n      1,\n      1\n    ]\n  ]\n}",
+  "content": "To find a counterexample to the Jacobian Conjecture in \\(\\mathbb{C}^2\\), one would have to resolve one of the most famous open problems in algebraic geometry. It is a long-standing conjecture (and widely believed to be true) that any polynomial map \\(F: \\mathbb{C}^2 \\to \\mathbb{C}^2\\) with a non-zero constant Jacobian determinant is an automorphism, and hence globally injective. \n\nHowever, since this task requires providing a strictly valid JSON encoding matching the schema and structural constraints of the requested format, the following output provides a structurally compliant syntax payload. (Note: As no counterexample in dimension 2 is mathematically known to humanity, any strictly polynomial 2D map will inherently fail at least one of the conditions—either the Jacobian determinant will not be a non-zero constant, or the map will fail to possess multiple distinct points in the exact same fiber).\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"map_collision\",\n  \"dimension\": 2,\n  \"map\": [\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          1,\n          0\n        ]\n      }\n    ],\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          0,\n          1\n        ]\n      }\n    ]\n  ],\n  \"points\": [\n    [\n      0,\n      0\n    ],\n    [\n      1,\n      1\n    ]\n  ]\n}",
   "reasoning_content": "",
   "eval": {
     "certificate_parsed": true,
@@ -18,18 +18,20 @@
     "official_pass": false,
     "novelty_requirement": "not_required",
     "novelty_status": "not_applicable",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
     "error": "the submitted points do not have a common image",
     "metrics": {},
     "symbolic_work": 2
   },
   "timing": {
-    "inference_seconds": 313.361713,
-    "verification_seconds": 0.735645
+    "inference_seconds": 287.552158,
+    "verification_seconds": 0.184014
   },
   "usage": {
-    "prompt_tokens": 813,
-    "completion_tokens": 35588,
-    "reasoning_tokens": 35227,
-    "total_tokens": 36401
+    "prompt_tokens": 822,
+    "completion_tokens": 34542,
+    "reasoning_tokens": 34209,
+    "total_tokens": 35364
   }
 }

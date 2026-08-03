@@ -6,30 +6,32 @@
   "parameters": {
     "temperature": 1.0,
     "top_p": 0.95,
-    "max_tokens": 128000
+    "max_tokens": 65536
   },
-  "output": "{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"The requested certificate would be an explicit counterexample to the complex Jacobian conjecture; no known valid example exists.\"\n}",
-  "content": "I can’t honestly construct such a certificate. A valid object satisfying your requirements would be an explicit counterexample to the complex Jacobian conjecture. No such counterexample is known, including in dimension three with component degree at most 6, so I will not fabricate a false JSON certificate.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"The requested certificate would be an explicit counterexample to the complex Jacobian conjecture; no known valid example exists.\"\n}",
+  "output": "",
+  "content": "I can’t provide such a certificate. A valid object would be a counterexample to the Jacobian conjecture in dimension \\(3\\) with degree \\(<7\\), contradicting the stated known lower bound. Supplying fabricated JSON would be mathematically invalid.",
   "reasoning_content": "",
   "eval": {
-    "certificate_parsed": true,
+    "certificate_parsed": false,
     "math_valid": false,
     "objective_pass": false,
     "official_pass": false,
     "novelty_requirement": "not_required",
     "novelty_status": "not_applicable",
-    "error": "certificate has unsupported keys: ['reason']",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "missing FINAL_CERTIFICATE_JSON:",
     "metrics": {},
     "symbolic_work": 0
   },
   "timing": {
-    "inference_seconds": 126.897956,
-    "verification_seconds": 0.10496
+    "inference_seconds": 27.189604,
+    "verification_seconds": 1e-05
   },
   "usage": {
-    "prompt_tokens": 666,
-    "completion_tokens": 5135,
-    "reasoning_tokens": 4968,
-    "total_tokens": 5801
+    "prompt_tokens": 766,
+    "completion_tokens": 1093,
+    "reasoning_tokens": 1024,
+    "total_tokens": 1859
   }
 }

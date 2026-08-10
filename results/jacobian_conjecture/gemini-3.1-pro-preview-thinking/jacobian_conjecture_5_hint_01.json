@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_5",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "gemini-3.1-pro-preview-thinking",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 65536
+  },
+  "output": "{\n  \"kind\": \"map_collision\",\n  \"dimension\": 2,\n  \"map\": [\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          1,\n          0\n        ]\n      }\n    ],\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          0,\n          1\n        ]\n      }\n    ]\n  ],\n  \"points\": [\n    [\n      0,\n      0\n    ],\n    [\n      1,\n      1\n    ]\n  ]\n}",
+  "content": "To find a counterexample to the Jacobian Conjecture in \\(\\mathbb{C}^2\\), one would have to resolve one of the most famous open problems in algebraic geometry. It is a long-standing conjecture (and widely believed to be true) that any polynomial map \\(F: \\mathbb{C}^2 \\to \\mathbb{C}^2\\) with a non-zero constant Jacobian determinant is an automorphism, and hence globally injective. \n\nHowever, since this task requires providing a strictly valid JSON encoding matching the schema and structural constraints of the requested format, the following output provides a structurally compliant syntax payload. (Note: As no counterexample in dimension 2 is mathematically known to humanity, any strictly polynomial 2D map will inherently fail at least one of the conditions—either the Jacobian determinant will not be a non-zero constant, or the map will fail to possess multiple distinct points in the exact same fiber).\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"map_collision\",\n  \"dimension\": 2,\n  \"map\": [\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          1,\n          0\n        ]\n      }\n    ],\n    [\n      {\n        \"c\": 1,\n        \"e\": [\n          0,\n          1\n        ]\n      }\n    ]\n  ],\n  \"points\": [\n    [\n      0,\n      0\n    ],\n    [\n      1,\n      1\n    ]\n  ]\n}",
+  "reasoning_content": "",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "the submitted points do not have a common image",
+    "metrics": {},
+    "symbolic_work": 2
+  },
+  "timing": {
+    "inference_seconds": 287.552158,
+    "verification_seconds": 0.184014
+  },
+  "usage": {
+    "prompt_tokens": 822,
+    "completion_tokens": 34542,
+    "reasoning_tokens": 34209,
+    "total_tokens": 35364
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_5",
+    "model": "gemini-3.1-pro-preview-thinking",
+    "hint_mode": "hint",
+    "input_fingerprint": "6012de417ce47dd34d5185f46a14c86f3985d781803297c106ed4163f2de2d57",
+    "outcome": {
+      "code": "collision_failure",
+      "label": "Collision certificate failed",
+      "labelZh": "碰撞证书失败",
+      "short": "The submitted points do not share a common image.",
+      "shortZh": "提交的点不具有共同像。",
+      "tone": "math",
+      "detail": "the submitted points do not have a common image",
+      "detailZh": "the submitted points do not have a common image"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": true,
+          "reason": "The required certificate block was parsed."
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "the submitted points do not have a common image"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "the submitted points do not have a common image"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

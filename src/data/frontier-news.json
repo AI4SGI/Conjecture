@@ -1,5 +1,20 @@
 [
   {
+    "id": "jacobian-tangent-sweeps-2026",
+    "date": "2026-07-31",
+    "label": "Jacobian Conjecture · Tangent-Sweep Follow-up",
+    "title": "A geometric account extends the counterexample mechanism",
+    "content": "A follow-up preprint develops a self-contained tangent-sweep explanation of the recent counterexample and constructs families in every dimension above two with arbitrarily large geometric degree. It is presented as a research preprint, distinct from the separately formalized finite certificate.",
+    "link": "https://arxiv.org/abs/2608.00222",
+    "source": "arXiv preprint",
+    "status": "preprint",
+    "statusLabel": "GEOMETRIC FOLLOW-UP PREPRINT",
+    "labelZh": "雅可比猜想 · 切线扫描后续研究",
+    "titleZh": "几何解释扩展反例构造机制",
+    "contentZh": "一篇后续预印本给出近期反例的自足切线扫描解释，并在所有三维以上构造任意大几何度数的族。该成果按研究预印本呈现，与另行完成形式化的有限证书明确区分。",
+    "statusLabelZh": "几何后续预印本"
+  },
+  {
     "id": "hessian-conjecture-2026",
     "date": "2026-07-24",
     "label": "Hessian Conjecture · Claude Fable 5",
@@ -223,6 +238,21 @@
     "titleZh": "Claude 找到 Knuth 开放问题的通用构造",
     "contentZh": "Claude 在引导式计算搜索后发现三维有向网格的 Hamilton 圈通用分解；Donald Knuth 核验构造并写出严格证明。",
     "statusLabelZh": "Donald Knuth 核验"
+  },
+  {
+    "id": "openai-first-proof-2026",
+    "date": "2026-02-20",
+    "label": "First Proof · OpenAI Reasoning Model",
+    "title": "OpenAI releases attempts for all ten research-level proof problems",
+    "content": "OpenAI published complete attempts for the ten First Proof problems. Expert feedback judged at least five attempts highly likely to be correct, while clearly leaving the remaining submissions under review rather than treating model output as a verdict.",
+    "link": "https://openai.com/index/first-proof-submissions/",
+    "source": "OpenAI · First Proof",
+    "status": "expert-review",
+    "statusLabel": "10 ATTEMPTS · EXPERT REVIEW",
+    "labelZh": "First Proof · OpenAI 推理模型",
+    "titleZh": "OpenAI 公布十道研究级证明问题的完整作答",
+    "contentZh": "OpenAI 公布了 First Proof 十道题的完整证明尝试；专家反馈认为至少五份很可能正确，其余仍明确处于审核阶段，并未把模型输出直接视为结论。",
+    "statusLabelZh": "十份作答 · 专家审核"
   },
   {
     "id": "erdos-deep-think-2026",

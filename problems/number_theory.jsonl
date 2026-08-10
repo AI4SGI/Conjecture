@@ -1,0 +1,86 @@
+{
+    "id": "number_theory_001_beal_conjecture",
+    "title": "Beal Conjecture",
+    "original_problem": "If $A^x + B^y = C^z$, where $A, B, C, x, y$ and $z$ are positive integers and $x, y$ and $z$ are all greater than 2, then $A, B$ and $C$ must have a common prime factor.",
+    "context": "",
+    "question": "Construct one integer tuple (A, B, C, x, y, z) satisfying all of the following conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n4. $A^x+B^y=C^z$.",
+    "output_format": "Return exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning showing how the tuple was obtained and verifying all four conditions with exact arithmetic>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object containing the six keys \"A\", \"B\", \"C\", \"x\", \"y\", and \"z\" in that order, with no missing or additional keys. Every value must be an unquoted base-10 integer literal. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty detailed derivation and exact verification. Do not place the JSON object and the OUTPUT header on the same line.",
+    "prompt": "Question:\nConstruct one integer tuple (A, B, C, x, y, z) satisfying all of the following conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n4. $A^x+B^y=C^z$.\n\nResearch-search protocol:\n\nThis is a constructive search task, not a question about the historical or current status of the underlying mathematical statement.\n\nYour task is to actively search for a candidate satisfying every stated condition. Even if you recognize the statement as a famous conjecture, or believe that no example is currently known, do not stop at that observation and do not return a literature-status answer.\n\nUse prior mathematical knowledge only to guide the search, eliminate invalid constructions, and develop new candidates. Explore materially different approaches and check every condition using exact arithmetic.\n\nYou are not being asked to claim that the candidate is new, correct, or a proof of anything. An external deterministic verifier will check it. If no candidate survives all of your checks, return the strongest best-effort candidate you found rather than a prose refusal.\n\nA response that only states that no counterexample is known receives no credit.\n\nOutput format:\nReturn exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning showing how the tuple was obtained and verifying all four conditions with exact arithmetic>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object containing the six keys \"A\", \"B\", \"C\", \"x\", \"y\", and \"z\" in that order, with no missing or additional keys. Every value must be an unquoted base-10 integer literal. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty detailed derivation and exact verification. Do not place the JSON object and the OUTPUT header on the same line.",
+    "objective": {
+        "kind": "counterexample",
+        "success_condition": "Provide a six-tuple of positive integers satisfying all verification conditions.",
+        "verification_conditions": [
+            "$A, B, C \\in \\mathbb{Z}_{>0}$.",
+            "$x, y, z \\in \\mathbb{Z}_{>2}$.",
+            "$\\gcd(\\gcd(A,B),C)=1$.",
+            "$A^x+B^y=C^z$."
+        ]
+    },
+    "optimization": {
+        "problem": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.",
+        "scoring": "Scoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
+        "prompt": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.\n\nScoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
+        "type": "minimize",
+        "metric": "abs(A**x + B**y - C**z)"
+    },
+    "domain": "number theory",
+    "validation_type": "program verification",
+    "answer_type": "counterexample",
+    "eval_code": "eval_number_theory_001_beal_conjecture.py",
+    "author": "Andrew Beal",
+    "proposed_year": 1993,
+    "status": "open",
+    "related_problem": [
+        "Fermat's Last Theorem",
+        "The ABC Conjecture"
+    ],
+    "source": [
+        "https://www.bealconjecture.com/",
+        "https://www.norvig.com/beal.html"
+    ],
+    "prize": {
+        "value": "$1,000,000",
+        "link": "https://www.ams.org/beal-prize"
+    }
+}
+{
+    "id": "number_theory_002_odd_perfect_number",
+    "title": "Odd Perfect Number Problem",
+    "original_problem": "Determine whether an odd positive integer N with sigma(N)=2N exists, either by proving nonexistence or by exhibiting such an integer.",
+    "context": "A positive integer N is perfect when the sum sigma(N) of all positive divisors equals 2N. Euclid and Euler characterized the even perfect numbers, but no odd perfect number is known; extensive work instead gives necessary lower bounds and restrictions on the prime-power factorization of any hypothetical example.",
+    "question": "Construct an integer N and a complete certified prime-power factorization satisfying all of the following conditions:\n\n1. $N \\in \\mathbb{Z}_{>0}$ and $N \\equiv 1 \\pmod 2$.\n2. The submitted prime-power list is a complete certified factorization of $N$.\n3. $\\sigma(N)=2N$.",
+    "output_format": "Return exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate object>}]}\n\nSOLUTION:\n<detailed mathematical reasoning and exact certificate checks>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object with the declared keys in the declared order and no additional keys. JSON numbers must be unquoted integer literals unless a field is explicitly declared to be a string. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty derivation and certificate explanation.",
+    "prompt": "Context:\nA positive integer N is perfect when the sum sigma(N) of all positive divisors equals 2N. Euclid and Euler characterized the even perfect numbers, but no odd perfect number is known; extensive work instead gives necessary lower bounds and restrictions on the prime-power factorization of any hypothetical example.\n\nQuestion:\nConstruct an integer N and a complete certified prime-power factorization satisfying all of the following conditions:\n\n1. $N\\in\\mathbb{Z}_{>0}$ and $N\\equiv1\\pmod 2$.\n2. The submitted prime-power list is a complete certified factorization of $N$.\n3. $\\sigma(N)=2N$.\n\nResearch-search protocol:\n\nThis is a constructive research task, not a question about the historical or current status of the underlying mathematical statement.\n\nActively search for a finite candidate satisfying every stated condition. Even if you recognize the underlying open problem or believe that no witness is currently known, do not stop at that observation and do not return a literature-status answer.\n\nUse prior mathematical knowledge to guide the search, reject invalid constructions, and improve the candidate. Check every finite arithmetic claim exactly and include every certificate component requested by the output schema.\n\nYou are not being asked to assert priority or novelty. An external deterministic verifier will check the submitted finite certificate. If no candidate survives your checks, return the strongest best-effort candidate you found rather than a prose refusal.\n\nA response that only states that no counterexample or construction is known receives no credit.\n\nOutput format:\nReturn exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate object>}]}\n\nSOLUTION:\n<detailed mathematical reasoning and exact certificate checks>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object with the declared keys in the declared order and no additional keys. JSON numbers must be unquoted integer literals unless a field is explicitly declared to be a string. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty derivation and certificate explanation.",
+    "objective": {
+        "kind": "positive_construction",
+        "success_condition": "Provide a certified odd perfect number.",
+        "verification_conditions": [
+            "$N\\in\\mathbb{Z}_{>0}$ and $N\\equiv1\\pmod 2$.",
+            "The submitted prime-power list is a complete certified factorization of $N$.",
+            "$\\sigma(N)=2N$."
+        ]
+    },
+    "optimization": {
+        "problem": "",
+        "scoring": "",
+        "prompt": "",
+        "type": null,
+        "metric": ""
+    },
+    "domain": "number theory",
+    "validation_type": "program verification",
+    "answer_type": "construction certificate",
+    "eval_code": "eval_number_theory_002_odd_perfect_number.py",
+    "author": "Classical",
+    "proposed_year": "Antiquity; odd case remains open",
+    "status": "open",
+    "related_problem": [
+        "Perfect numbers",
+        "Euler's form for odd perfect numbers"
+    ],
+    "source": [
+        "https://www.ams.org/mcom/2005-74-250/S0025-5718-04-01683-7/",
+        "https://perfectodd.online/"
+    ],
+    "prize": null
+}

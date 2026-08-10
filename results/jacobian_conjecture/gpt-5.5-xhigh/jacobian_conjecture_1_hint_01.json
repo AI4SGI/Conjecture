@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_1",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 65536
+  },
+  "output": "",
+  "content": "I can’t provide a genuinely new algebraically inequivalent counterexample: such a map would constitute a counterexample to the complex Jacobian conjecture in dimension 3, which is not known. The provided “reference” map itself would already be such a counterexample, so producing a new inequivalent one is not a routine certificate-generation task.",
+  "reasoning_content": "",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": false,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "required",
+    "novelty_status": "not_machine_verified",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "missing FINAL_CERTIFICATE_JSON:",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 2239.890199,
+    "verification_seconds": 0.000008
+  },
+  "usage": {
+    "prompt_tokens": 912,
+    "completion_tokens": 27525,
+    "reasoning_tokens": 27131,
+    "total_tokens": 28437
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_1",
+    "model": "gpt-5.5-xhigh",
+    "hint_mode": "hint",
+    "input_fingerprint": "9d0b9fd8879074bd137a70796c5df373f37004e6aaaaef822d957b132b019b0d",
+    "outcome": {
+      "code": "missing_certificate",
+      "label": "No evaluable certificate submitted",
+      "labelZh": "未提交可评测证书",
+      "short": "The required structured certificate block is absent.",
+      "shortZh": "缺少协议要求的结构化证书区块。",
+      "tone": "protocol",
+      "detail": "missing FINAL_CERTIFICATE_JSON:",
+      "detailZh": "missing FINAL_CERTIFICATE_JSON:"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": false,
+          "reason": "missing FINAL_CERTIFICATE_JSON:"
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "missing FINAL_CERTIFICATE_JSON:"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "missing FINAL_CERTIFICATE_JSON:"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

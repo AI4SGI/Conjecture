@@ -1,32 +1,37 @@
+export type Language = "en" | "zh";
+
 export interface Task {
   id: string;
-  key: "P1" | "P2" | "P3" | "P4" | "P5";
+  key: string;
+  source?: "primary" | "optimization";
   title: string;
-  subtitle: string;
-  tier: string;
-  tierLabel: string;
-  capability: string;
-  significance: string;
   titleZh: string;
+  subtitle: string;
   subtitleZh: string;
-  tierLabelZh: string;
+  tier: string;
+  tierZh: string;
+  capability: string;
   capabilityZh: string;
+  significance: string;
   significanceZh: string;
+  question: string;
   questionZh: string;
   context: string;
-  question: string;
   hint: string;
-  constraints: {
-    dimension: number;
-    min_points: number;
-    coefficient_domain: string;
-    generic_fiber_degree?: number;
-    known_degree?: number;
-  };
-  objective: {
-    kind: string;
-    value?: number;
-  };
+  outputFormat: string;
+  constraints?: Record<string, unknown> | string[];
+  objective?: Record<string, unknown>;
+  verificationConditions: string[];
+  verificationConditionsZh?: string[];
+  optimization?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export interface VerificationCondition {
+  condition_id: number;
+  condition: string;
+  passed: boolean;
+  reason: string;
 }
 
 export interface EvalResult {
@@ -34,38 +39,28 @@ export interface EvalResult {
   math_valid: boolean;
   objective_pass: boolean;
   official_pass: boolean;
-  novelty_requirement: string;
-  novelty_status: string;
-  generic_fiber_requirement?: string;
-  generic_fiber_status?: string;
   error: string | null;
   metrics: Record<string, unknown>;
+  verification_conditions: VerificationCondition[];
+  failed_conditions: string[];
+  metric: number | null;
   symbolic_work: number;
+  novelty_requirement?: string;
+  novelty_status?: string;
+  generic_fiber_requirement?: string;
+  generic_fiber_status?: string;
 }
-
-export type OutcomeCode =
-  | "verified_counterexample"
-  | "constraint_miss"
-  | "api_failure"
-  | "missing_certificate"
-  | "format_error"
-  | "jacobian_failure"
-  | "collision_failure"
-  | "duplicate_points"
-  | "invalid_certificate";
 
 export interface OutcomeAnalysis {
-  code: OutcomeCode;
+  code: string;
   label: string;
+  labelZh: string;
   short: string;
+  shortZh: string;
   detail: string;
+  detailZh: string;
   tone: "pass" | "near" | "system" | "protocol" | "math";
-  labelZh?: string;
-  shortZh?: string;
-  detailZh?: string;
 }
-
-export type Language = "en" | "zh";
 
 export interface FrontierNewsItem {
   id: string;
@@ -113,15 +108,17 @@ export interface ModelSummary extends Summary {
 export interface RecordSummary {
   key: string;
   id: string;
-  taskKey: Task["key"];
+  taskKey: string;
   model: string;
   modelLabel: string;
   hint: boolean;
+  hintMode: "hint" | "nohint";
   repeatIndex: number;
   parameters: {
     temperature: number;
     top_p: number;
     max_tokens: number;
+    reasoning_effort?: string | null;
   };
   eval: EvalResult;
   analysis: OutcomeAnalysis;
@@ -133,31 +130,149 @@ export interface RecordSummary {
   contentChars: number;
   reasoningChars: number;
   outputChars: number;
-  url: string;
+  bundleKey: string;
+  sourcePath: string;
 }
 
-export interface FullRecord extends Omit<RecordSummary, "key" | "url" | "taskKey"> {
-  content: string;
-  output: string;
-  reasoning_content: string;
+export interface FullRecord {
+  id: string;
+  content?: string;
+  output?: unknown;
+  reasoning_content?: string;
+  finish_reason?: string | null;
+  normalized_evaluation: EvalResult;
+  opbench_annotation: {
+    outcome: OutcomeAnalysis;
+    verification: {
+      passed: boolean;
+      conditions: VerificationCondition[];
+      metric: number | null;
+    };
+  };
   source: { file: string; sha256: string };
+  [key: string]: unknown;
+}
+
+export interface RecordBundle {
+  schemaVersion: number;
+  conjectureId: string;
+  records: Record<string, FullRecord>;
 }
 
 export interface BenchmarkData {
   generatedAt: string;
   dataset: {
+    id: string;
     name: string;
     context: string;
     tasks: Task[];
     taskCount: number;
     resultCount: number;
     modelCount: number;
-    hintModes: string[];
+    hintModes: Array<"nohint" | "hint">;
+    hintPolicy: "paired" | "none";
     deterministic: boolean;
+    recordBundleUrl: string;
   };
   aggregate: Summary;
   models: ModelSummary[];
   records: RecordSummary[];
+}
+
+export interface LocalizedOverview {
+  eyebrow: string;
+  eyebrowZh: string;
+  summary: string;
+  summaryZh: string;
+  primaryAction: string;
+  primaryActionZh: string;
+}
+
+export interface AtlasEvent {
+  year: string;
+  title: string;
+  titleZh: string;
+  description: string;
+  descriptionZh: string;
+  links: Array<{ label: string; url: string }>;
+}
+
+export interface ConjectureData {
+  schemaVersion: number;
+  id: string;
+  slug: string;
+  title: string;
+  titleZh: string;
+  proposed: string;
+  proposedZh: string;
+  status: string;
+  statusZh: string;
+  author: string;
+  domain: string;
+  problemSource: string;
+  resultsPath: string;
+  overview: LocalizedOverview;
+  visualization: {
+    kind: "jacobian" | "beal" | "odd-perfect" | "generic";
+    codePath: string;
+    label: string;
+    labelZh: string;
+    example: string;
+    caption: string;
+    captionZh: string;
+  };
+  statement: {
+    intro: string;
+    introZh: string;
+    formula: string;
+    explanation: string;
+    explanationZh: string;
+    note: string;
+    noteZh: string;
+  };
+  atlas: {
+    title: string;
+    titleZh: string;
+    body: string;
+    bodyZh: string;
+    events: AtlasEvent[];
+  };
+  benchmark: {
+    name: string;
+    title: string;
+    titleZh: string;
+    body: string;
+    bodyZh: string;
+    contextLabel: string;
+    contextLabelZh: string;
+    hintPolicy: "paired" | "none";
+    hintNote: string;
+    hintNoteZh: string;
+    footer: string;
+    footerZh: string;
+  };
+  evaluation: {
+    title: string;
+    titleZh: string;
+    body: string;
+    bodyZh: string;
+  };
+  symbolicLab: {
+    title: string;
+    titleZh: string;
+    body: string;
+    bodyZh: string;
+    verifierPath: string;
+    interactive: "jacobian" | "conditions";
+    outputFormat: string;
+  };
+  benchmarkData: BenchmarkData;
+}
+
+export interface SiteData {
+  schemaVersion: number;
+  generatedAt: string;
+  conjectures: ConjectureData[];
 }
 
 export interface CommunityMessage {
@@ -166,15 +281,15 @@ export interface CommunityMessage {
   title: string;
   body: string;
   conjecture?: "jacobian" | "new";
-  task: Task["key"] | "general";
+  task: string | "general";
   status: "approved";
   likes: number;
   createdAt: string;
 }
 
 export interface CommunitySnapshot {
-  taskLikes: Record<Task["key"], number>;
-  likedTasks?: Task["key"][];
+  taskLikes: Record<string, number>;
+  likedTasks?: string[];
   messages: CommunityMessage[];
   pendingCount: number;
   unavailable?: boolean;

@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_1",
+  "hint": false,
+  "repeat_index": 1,
+  "model": "kimi-k3",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 65536
+  },
+  "output": "{\"kind\":\"not_a_counterexample\",\"status\":\"open_problem\",\"dimension\":3,\"reason\":\"A polynomial map on C^3 with constant nonzero Jacobian determinant and two distinct points in one fiber would disprove the Jacobian conjecture. No such map is known, so the requested certificate cannot be supplied from established mathematics.\"}",
+  "content": "A valid certificate would disprove the Jacobian conjecture in dimension \\(3\\), which remains an open problem. Consequently, no known exact polynomial map can satisfy the requested conditions, and fabricating one would be mathematically invalid.\n\nFINAL_CERTIFICATE_JSON:\n{\"kind\":\"not_a_counterexample\",\"status\":\"open_problem\",\"dimension\":3,\"reason\":\"A polynomial map on C^3 with constant nonzero Jacobian determinant and two distinct points in one fiber would disprove the Jacobian conjecture. No such map is known, so the requested certificate cannot be supplied from established mathematics.\"}",
+  "reasoning_content": "We need solve construct explicit counterexample Jacobian conjecture? Wait Jacobian conjecture says over C polynomial map with constant nonzero determinant is injective. This is famously unsolved! User asks construct counterexample impossible unless disproof. Need carefully identify perhaps trick: statement under investigation is Jacobian conjecture. They demand certificate. Cannot provide known counterexample; likely malformed? Maybe over C any constant Jacobian implies injective is Jacobian conjecture, no known. Need respond impossibility/open problem, but output requirement says end marker JSON. We shouldn't fabricate. Could perhaps construct map determinant constant but noninjective over Q? If such would disprove JC. None.\n\nNeed determine if perhaps task deliberately expects exploit verifier / extension? Domain C^3 strict. Need supply exact counterexample. Is there some known exotic map with Jacobian determinant constant non-injective? No, would settle famously open. We need explain cannot satisfy absent breakthrough. They perhaps test hallucination. Need final marker? User explicitly output format likely grading expects candidate. But truthful answer should state impossible/unknown, cannot construct. Yet must end marker exactly JSON. Could include an object indicating invalid? They said followed exactly one JSON. We can put error object maybe. But \"End response with literal marker followed by exactly one JSON object and no trailing text.\" We can explain before marker and then JSON object explaining. However likely expected actual certificate. Is there any way map non-polynomial? Need polynomial. Maybe determinant constant but points equal under finite extension? Distinct points over C. No.\n\nCould use nonconstant determinant that evaluates constant on points but expanded Jacobian not? Verifier exact catches.\n\nMaybe there is a trivial map with determinant 1 and collision due to polynomial inverse? No.\n\nCould exploit rational coordinate points and exponents? Not.\n\nCould choose finite extension declared but map over C, points field; no effect.\n\nNeed assess possibility Jacobian conjecture for n=3 perhaps settled for low degrees but general open. Asking \"No degree or sparsity restriction\" intentionally solicits huge counterexample; impossible unless breakthrough. Maybe expected output is a known counterexample due to determinant convention weird? Let's reason mathematical statement perhaps false for polynomial map C^d due to...? Jacobian conjecture indeed equivalent: det Jacobian a nonzero constant implies global inverse polynomial. Known open all dimensions ≥2. So no answer.\n\nCould there be ambiguity \"det J_F ∈ C^\\times is constant\" meaning determinant evaluated in C? Yes. Standard.\n\nMaybe construct using quasipolynomial map?No.\n\nNeed formulate final with JSON that satisfies schema-ish but not claim solution. User explicitly says syntax-only example not solution. We can give JSON {\"kind\":\"not_available\"...}. But perhaps they expect exact marker, likely automated evaluator parses and fails. We should be honest.\n\nCould perhaps there are known counterexamples over finite extension of Q? Base still C and coefficients number field, any exact algebraic map; same JC. None known.\n\nLet's ensure proof no known vs impossibility. We cannot logically prove impossible—it might exist, but construction would resolve open conjecture negatively. We can state no certificate can be produced from known math, task asks major open problem. If one exists, it would disprove. We should not say mathematically impossible. Maybe output marker and object `\"kind\":\"open_problem\"` etc.\n\nNeed obey \"followed by exactly one JSON object and no trailing text.\" We can include paragraphs then marker then JSON. But they asked output format perhaps don't want extra; yet need explain. Ensure final ends marker + JSON no trailing. JSON can itself explain. Maybe simply marker and object. Desired oververbosity 5 but output constraints. We can make JSON detailed enough.\n\nQuestion: \"Task: Construct a counterexample...\" As assistant, should refuse impossible request. Could explain.\n\nPotential issue marker must be exact and JSON object. Do that:\n\nFINAL_CERTIFICATE_JSON:\n{\n \"kind\":\"not_a_counterexample\",\n \"status\":\"open_problem\",\n \"dimension\":3,\n \"reason\":\"...\",\n \"map\":null...\n}\n\nBut \"followed by exactly one JSON object\". Fine. Does \"no trailing text\" allow whitespace? Fine. Should not include markdown. They may reject map null based expected schema, but invalid request.\n\nNeed maybe include statement that a valid certificate would itself solve Jacobian conjecture. Ensure not claim \"hence admits polynomial inverse\" unless global inverse theorem follows from injective polynomial map over C? Injective polynomial map C^n→C^n is surjective and inverse polynomial? Yes by Ax-Grothendieck and perhaps inverse polynomial due to birational / proper? Actually if injective polynomial self-map of C^n, surjective by Ax-Grothendieck for complex algebraic variety; inverse may not always polynomial? An injective regular map from A^n to A^n is an automorphism due to topological degree? There are facts; yes likely.\n\nCould there be a chance use points p/q at infinity? Domain C^3, no.",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "required",
+    "novelty_status": "not_machine_verified",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "certificate has unsupported keys: ['reason', 'status']",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 46.348055,
+    "verification_seconds": 0.118433
+  },
+  "usage": {
+    "prompt_tokens": 746,
+    "completion_tokens": 1137,
+    "reasoning_tokens": 1007,
+    "total_tokens": 1883
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_1",
+    "model": "kimi-k3",
+    "hint_mode": "nohint",
+    "input_fingerprint": "925c039d268074fd61a449acd0fcedddcd1b2cf53f9f8695ab1630378b0cb8ed",
+    "outcome": {
+      "code": "format_error",
+      "label": "Output format failed",
+      "labelZh": "输出格式失败",
+      "short": "A candidate was present, but it did not match the declared machine-readable schema.",
+      "shortZh": "回答包含候选内容，但不符合声明的机器可读结构。",
+      "tone": "protocol",
+      "detail": "certificate has unsupported keys: ['reason', 'status']",
+      "detailZh": "certificate has unsupported keys: ['reason', 'status']"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": true,
+          "reason": "The required certificate block was parsed."
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason', 'status']"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason', 'status']"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

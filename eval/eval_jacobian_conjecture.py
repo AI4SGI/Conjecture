@@ -33,7 +33,7 @@ from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Tuple
 SCRIPT_FOLDER = Path(__file__).resolve().parent
 REPOSITORY_ROOT = SCRIPT_FOLDER.parent
 DATASET_PATH = REPOSITORY_ROOT / "problems" / "jacobian_conjecture.jsonl"
-OUTPUT_ROOT = REPOSITORY_ROOT / "results"
+OUTPUT_ROOT = REPOSITORY_ROOT / "results" / "jacobian_conjecture"
 
 # Formal evaluation configuration. Edit these values before running a model.
 MODEL_LIST = [
@@ -50,6 +50,7 @@ API_KEY = os.environ.get("ROLLOUT_API_KEY", "")
 TEMPERATURE = 1.0
 TOP_P = 0.95
 MAX_TOKENS = 128_000
+GEMINI_MAX_TOKENS = 65_536
 API_TIMEOUT_SEC = 10_400
 API_MAX_RETRIES = 0
 
@@ -83,6 +84,16 @@ _poly_work = 0
 
 class CertificateError(ValueError):
     """A deterministic certificate-validation failure."""
+
+
+class APIResponseError(RuntimeError):
+    """An upstream response that is not complete enough to evaluate."""
+
+
+def max_tokens_for_model(model: str) -> int:
+    if model.lower().startswith("gemini"):
+        return GEMINI_MAX_TOKENS
+    return MAX_TOKENS
 
 
 def reset_work_counter() -> None:
@@ -1001,6 +1012,7 @@ def base_evaluation_record(
         "output": "",
         "content": "",
         "reasoning_content": "",
+        "finish_reason": None,
         "eval": {
             "certificate_parsed": False,
             "math_valid": False,
@@ -1049,7 +1061,8 @@ def evaluate_once(
             top_p=args.top_p,
             max_tokens=record["parameters"]["max_tokens"],
         )
-        message = response.choices[0].message
+        choice = response.choices[0]
+        message = choice.message
         record["content"] = coerce_openai_text(_value(message, "content"))
         reasoning_value = (
             _value(message, "reasoning_content")
@@ -1058,6 +1071,20 @@ def evaluate_once(
         )
         record["reasoning_content"] = coerce_openai_text(reasoning_value)
         record["usage"] = response_usage(response)
+        finish_reason = _value(choice, "finish_reason")
+        record["finish_reason"] = (
+            str(finish_reason).strip().lower()
+            if finish_reason is not None
+            else None
+        )
+        if (
+            not record["content"].strip()
+            and record["finish_reason"] != "stop"
+        ):
+            raise APIResponseError(
+                "empty content with finish_reason="
+                + repr(record["finish_reason"])
+            )
     except Exception as exc:
         record["eval"]["error"] = f"{type(exc).__name__}: {exc}"
     finally:
@@ -1117,10 +1144,7 @@ def record_is_reusable(
     }
     record_parameters = record.get("parameters")
     parameters_compatible = record_parameters == expected_parameters
-    if (
-        getattr(args, "retry_max_tokens", None) is not None
-        and isinstance(record_parameters, Mapping)
-    ):
+    if isinstance(record_parameters, Mapping):
         record_max_tokens = record_parameters.get("max_tokens")
         parameters_compatible = (
             record_parameters.get("temperature") == args.temperature
@@ -1129,18 +1153,10 @@ def record_is_reusable(
             and not isinstance(record_max_tokens, bool)
             and 1 <= record_max_tokens <= args.max_tokens
         )
-    usage = record.get("usage")
-    has_api_response = (
-        bool(record.get("content"))
-        or bool(record.get("reasoning_content"))
-        or (
-            isinstance(usage, Mapping)
-            and any(
-                isinstance(value, int) and not isinstance(value, bool)
-                for value in usage.values()
-            )
-        )
-    )
+    content = record.get("content")
+    has_usable_api_response = (
+        isinstance(content, str) and bool(content.strip())
+    ) or record.get("finish_reason") == "stop"
     return (
         record.get("id") == task["id"]
         and record.get("hint") is include_hint
@@ -1148,7 +1164,7 @@ def record_is_reusable(
         and record.get("model") == args.model
         and parameters_compatible
         and isinstance(record.get("eval"), dict)
-        and has_api_response
+        and has_usable_api_response
     )
 
 
@@ -1309,12 +1325,16 @@ def evaluation_config(
 def run_evaluation(
     args: argparse.Namespace, tasks: Sequence[Dict[str, Any]]
 ) -> None:
+    if args.max_tokens is None:
+        args.max_tokens = max_tokens_for_model(args.model)
     check_runtime_dependencies(require_openai=True)
     validate_dataset(tasks)
     if args.concurrency < 1:
         raise SystemExit("--concurrency must be at least 1")
     if args.repeats < 1:
         raise SystemExit("--repeats must be at least 1")
+    if args.max_tokens < 1:
+        raise SystemExit("--max-tokens must be at least 1")
     if args.api_max_retries < 0:
         raise SystemExit("--api-max-retries must be nonnegative")
     if args.retry_max_tokens is not None and args.retry_max_tokens < 1:
@@ -1341,13 +1361,35 @@ def run_evaluation(
             old_config = None
         comparable_keys = (
             "model",
-            "parameters",
             "repeats_per_task",
             "hint_modes",
             "dataset_sha256",
         )
-        if not isinstance(old_config, dict) or any(
-            old_config.get(key) != config.get(key) for key in comparable_keys
+        old_parameters = (
+            old_config.get("parameters")
+            if isinstance(old_config, dict)
+            else None
+        )
+        old_max_tokens = (
+            old_parameters.get("max_tokens")
+            if isinstance(old_parameters, Mapping)
+            else None
+        )
+        parameters_compatible = (
+            isinstance(old_parameters, Mapping)
+            and old_parameters.get("temperature") == args.temperature
+            and old_parameters.get("top_p") == args.top_p
+            and isinstance(old_max_tokens, int)
+            and not isinstance(old_max_tokens, bool)
+            and 1 <= old_max_tokens <= args.max_tokens
+        )
+        if (
+            not isinstance(old_config, dict)
+            or not parameters_compatible
+            or any(
+                old_config.get(key) != config.get(key)
+                for key in comparable_keys
+            )
         ):
             raise SystemExit(
                 f"{run_dir} contains a different run; use --overwrite explicitly"
@@ -1594,6 +1636,9 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
         "reasoning_tokens": 17,
         "total_tokens": 34,
     }
+    assert max_tokens_for_model("gpt-5.5-xhigh") == 128_000
+    assert max_tokens_for_model("Gemini-3.1-pro") == 65_536
+    assert OUTPUT_ROOT == REPOSITORY_ROOT / "results" / "jacobian_conjecture"
 
     mock_args = argparse.Namespace(
         model="mock-model",
@@ -1611,6 +1656,7 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
         "output",
         "content",
         "reasoning_content",
+        "finish_reason",
         "eval",
         "timing",
         "usage",
@@ -1637,6 +1683,10 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
     retry_record = base_evaluation_record(tasks[0], False, 1, retry_args)
     assert retry_record["parameters"]["max_tokens"] == 32_768
     retry_record["usage"] = {"total_tokens": 32_768}
+    assert not record_is_reusable(
+        retry_record, tasks[0], False, 1, retry_args
+    )
+    retry_record["finish_reason"] = "stop"
     assert record_is_reusable(retry_record, tasks[0], False, 1, retry_args)
     retry_record["parameters"]["max_tokens"] = 65_536
     assert record_is_reusable(retry_record, tasks[0], False, 1, retry_args)
@@ -1656,6 +1706,7 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
     fake_response = SimpleNamespace(
         choices=[
             SimpleNamespace(
+                finish_reason="stop",
                 message=SimpleNamespace(
                     content=(
                         "visible answer\n"
@@ -1713,8 +1764,28 @@ def run_self_tests(tasks: Sequence[Dict[str, Any]]) -> None:
             assert evaluated["eval"]["official_pass"]
             assert saved["content"].startswith("visible answer")
             assert saved["reasoning_content"] == "native reasoning trace"
+            assert saved["finish_reason"] == "stop"
             assert saved["output"] == certificate_text
             assert saved["usage"]["reasoning_tokens"] == 151
+
+            fake_response.choices[0].finish_reason = "length"
+            fake_response.choices[0].message.content = ""
+            failed = evaluate_once(
+                dict(tasks[0]),
+                True,
+                1,
+                mock_run_args,
+                Path(temp_dir),
+                lambda: progress_updates.append(True),
+            )
+            assert failed["content"] == ""
+            assert failed["finish_reason"] == "length"
+            assert str(failed["eval"]["error"]).startswith(
+                "APIResponseError: empty content with finish_reason="
+            )
+            assert not record_is_reusable(
+                failed, tasks[0], True, 1, mock_run_args
+            )
     finally:
         globals()["openai_client"] = original_openai_client
 
@@ -1740,7 +1811,14 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--concurrency", type=int, default=MAX_CONCURRENCY)
     parser.add_argument("--temperature", type=float, default=TEMPERATURE)
     parser.add_argument("--top-p", type=float, default=TOP_P)
-    parser.add_argument("--max-tokens", type=int, default=MAX_TOKENS)
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        help=(
+            "override the model-aware default (128000, or 65536 for "
+            "Gemini-prefixed models)"
+        ),
+    )
     parser.add_argument("--retry-max-tokens", type=int)
     parser.add_argument("--api-timeout", type=int, default=API_TIMEOUT_SEC)
     parser.add_argument("--api-max-retries", type=int, default=API_MAX_RETRIES)

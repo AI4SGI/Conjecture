@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "number_theory_001_beal_conjecture",
+  "slug": "beal-conjecture",
+  "title": "Beal Conjecture",
+  "titleZh": "Beal 猜想",
+  "proposed": "Proposed in 1993",
+  "proposedZh": "1993 年提出",
+  "status": "Open · US$1,000,000 AMS-administered prize",
+  "statusZh": "开放 · AMS 管理的 100 万美元奖金",
+  "author": "Andrew Beal",
+  "domain": "Number theory",
+  "problemSource": "problems/number_theory.jsonl",
+  "problemId": "number_theory_001_beal_conjecture",
+  "resultsPath": "results/number_theory_001_beal_conjecture",
+  "overview": {
+    "eyebrow": "EXPONENTIAL DIOPHANTINE EQUATIONS",
+    "eyebrowZh": "指数型丢番图方程",
+    "summary": "Can three pairwise collectively coprime bases support an equality of perfect powers with every exponent greater than two? OPBench turns a counterexample into six integers checked with exact arithmetic.",
+    "summaryZh": "三个没有共同素因子的底数能否在所有指数均大于二时构成幂等式？OPBench 将反例化为六个可精确运算核验的整数。",
+    "primaryAction": "Explore the construction tasks",
+    "primaryActionZh": "查看构造题目"
+  },
+  "visualization": {
+    "kind": "beal",
+    "codePath": "src/components/conjecture-visual.tsx",
+    "label": "Exact powers constrained by a shared prime",
+    "labelZh": "共同素因子约束下的精确幂等式",
+    "example": "3^3+6^3=3^5,\\qquad \\gcd(3,6,3)=3",
+    "caption": "Known solutions such as 27 + 216 = 243 share a prime factor; a counterexample must make the common gcd equal to one.",
+    "captionZh": "已知解如 27 + 216 = 243 具有共同素因子；反例必须使三个底数的共同最大公因数为 1。"
+  },
+  "statement": {
+    "intro": "For positive integers with all exponents greater than two,",
+    "introZh": "对于正整数且所有指数均大于二，",
+    "formula": "A^x+B^y=C^z,\\qquad x,y,z>2",
+    "explanation": "the conjecture states that $A$, $B$, and $C$ must have a common prime factor. A counterexample must additionally satisfy $\\gcd(A,B,C)=1$.",
+    "explanationZh": "猜想断言 $A$、$B$、$C$ 必有共同素因子。反例还必须满足 $\\gcd(A,B,C)=1$。",
+    "note": "The verifier uses arbitrary-precision integer exponentiation and gcd; there is no numerical tolerance and no model-based grading.",
+    "noteZh": "验证器使用任意精度整数幂与最大公因数运算，不设数值容差，也不使用模型评分。"
+  },
+  "atlas": {
+    "title": "A Fermat-type frontier with a standing prize",
+    "titleZh": "设有长期奖金的 Fermat 型前沿",
+    "body": "The statement generalizes the exponent pattern behind Fermat's Last Theorem while allowing three different exponents.",
+    "bodyZh": "该命题推广 Fermat 大定理背后的指数结构，并允许三个指数彼此不同。",
+    "events": [
+      {"year":"1993","title":"Andrew Beal formulates the conjecture","titleZh":"Andrew Beal 提出猜想","description":"Beal states the common-prime-factor obstruction while investigating Fermat-type equations.","descriptionZh":"Beal 在研究 Fermat 型方程时提出共同素因子障碍。","links":[{"label":"Andrew Beal · history","url":"https://www.andrewbeal.com/beal-conjecture"}]},
+      {"year":"1997","title":"The conjecture and prize are announced through the AMS","titleZh":"猜想与奖金通过 AMS 公布","description":"The Notices of the AMS introduces the problem and its publication-based award process.","descriptionZh":"《AMS Notices》介绍该问题及以正式发表为前提的奖励流程。","links":[{"label":"Notices of the AMS","url":"https://www.ams.org/notices/199711/beal.pdf"}]},
+      {"year":"2013","title":"The prize fund reaches US$1,000,000","titleZh":"奖金增至 100 万美元","description":"An AMS-appointed committee administers the award for a refereed proof or counterexample.","descriptionZh":"AMS 任命的委员会负责评审经同行评议发表的证明或反例。","links":[{"label":"AMS Beal Prize","url":"https://www.jointmathematicsmeetings.org/prizes-awards/paview.cgi?parent_id=41"}]},
+      {"year":"2026","title":"The conjecture remains open","titleZh":"猜想仍未解决","description":"No accepted coprime-base solution or proof is known; finite proposed tuples remain exactly testable.","descriptionZh":"尚无获认可的互素底数解或完整证明，但任意有限候选六元组均可精确核验。","links":[{"label":"Official problem site","url":"https://www.bealconjecture.com/"}]}
+    ]
+  },
+  "benchmark": {
+    "name": "OPBench · Beal Counterexample Search",
+    "title": "Exact feasibility, plus an optimization target",
+    "titleZh": "精确可行性与优化目标",
+    "body": "The source record contains a strict counterexample task and a nonempty optimization variant, so both are exposed. Current model traces target the strict task.",
+    "bodyZh": "源数据同时包含严格反例任务与非空优化变体，因此页面展示两者；当前模型轨迹对应严格任务。",
+    "contextLabel": "Problem context",
+    "contextLabelZh": "问题背景",
+    "hintPolicy": "none",
+    "hintNote": "This open problem is evaluated without hints.",
+    "hintNoteZh": "该开放问题统一采用无提示评测。",
+    "footer": "A strict pass requires equality. The optimization task ranks feasible tuples by $|A^x+B^y-C^z|$, where zero is an exact counterexample.",
+    "footerZh": "严格通过要求等式成立；优化题按 $|A^x+B^y-C^z|$ 排序，零即为精确反例。",
+    "tasks": [
+      {"id":"number_theory_001_beal_conjecture","key":"P1","source":"primary","title":"Coprime-base Counterexample","titleZh":"互素底数反例","subtitle":"Six integers · exact equality","subtitleZh":"六个整数 · 精确等式","tier":"Open-Problem Level","tierZh":"开放问题级","capability":"Diophantine construction","capabilityZh":"丢番图构造","significance":"A passing tuple would disprove the Beal Conjecture and qualify for deterministic checking.","significanceZh":"通过的六元组将反驳 Beal 猜想，并可被确定性程序核验。","questionZh":"构造一个整数六元组 $(A,B,C,x,y,z)$：三个底数均为正整数，三个指数均大于 2，$\\gcd(A,B,C)=1$，并且精确满足 $A^x+B^y=C^z$。"},
+      {"id":"number_theory_001_beal_conjecture__optimization","key":"P2","source":"optimization","title":"Residual Minimization","titleZh":"残差最小化","subtitle":"Feasible bases · minimize the exact gap","subtitleZh":"满足底数约束 · 最小化精确差值","tier":"Optimization Track","tierZh":"优化赛道","capability":"Integer search and optimization","capabilityZh":"整数搜索与优化","significance":"Near misses expose search quality without being misreported as counterexamples.","significanceZh":"近似解可以反映搜索质量，但不会被误报为反例。","questionZh":"在 $A,B,C>0$、$x,y,z>2$ 且 $\\gcd(A,B,C)=1$ 的条件下，最小化精确整数残差 $L=|A^x+B^y-C^z|$；$L=0$ 即为严格反例。"}
+    ]
+  },
+  "evaluation": {
+    "title": "Condition-level arithmetic verdicts",
+    "titleZh": "逐条件精确算术结论",
+    "body": "Parsing, positivity, exponent bounds, gcd, and equality are shown separately; the residual is retained as an optimization metric.",
+    "bodyZh": "解析、正整数、指数范围、最大公因数与等式逐项展示，并保留残差作为优化指标。"
+  },
+  "symbolicLab": {
+    "title": "Six-integer output and exact verifier",
+    "titleZh": "六整数输出与精确验证器",
+    "body": "The offline script parses the declared JSON keys, rejects booleans and non-integers, checks the gcd, and computes both sides with arbitrary-precision integers.",
+    "bodyZh": "离线脚本解析固定 JSON 字段，拒绝布尔值与非整数，核验最大公因数，并以任意精度整数计算等式两侧。",
+    "verifierPath": "eval/eval_number_theory_001_beal_conjecture.py",
+    "interactive": "conditions",
+    "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
+  }
+}

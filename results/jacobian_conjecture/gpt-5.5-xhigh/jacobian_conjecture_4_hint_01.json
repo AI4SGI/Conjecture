@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_4",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 65536
+  },
+  "output": "{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"I cannot construct the requested object. A polynomial map F:C^3->C^3 with det J_F in C^times and distinct points in one fiber would be a counterexample to the complex Jacobian conjecture, which is a major open problem. Providing such a certificate would therefore require a genuine breakthrough, and I will not fabricate one.\"\n}",
+  "content": "FINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"I cannot construct the requested object. A polynomial map F:C^3->C^3 with det J_F in C^times and distinct points in one fiber would be a counterexample to the complex Jacobian conjecture, which is a major open problem. Providing such a certificate would therefore require a genuine breakthrough, and I will not fabricate one.\"\n}",
+  "reasoning_content": "",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "generic_fiber_requirement": "degree_4_required",
+    "generic_fiber_status": "not_machine_verified",
+    "error": "certificate has unsupported keys: ['reason']",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 1799.304431,
+    "verification_seconds": 0.140151
+  },
+  "usage": {
+    "prompt_tokens": 1051,
+    "completion_tokens": 2166,
+    "reasoning_tokens": 2048,
+    "total_tokens": 3217
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_4",
+    "model": "gpt-5.5-xhigh",
+    "hint_mode": "hint",
+    "input_fingerprint": "09734db20ee2feb78ee8b29eb03ad2cf58093802d98973248081e553ea3fbdf6",
+    "outcome": {
+      "code": "format_error",
+      "label": "Output format failed",
+      "labelZh": "输出格式失败",
+      "short": "A candidate was present, but it did not match the declared machine-readable schema.",
+      "shortZh": "回答包含候选内容，但不符合声明的机器可读结构。",
+      "tone": "protocol",
+      "detail": "certificate has unsupported keys: ['reason']",
+      "detailZh": "certificate has unsupported keys: ['reason']"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": true,
+          "reason": "The required certificate block was parsed."
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason']"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason']"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

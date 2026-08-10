@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "data": "node scripts/generate-site-data.mjs",
+    "data:annotate": "node scripts/annotate-results.mjs",
+    "init:conjectures": "node scripts/init-conjectures-from-jsonl.mjs",
     "dev": "next dev",
     "build": "npm run data && next build --webpack",
     "build:pages": "npm run data && next build --webpack",

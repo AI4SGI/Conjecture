@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_3",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "{}",
+  "content": "I can’t construct such a certificate.\n\nA polynomial map \\(F:\\mathbb C^3\\to\\mathbb C^3\\) with \\(\\det J_F\\in\\mathbb C^\\times\\) and two distinct points in one fiber would be a counterexample to the complex Jacobian conjecture. No such counterexample is currently known; producing one of degree \\(<7\\) would in particular settle a major open problem.\n\nThe hinted degree-7 map therefore cannot be treated as a valid known counterexample to the complex Jacobian conjecture in the stated sense. Supplying a fabricated JSON certificate would be mathematically invalid.\n\nFINAL_CERTIFICATE_JSON:\n{}",
+  "reasoning_content": "",
+  "finish_reason": "stop",
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "kind must be map_collision",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 53.732275,
+    "verification_seconds": 0.129575
+  },
+  "usage": {
+    "prompt_tokens": 892,
+    "completion_tokens": 3249,
+    "reasoning_tokens": 3071,
+    "total_tokens": 4141
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_3",
+    "model": "gpt-5.5-xhigh",
+    "hint_mode": "hint",
+    "input_fingerprint": "db20567d884ff108a6080a310a87de53e2ce797dfffa94c558a9ff31323c450b",
+    "outcome": {
+      "code": "invalid_certificate",
+      "label": "Certificate failed deterministic verification",
+      "labelZh": "证书未通过确定性验证",
+      "short": "The offline program could not confirm all required conditions.",
+      "shortZh": "离线程序无法确认全部必要条件。",
+      "tone": "math",
+      "detail": "kind must be map_collision",
+      "detailZh": "kind must be map_collision"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": true,
+          "reason": "The required certificate block was parsed."
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "kind must be map_collision"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "kind must be map_collision"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

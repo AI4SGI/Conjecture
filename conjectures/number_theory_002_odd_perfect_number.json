@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "number_theory_002_odd_perfect_number",
+  "slug": "odd-perfect-number",
+  "title": "Odd Perfect Number Problem",
+  "titleZh": "奇完全数问题",
+  "proposed": "Open since antiquity",
+  "proposedZh": "自古典时代开放至今",
+  "status": "Open · no odd perfect number is known",
+  "statusZh": "开放 · 尚未发现奇完全数",
+  "author": "Classical problem",
+  "domain": "Number theory",
+  "problemSource": "problems/number_theory.jsonl",
+  "problemId": "number_theory_002_odd_perfect_number",
+  "resultsPath": "results/number_theory_002_odd_perfect_number",
+  "overview": {
+    "eyebrow": "DIVISOR SUMS AND CERTIFIED FACTORIZATION",
+    "eyebrowZh": "约数和与认证分解",
+    "summary": "Does an odd positive integer equal the sum of its proper divisors? OPBench asks for the integer together with a complete prime-power factorization, making every finite claim checkable.",
+    "summaryZh": "是否存在等于其真因数之和的奇正整数？OPBench 要求同时提交完整素数幂分解，使每项有限断言都可核验。",
+    "primaryAction": "Explore the certified construction",
+    "primaryActionZh": "查看认证构造题"
+  },
+  "visualization": {
+    "kind": "odd-perfect",
+    "codePath": "src/components/conjecture-visual.tsx",
+    "label": "Divisor mass must balance exactly",
+    "labelZh": "约数总和必须精确平衡",
+    "example": "\\sigma(6)=1+2+3+6=12=2\\cdot6",
+    "caption": "Six is even and perfect. The benchmark seeks the same exact balance for an odd integer with a certified factorization.",
+    "captionZh": "6 是偶完全数；评测要求奇整数在附带认证分解时达到同样的精确平衡。"
+  },
+  "statement": {
+    "intro": "A positive integer is perfect when its divisor sum satisfies",
+    "introZh": "若正整数的约数和满足下式，则称为完全数：",
+    "formula": "\\sigma(N)=\\sum_{d\\mid N}d=2N.",
+    "explanation": "Euclid and Euler characterize all even perfect numbers. The unresolved question asks whether any odd $N$ satisfies the same identity.",
+    "explanationZh": "Euclid 与 Euler 已刻画所有偶完全数；未决问题是是否存在满足同一恒等式的奇数 $N$。",
+    "note": "A candidate is accepted only when its complete prime-power factorization is certified and the multiplicative divisor-sum formula equals $2N$ exactly.",
+    "noteZh": "候选仅在完整素数幂分解得到认证，且乘法约数和公式精确等于 $2N$ 时通过。"
+  },
+  "atlas": {
+    "title": "An ancient question narrowed by computation and structure",
+    "titleZh": "由计算与结构不断收窄的古老问题",
+    "body": "Research has not found a witness, but it has forced every hypothetical odd perfect number to be enormous and highly structured.",
+    "bodyZh": "研究尚未找到实例，但已证明任何可能的奇完全数都必须极其巨大且具有严格结构。",
+    "events": [
+      {"year":"c. 300 BCE","title":"Euclid constructs even perfect numbers","titleZh":"Euclid 构造偶完全数","description":"Euclid links Mersenne primes to even perfect numbers; Euler later proves the converse.","descriptionZh":"Euclid 将 Mersenne 素数与偶完全数联系起来，Euler 后来证明其逆命题。","links":[{"label":"Euclid–Euler theorem","url":"https://mathworld.wolfram.com/PerfectNumber.html"}]},
+      {"year":"18th century","title":"Euler constrains the odd case","titleZh":"Euler 约束奇数情形","description":"Any odd perfect number must have the form $q^{4k+1}m^2$ with $q\\equiv1\\pmod4$.","descriptionZh":"任意奇完全数必须形如 $q^{4k+1}m^2$，且 $q\\equiv1\\pmod4$。","links":[{"label":"Eulerian form overview","url":"https://mathworld.wolfram.com/OddPerfectNumber.html"}]},
+      {"year":"2012","title":"The computational lower bound passes $10^{1500}$","titleZh":"计算下界超过 $10^{1500}$","description":"Ochem and Rao eliminate all smaller candidates through a reproducible factor-chain search.","descriptionZh":"Ochem 与 Rao 通过可复现的因子链搜索排除全部更小候选。","links":[{"label":"Mathematics of Computation","url":"https://www.ams.org/journals/mcom/2015-84-295/S0025-5718-2015-02941-X/"}]},
+      {"year":"2015","title":"At least ten distinct prime factors are required","titleZh":"至少需要十个不同素因子","description":"Nielsen strengthens the factor-count restriction for every hypothetical odd perfect number.","descriptionZh":"Nielsen 加强了任意潜在奇完全数的不同素因子数量限制。","links":[{"label":"AMS paper", "url":"https://www.ams.org/journals/mcom/2015-84-295/S0025-5718-2015-02941-X/"}]},
+      {"year":"2026","title":"Certified branch-search artifacts extend the computational program","titleZh":"认证分支搜索继续推进计算计划","description":"Recent work packages selected smallest-prime branches as verifier-checkable certificates while leaving the global existence question open.","descriptionZh":"近期工作将若干最小素因子分支整理为可由验证器检查的证书，但整体存在性问题仍开放。","links":[{"label":"arXiv:2607.04365","url":"https://arxiv.org/abs/2607.04365"}]}
+    ]
+  },
+  "benchmark": {
+    "name": "OPBench · Odd Perfect Number Construction",
+    "title": "One open construction, fully certified",
+    "titleZh": "一道开放构造题，完整认证",
+    "body": "Because the source optimization field is empty, the page exposes exactly one evaluation problem.",
+    "bodyZh": "由于源数据的 optimization 字段为空，页面只展示一道评测问题。",
+    "contextLabel": "Problem context",
+    "contextLabelZh": "问题背景",
+    "hintPolicy": "none",
+    "hintNote": "This open problem is evaluated without hints.",
+    "hintNoteZh": "该开放问题统一采用无提示评测。",
+    "footer": "A prose claim or a large odd number is insufficient: the prime-power list must multiply to $N$, each prime must be certified, and $\\sigma(N)=2N$ must hold exactly.",
+    "footerZh": "仅有文字声明或大奇数并不足够：素数幂列表必须乘得 $N$，每个素数必须认证，且 $\\sigma(N)=2N$ 必须精确成立。",
+    "tasks": [
+      {"id":"number_theory_002_odd_perfect_number","key":"P1","source":"primary","title":"Certified Odd Perfect Number","titleZh":"认证奇完全数","subtitle":"One integer · complete prime-power certificate","subtitleZh":"一个整数 · 完整素数幂证书","tier":"Open-Problem Level","tierZh":"开放问题级","capability":"Certified number-theoretic construction","capabilityZh":"认证数论构造","significance":"A passing finite certificate would settle one of the oldest open questions in number theory.","significanceZh":"通过的有限证书将解决数论中最古老的开放问题之一。","questionZh":"构造一个奇正整数 $N$ 及其完整、经过素性认证的素数幂分解，并精确满足 $\\sigma(N)=2N$。"}
+    ]
+  },
+  "evaluation": {
+    "title": "Factorization and divisor-sum verdicts",
+    "titleZh": "分解与约数和结论",
+    "body": "The dashboard separates parsing, parity, factorization certification, and the final divisor-sum equality.",
+    "bodyZh": "仪表板分别展示解析、奇偶性、分解认证与最终约数和等式。"
+  },
+  "symbolicLab": {
+    "title": "Prime-power certificate and exact divisor sum",
+    "titleZh": "素数幂证书与精确约数和",
+    "body": "The verifier multiplies the declared factorization, certifies each prime, and evaluates $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$ with integers.",
+    "bodyZh": "验证器重建所声明的分解、认证每个素数，并以整数计算 $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$。",
+    "verifierPath": "eval/eval_number_theory_002_odd_perfect_number.py",
+    "interactive": "conditions",
+    "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
+  }
+}

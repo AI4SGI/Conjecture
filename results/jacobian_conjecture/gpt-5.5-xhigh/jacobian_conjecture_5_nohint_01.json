@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_5",
+  "hint": false,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 65536
+  },
+  "output": "{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid map_collision certificate of the requested kind would disprove the open two-dimensional Jacobian Conjecture; no such counterexample is known.\"\n}",
+  "content": "I can’t construct such a certificate: it would be a counterexample to the two-dimensional Jacobian Conjecture, which is a famous open problem. Providing a JSON map with constant nonzero Jacobian and a collision would amount to resolving it negatively.\n\nFINAL_CERTIFICATE_JSON:\n{\n  \"kind\": \"no_certificate\",\n  \"reason\": \"A valid map_collision certificate of the requested kind would disprove the open two-dimensional Jacobian Conjecture; no such counterexample is known.\"\n}",
+  "reasoning_content": "",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": true,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "not_required",
+    "novelty_status": "not_applicable",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "certificate has unsupported keys: ['reason']",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 25.58855,
+    "verification_seconds": 0.113867
+  },
+  "usage": {
+    "prompt_tokens": 660,
+    "completion_tokens": 1140,
+    "reasoning_tokens": 1024,
+    "total_tokens": 1800
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_5",
+    "model": "gpt-5.5-xhigh",
+    "hint_mode": "nohint",
+    "input_fingerprint": "04fa2f6de57cd86f06f0b741e56ea8989a98689fec1d72800344b38316e37661",
+    "outcome": {
+      "code": "format_error",
+      "label": "Output format failed",
+      "labelZh": "输出格式失败",
+      "short": "A candidate was present, but it did not match the declared machine-readable schema.",
+      "shortZh": "回答包含候选内容，但不符合声明的机器可读结构。",
+      "tone": "protocol",
+      "detail": "certificate has unsupported keys: ['reason']",
+      "detailZh": "certificate has unsupported keys: ['reason']"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": true,
+          "reason": "The required certificate block was parsed."
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason']"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "certificate has unsupported keys: ['reason']"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

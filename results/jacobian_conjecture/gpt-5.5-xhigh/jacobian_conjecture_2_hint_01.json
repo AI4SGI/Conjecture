@@ -1,0 +1,80 @@
+{
+  "id": "jacobian_conjecture_2",
+  "hint": true,
+  "repeat_index": 1,
+  "model": "gpt-5.5-xhigh",
+  "parameters": {
+    "temperature": 1,
+    "top_p": 0.95,
+    "max_tokens": 128000
+  },
+  "output": "",
+  "content": "",
+  "reasoning_content": "",
+  "finish_reason": null,
+  "eval": {
+    "certificate_parsed": false,
+    "math_valid": false,
+    "objective_pass": false,
+    "official_pass": false,
+    "novelty_requirement": "required",
+    "novelty_status": "not_machine_verified",
+    "generic_fiber_requirement": "not_required",
+    "generic_fiber_status": "not_applicable",
+    "error": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+    "metrics": {},
+    "symbolic_work": 0
+  },
+  "timing": {
+    "inference_seconds": 604.042159,
+    "verification_seconds": 0
+  },
+  "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "reasoning_tokens": null,
+    "total_tokens": null
+  },
+  "opbench_annotation": {
+    "schema_version": 1,
+    "conjecture_id": "jacobian_conjecture",
+    "task_id": "jacobian_conjecture_2",
+    "model": "gpt-5.5-xhigh",
+    "hint_mode": "hint",
+    "input_fingerprint": "9083ee74d90c80487b3f09142452715ceac53591962a7588c62ed5373884e65d",
+    "outcome": {
+      "code": "api_failure",
+      "label": "API or model response failure",
+      "labelZh": "API 或模型响应失败",
+      "short": "No evaluable response was produced because the request or upstream service failed.",
+      "shortZh": "请求或上游服务失败，未产生可评测响应。",
+      "tone": "system",
+      "detail": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}",
+      "detailZh": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}"
+    },
+    "verification": {
+      "passed": false,
+      "conditions": [
+        {
+          "condition_id": 1,
+          "condition": "A structured certificate was parsed.",
+          "passed": false,
+          "reason": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}"
+        },
+        {
+          "condition_id": 2,
+          "condition": "The base mathematical certificate is valid.",
+          "passed": false,
+          "reason": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}"
+        },
+        {
+          "condition_id": 3,
+          "condition": "The task-specific objective is satisfied.",
+          "passed": false,
+          "reason": "InternalServerError: Error code: 504 - {'error': {'message': 'openai_error', 'type': 'bad_response_status_code', 'param': '', 'code': 'bad_response_status_code'}}"
+        }
+      ],
+      "metric": null
+    }
+  }
+}

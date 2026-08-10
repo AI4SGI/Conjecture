@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "conjectures": [
+    {
+      "id": "jacobian_conjecture",
+      "file": "jacobian_conjecture.json",
+      "enabled": true
+    },
+    {
+      "id": "number_theory_001_beal_conjecture",
+      "file": "number_theory_001_beal_conjecture.json",
+      "enabled": true
+    },
+    {
+      "id": "number_theory_002_odd_perfect_number",
+      "file": "number_theory_002_odd_perfect_number.json",
+      "enabled": true
+    }
+  ]
+}

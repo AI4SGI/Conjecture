@@ -1,27 +1,15 @@
 "use client";
 
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Menu,
-  ShieldCheck,
-  Star,
-  X,
-} from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import type {
-  BenchmarkData,
-  CommunitySnapshot,
-  FrontierNewsItem,
-  Language,
-  Task,
-} from "../lib/types";
-import { BlockMath, InlineMath } from "./math";
-import { HeroVisual } from "./hero-visual";
-import { TaskSection } from "./task-section";
-import { ResultsDashboard } from "./results-dashboard";
-import { PolynomialVerifier } from "./polynomial-verifier";
+import { ArrowDown, ArrowUpRight, Database, Menu, ShieldCheck, Star, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { CommunitySnapshot, FrontierNewsItem, Language, SiteData } from "../lib/types";
 import { CommunityBoard } from "./community-board";
+import { ConjectureVisual } from "./conjecture-visual";
+import { BlockMath } from "./math";
+import { PolynomialVerifier } from "./polynomial-verifier";
+import { ResultsDashboard } from "./results-dashboard";
+import { SymbolicLab } from "./symbolic-lab";
+import { MathText, TaskSection } from "./task-section";
 
 const EMPTY_COMMUNITY: CommunitySnapshot = {
   taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
@@ -29,26 +17,19 @@ const EMPTY_COMMUNITY: CommunitySnapshot = {
   messages: [],
   pendingCount: 0,
 };
-
 const DEPLOY_TARGET = process.env.NEXT_PUBLIC_DEPLOY_TARGET ?? "server";
-const SITE_BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(
-  /\/+$/,
-  "",
-);
-const EXTERNAL_COMMUNITY_BASE = (
-  process.env.NEXT_PUBLIC_COMMUNITY_API_URL ?? ""
-).replace(/\/+$/, "");
+const SITE_BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+const EXTERNAL_COMMUNITY_BASE = (process.env.NEXT_PUBLIC_COMMUNITY_API_URL ?? "").replace(/\/+$/, "");
 const COMMUNITY_API_URL = EXTERNAL_COMMUNITY_BASE
   ? `${EXTERNAL_COMMUNITY_BASE}/api/community`
   : DEPLOY_TARGET === "github-pages"
     ? null
     : `${SITE_BASE_PATH}/api/community`;
-const GITHUB_REPOSITORY =
-  process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
+const GITHUB_REPOSITORY = process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
 const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
 
 function getClientKey() {
-  const key = "conjecture-frontier-client-key";
+  const key = "opbench-client-key";
   let value = window.localStorage.getItem(key);
   if (!value) {
     value = crypto.randomUUID();
@@ -57,31 +38,30 @@ function getClientKey() {
   return value;
 }
 
-export function ResearchSite({
-  data,
-  news,
-}: {
-  data: BenchmarkData;
-  news: FrontierNewsItem[];
-}) {
+export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNewsItem[] }) {
   const [language, setLanguage] = useState<Language>("en");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeConjecture] = useState("jacobian");
-  const [community, setCommunity] =
-    useState<CommunitySnapshot>(EMPTY_COMMUNITY);
-  const [communityOnline, setCommunityOnline] = useState(
-    Boolean(COMMUNITY_API_URL),
-  );
-  const [github, setGithub] = useState<{
-    available: boolean;
-    stars?: number;
-    url: string;
-  }>({ available: false, url: GITHUB_URL });
+  const [activeId, setActiveId] = useState(site.conjectures[0]?.id ?? "");
+  const [community, setCommunity] = useState<CommunitySnapshot>(EMPTY_COMMUNITY);
+  const [communityOnline, setCommunityOnline] = useState(Boolean(COMMUNITY_API_URL));
+  const [github, setGithub] = useState<{ available: boolean; stars?: number; url: string }>({ available: false, url: GITHUB_URL });
   const english = language === "en";
+  const conjecture = useMemo(
+    () => site.conjectures.find((item) => item.id === activeId) ?? site.conjectures[0],
+    [activeId, site.conjectures],
+  );
+  const data = conjecture.benchmarkData;
 
   useEffect(() => {
     document.documentElement.lang = english ? "en" : "zh-CN";
   }, [english]);
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("conjecture");
+    if (requested && site.conjectures.some((item) => item.slug === requested || item.id === requested)) {
+      setActiveId(site.conjectures.find((item) => item.slug === requested || item.id === requested)!.id);
+    }
+  }, [site.conjectures]);
 
   const refreshCommunity = useCallback(async (sort = "recent") => {
     if (!COMMUNITY_API_URL) {
@@ -89,13 +69,8 @@ export function ResearchSite({
       return;
     }
     try {
-      const query = new URLSearchParams({
-        sort,
-        clientKey: getClientKey(),
-      });
-      const response = await fetch(`${COMMUNITY_API_URL}?${query}`, {
-        cache: "no-store",
-      });
+      const query = new URLSearchParams({ sort, clientKey: getClientKey() });
+      const response = await fetch(`${COMMUNITY_API_URL}?${query}`, { cache: "no-store" });
       const snapshot = (await response.json()) as CommunitySnapshot;
       if (!response.ok || snapshot.unavailable) throw new Error("unavailable");
       setCommunity(snapshot);
@@ -107,638 +82,142 @@ export function ResearchSite({
 
   useEffect(() => {
     void refreshCommunity();
-    const githubEndpoint =
-      DEPLOY_TARGET === "github-pages"
-        ? `https://api.github.com/repos/${GITHUB_REPOSITORY}`
-        : `${SITE_BASE_PATH}/api/github`;
+    const githubEndpoint = DEPLOY_TARGET === "github-pages" ? `https://api.github.com/repos/${GITHUB_REPOSITORY}` : `${SITE_BASE_PATH}/api/github`;
     void fetch(githubEndpoint)
       .then(async (response) => {
-        if (!response.ok) throw new Error("github_unavailable");
+        if (!response.ok) throw new Error("github unavailable");
         if (DEPLOY_TARGET === "github-pages") {
-          const payload = (await response.json()) as {
-            stargazers_count: number;
-            html_url: string;
-          };
-          return {
-            available: true,
-            stars: payload.stargazers_count,
-            url: payload.html_url,
-          };
+          const payload = (await response.json()) as { stargazers_count: number; html_url: string };
+          return { available: true, stars: payload.stargazers_count, url: payload.html_url };
         }
-        return response.json() as Promise<{
-          available: boolean;
-          stars?: number;
-          url: string;
-        }>;
+        return response.json() as Promise<{ available: boolean; stars?: number; url: string }>;
       })
       .then(setGithub)
       .catch(() => undefined);
   }, [refreshCommunity]);
 
-  async function likeTask(task: Task["key"]) {
-    if (!COMMUNITY_API_URL) return "error" as const;
+  async function likeTask(task: string) {
+    if (!COMMUNITY_API_URL || conjecture.id !== "jacobian_conjecture") return "error" as const;
     const response = await fetch(COMMUNITY_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "like_task",
-        task,
-        clientKey: getClientKey(),
-      }),
+      body: JSON.stringify({ action: "like_task", task, clientKey: getClientKey() }),
     });
-    if (response.ok) {
-      const result = (await response.json()) as {
-        likes: number;
-        liked: boolean;
-      };
-      setCommunity((current) => ({
-        ...current,
-        taskLikes: { ...current.taskLikes, [task]: result.likes },
-        likedTasks: result.liked
-          ? [...new Set([...(current.likedTasks ?? []), task])]
-          : (current.likedTasks ?? []).filter((candidate) => candidate !== task),
-      }));
-      return result.liked ? ("liked" as const) : ("unliked" as const);
-    }
-    return "error" as const;
+    if (!response.ok) return "error" as const;
+    const result = (await response.json()) as { likes: number; liked: boolean };
+    setCommunity((current) => ({
+      ...current,
+      taskLikes: { ...current.taskLikes, [task]: result.likes },
+      likedTasks: result.liked
+        ? [...new Set([...(current.likedTasks ?? []), task])]
+        : (current.likedTasks ?? []).filter((candidate) => candidate !== task),
+    }));
+    return result.liked ? ("liked" as const) : ("unliked" as const);
+  }
+
+  function selectConjecture(id: string) {
+    const selected = site.conjectures.find((item) => item.id === id);
+    if (!selected) return;
+    setActiveId(id);
+    const url = new URL(window.location.href);
+    url.searchParams.set("conjecture", selected.slug);
+    window.history.replaceState({}, "", url);
   }
 
   const navigation = english
-    ? [
-        ["#atlas", "Atlas"],
-        ["#benchmark", "Benchmark"],
-        ["#results", "Evaluation"],
-        ["#verify", "Symbolic Lab"],
-        ["#community", "Community"],
-      ]
-    : [
-        ["#atlas", "进展"],
-        ["#benchmark", "题目"],
-        ["#results", "结果"],
-        ["#verify", "验证器"],
-        ["#community", "留言"],
-      ];
+    ? [["#atlas", "Atlas"], ["#benchmark", "Benchmark"], ["#results", "Evaluation"], ["#verify", "Symbolic Lab"], ["#community", "Community"]]
+    : [["#atlas", "进展"], ["#benchmark", "题目"], ["#results", "结果"], ["#verify", "验证器"], ["#community", "讨论"]];
 
   return (
     <>
       <header className="site-header">
-        <a
-          className="brand"
-          href="#top"
-          aria-label={english ? "Back to top" : "回到顶部"}
-        >
-          <span className="brand-mark conjecture-mark" aria-hidden="true">
-            ∃
-          </span>
-          <span>
-            <b>Conjecture Frontier</b>
-            <small>Counterexample Benchmark</small>
-          </span>
+        <a className="brand" href="#top" aria-label={english ? "Back to top" : "回到顶部"}>
+          <span className="brand-mark conjecture-mark" aria-hidden="true">∃</span>
+          <span><b>OPBench</b><small>OpenProblemBench</small></span>
         </a>
         <nav className={menuOpen ? "main-nav nav-open" : "main-nav"}>
-          {navigation.map(([href, label]) => (
-            <a key={href} href={href} onClick={() => setMenuOpen(false)}>
-              {label}
-            </a>
-          ))}
+          {navigation.map(([href, label]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
         </nav>
         <div className="header-actions">
-          <label className="language-switcher">
-            <select
-              aria-label="Language"
-              value={language}
-              onChange={(event) => setLanguage(event.target.value as Language)}
-            >
-              <option value="en">English</option>
-              <option value="zh">中文</option>
-            </select>
-          </label>
-          <a
-            className="github-cta"
-            href={github.url}
-            target="_blank"
-            rel="noreferrer"
-            title={
-              github.available
-                ? english
-                  ? "Open GitHub to star or unstar this repository"
-                  : "前往 GitHub 收藏或取消收藏此仓库"
-                : english
-                  ? "Open the GitHub repository"
-                  : "打开 GitHub 仓库"
-            }
-          >
-            <Star size={17} />
-            <span>Star</span>
-            {github.available && <b>{github.stars?.toLocaleString()}</b>}
-          </a>
+          <label className="language-switcher"><select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as Language)}><option value="en">English</option><option value="zh">中文</option></select></label>
+          <a className="github-cta" href={github.url} target="_blank" rel="noreferrer"><Star size={17} /><span>Star</span>{github.available ? <b>{github.stars?.toLocaleString()}</b> : null}</a>
         </div>
-        <button
-          className="menu-button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={
-            menuOpen
-              ? english
-                ? "Close navigation"
-                : "关闭导航"
-              : english
-                ? "Open navigation"
-                : "打开导航"
-          }
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
+        <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? (english ? "Close navigation" : "关闭导航") : english ? "Open navigation" : "打开导航"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
       <main id="top">
         <section className="hero-home section-shell">
           <div className="hero-intro">
-            <div className="eyebrow hero-eyebrow">
-              <span>COUNTEREXAMPLE BENCHMARK · 2026</span>
-              <span className="live-dot">
-                {english ? "DETERMINISTIC VERIFICATION" : "确定性验证"}
-              </span>
-            </div>
-            <h1>
-              {english
-                ? "Conjecture Frontier"
-                : "猜想前沿"}
-            </h1>
-            {english ? (
-              <figure className="hero-quote">
-                <blockquote>
-                  “… the distinctively human features of our profession are not
-                  lost in this transformation.”
-                </blockquote>
-                <figcaption>
-                  — Terence Tao,{" "}
-                  <a
-                    href="https://www.simonsfoundation.org/2026/05/04/ai-will-be-top-of-mind-at-icm-maths-biggest-conference/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    “Mathematics in the Age of AI,” ICM 2026 preview
-                  </a>
-                </figcaption>
-              </figure>
-            ) : (
-              <figure className="hero-quote">
-                <blockquote>
-                  “在这场转变中，我们这个职业独具的人文特质不应被遗失。”
-                </blockquote>
-                <figcaption>
-                  — 陶哲轩，“AI 时代的数学”，ICM 2026 演讲预告
-                </figcaption>
-              </figure>
-            )}
-            <p className="hero-lead">
-              {english
-                ? "A benchmark for constructing counterexamples to frontier mathematical conjectures, with the Jacobian conjecture as its first case study."
-                : "面向前沿数学猜想的反例构造能力评测集，以雅可比猜想作为首个研究案例。"}
-            </p>
+            <div className="eyebrow hero-eyebrow"><span>OPENPROBLEMBENCH · 2026</span><span className="live-dot">{english ? "DETERMINISTIC VERIFICATION" : "确定性验证"}</span></div>
+            <h1>{english ? "Open problems, finite certificates" : "开放问题，有限证书"}</h1>
+            <p className="hero-lead">{english ? "OPBench is an extensible benchmark and public research interface for AI attempts on open mathematical problems—centered on outputs that independent programs can verify." : "OPBench 是面向 AI 开放数学问题作答的可拓展评测集与公共研究界面，核心是可由独立程序核验的输出。"}</p>
           </div>
 
           <div className="conjecture-selector" aria-label="Conjecture selector">
             <span>{english ? "SELECT A CONJECTURE" : "选择猜想"}</span>
-            <button
-              className={activeConjecture === "jacobian" ? "active" : ""}
-              type="button"
-            >
-              <b>{english ? "Jacobian Conjecture" : "雅可比猜想"}</b>
-              <small>{english ? "Available now" : "当前可用"}</small>
-            </button>
-            <button type="button" disabled>
-              <b>{english ? "More conjectures" : "更多猜想"}</b>
-              <small>{english ? "In preparation" : "筹备中"}</small>
-            </button>
+            {site.conjectures.map((item) => (
+              <button className={item.id === conjecture.id ? "active" : ""} type="button" key={item.id} onClick={() => selectConjecture(item.id)}>
+                <b>{english ? item.title : item.titleZh}</b>
+                <small>{english ? item.proposed : item.proposedZh}</small>
+              </button>
+            ))}
           </div>
 
           <section className="frontier-news" aria-label="Frontier news">
-            <div className="frontier-news-head">
-              <div>
-                <span className="micro-label">
-                  {english ? "FRONTIER NEWS" : "前沿动态"}
-                </span>
-                <h2>
-                  {english
-                    ? "Counterexamples, conjectures, and verified discovery"
-                    : "反例、猜想与可验证的数学发现"}
-                </h2>
-              </div>
-              <p>
-                {english
-                  ? "A compact timeline of developments shaping AI-assisted mathematical research."
-                  : "一条紧凑时间线，记录正在塑造 AI 辅助数学研究的重要进展。"}
-              </p>
-            </div>
+            <div className="frontier-news-head"><div><span className="micro-label">{english ? "FRONTIER NEWS" : "前沿动态"}</span><h2>{english ? "AI-assisted mathematics, with the verification status attached" : "保留核验状态的 AI 数学进展"}</h2></div><p>{english ? "Published attempts, expert review, exact certificates, and formal proofs are labeled separately." : "公开尝试、专家审核、精确证书与形式化证明分别标注。"}</p></div>
             <div className="frontier-news-timeline">
-              {news.map((item, index) => (
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={item.id}
-                  className={index === 0 ? "featured" : ""}
-                >
-                  <time>{item.date.replaceAll("-", ".")}</time>
-                  <span>{english ? item.label : item.labelZh}</span>
-                  <h3>{english ? item.title : item.titleZh}</h3>
-                  <p>{english ? item.content : item.contentZh}</p>
-                  <div className="frontier-news-meta">
-                    <small>
-                      {english ? item.statusLabel : item.statusLabelZh}
-                    </small>
-                    <small>{item.source}</small>
-                    <ArrowUpRight size={17} />
-                  </div>
-                </a>
-              ))}
+              {news.map((item, index) => <a href={item.link} target="_blank" rel="noreferrer" key={item.id} className={index === 0 ? "featured" : ""}><time>{item.date.replaceAll("-", ".")}</time><span>{english ? item.label : item.labelZh}</span><h3>{english ? item.title : item.titleZh}</h3><p>{english ? item.content : item.contentZh}</p><div className="frontier-news-meta"><small>{english ? item.statusLabel : item.statusLabelZh}</small><small>{item.source}</small><ArrowUpRight size={17} /></div></a>)}
             </div>
           </section>
 
-          <div className="hero-case-grid">
+          <div className="hero-case-grid" key={conjecture.id}>
             <div className="hero-case-copy">
-              <span className="micro-label">
-                {english
-                  ? "CURRENT CASE STUDY · COMPLEX POLYNOMIAL MAPS"
-                  : "当前案例 · 复多项式映射"}
-              </span>
-              <h2>{english ? "Jacobian Conjecture" : "雅可比猜想"}</h2>
-              <p>
-                {english
-                  ? "Can a polynomial map be locally invertible everywhere yet fail to be globally injective? This benchmark asks models to construct explicit maps and finite collision witnesses that an offline symbolic program can check."
-                  : "一个多项式映射能否处处局部可逆，却不是全局单射？评测要求模型提交可由离线符号程序验证的显式映射与有限碰撞见证。"}
-              </p>
-              <div className="hero-actions">
-                <a className="button button-primary" href="#benchmark">
-                  {english ? "Explore five problems" : "查看五级问题"}{" "}
-                  <ArrowDown size={17} />
-                </a>
-                <a className="button button-quiet" href="#verify">
-                  {english ? "Open symbolic verifier" : "打开验证器"}{" "}
-                  <ArrowUpRight size={17} />
-                </a>
-              </div>
+              <span className="micro-label">{english ? conjecture.overview.eyebrow : conjecture.overview.eyebrowZh}</span>
+              <h2>{english ? conjecture.title : conjecture.titleZh}</h2>
+              <p>{english ? conjecture.overview.summary : conjecture.overview.summaryZh}</p>
+              <p className="conjecture-status"><ShieldCheck size={17} /> {english ? conjecture.status : conjecture.statusZh}</p>
+              <div className="hero-actions"><a className="button button-primary" href="#benchmark">{english ? conjecture.overview.primaryAction : conjecture.overview.primaryActionZh} <ArrowDown size={17} /></a><a className="button button-quiet" href="#verify">{english ? "Open verification contract" : "打开验证协议"} <ArrowUpRight size={17} /></a></div>
               <dl className="hero-stats" aria-label="Benchmark overview">
-                <div>
-                  <dt>05</dt>
-                  <dd>{english ? "problems" : "能力层级"}</dd>
-                </div>
-                <div>
-                  <dt>{data.dataset.modelCount.toString().padStart(2, "0")}</dt>
-                  <dd>{english ? "models" : "模型"}</dd>
-                </div>
-                <div>
-                  <dt>{data.dataset.resultCount}</dt>
-                  <dd>{english ? "records" : "推理轨迹"}</dd>
-                </div>
-                <div>
-                  <dt>
-                    {data.aggregate.officialPasses.toString().padStart(2, "0")}
-                  </dt>
-                  <dd>{english ? "offline passes" : "程序通过"}</dd>
-                </div>
+                <div><dt>{String(data.dataset.taskCount).padStart(2, "0")}</dt><dd>{english ? "problems" : "问题"}</dd></div>
+                <div><dt>{String(data.dataset.modelCount).padStart(2, "0")}</dt><dd>{english ? "models" : "模型"}</dd></div>
+                <div><dt>{data.dataset.resultCount}</dt><dd>{english ? "records" : "记录"}</dd></div>
+                <div><dt>{String(data.aggregate.officialPasses).padStart(2, "0")}</dt><dd>{english ? "offline passes" : "离线通过"}</dd></div>
               </dl>
+              <div className="data-provenance"><Database size={15} /><span>{conjecture.problemSource}</span><span>{conjecture.resultsPath}/</span></div>
             </div>
-            <HeroVisual language={language} />
+            <ConjectureVisual conjecture={conjecture} language={language} />
           </div>
         </section>
 
         <section className="statement-band" aria-label="Conjecture statement">
           <div className="section-shell statement-inner">
             <span className="section-index">00 / STATEMENT</span>
-            <div className="statement-copy">
-              <p>
-                {english
-                  ? "For a polynomial map over the complex numbers,"
-                  : "对复多项式映射"}
-              </p>
-              <BlockMath>{String.raw`F=(F_1,\ldots,F_d):\mathbb C^d\longrightarrow\mathbb C^d,\qquad \det J_F\in\mathbb C^\times`}</BlockMath>
-              <p>
-                {english ? (
-                  <>
-                    the conjecture asserts that <InlineMath>F</InlineMath> is a
-                    polynomial automorphism. A counterexample must therefore
-                    provide distinct points{" "}
-                    <InlineMath>{String.raw`p\ne q`}</InlineMath> with{" "}
-                    <InlineMath>{String.raw`F(p)=F(q)`}</InlineMath>.
-                  </>
-                ) : (
-                  <>
-                    非零常雅可比只给出每个有限点附近的局部逆。反例还需一份
-                    <strong>全局碰撞证书</strong>：
-                    <InlineMath>{String.raw`p\neq q,\;F(p)=F(q)`}</InlineMath>。
-                  </>
-                )}
-              </p>
-            </div>
-            <div className="statement-note">
-              <ShieldCheck size={21} />
-              <p>
-                {english
-                  ? "Every counterexample result on this site is evaluated by an offline symbolic program. No LLM judge is used."
-                  : "本站所有反例评测仅采用离线符号程序，不使用 LLM judge。"}
-              </p>
-            </div>
+            <div className="statement-copy"><p>{english ? conjecture.statement.intro : conjecture.statement.introZh}</p><BlockMath>{conjecture.statement.formula}</BlockMath><MathText>{english ? conjecture.statement.explanation : conjecture.statement.explanationZh}</MathText></div>
+            <div className="statement-note"><ShieldCheck size={21} /><MathText>{english ? conjecture.statement.note : conjecture.statement.noteZh}</MathText></div>
           </div>
         </section>
 
         <section className="atlas section-shell" id="atlas">
-          <SectionLead
-            index="01"
-            eyebrow="MATHEMATICAL ATLAS"
-            title={
-              english
-                ? "From the conjecture to the first counterexample"
-                : "从猜想到首个反例"
-            }
-            body={
-              english
-                ? "A counterexample is not a persuasive narrative but a finite, reproducible certificate: a nonzero constant Jacobian and a global collision."
-                : "反例的核心不是长篇论证，而是两个可重复计算的事实：处处非奇异，以及至少一次全局重叠。"
-            }
-          />
-          <div className="atlas-grid">
-            <div className="timeline-panel">
-              <h3>{english ? "Progress timeline" : "进展刻度"}</h3>
-              <ol className="timeline">
-                <li>
-                  <time>1939</time>
-                  <div>
-                    <b>{english ? "Keller formulates the problem" : "Keller 提出问题"}</b>
-                    <p>
-                      {english
-                        ? "Does a nonzero constant Jacobian force a polynomial map to be globally invertible?"
-                        : "非零常雅可比是否强迫多项式全局可逆？"}
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <time>1982</time>
-                  <div>
-                    <b>{english ? "Degree reduction" : "次数归约"}</b>
-                    <p>
-                      {english
-                        ? "The general problem is reduced to special maps with cubic homogeneous parts."
-                        : "一般问题可归约到具有三次齐次部分的特殊映射。"}
-                    </p>
-                    <a
-                      href="https://doi.org/10.1007/BF01403080"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Bass–Connell–Wright <ArrowUpRight size={13} />
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <time>2022</time>
-                  <div>
-                    <b>
-                      {english
-                        ? "The 2D lower-bound frontier advances"
-                        : "二维候选继续被推高"}
-                    </b>
-                    <p>
-                      {english
-                        ? "Further low-degree combinations are excluded if a two-dimensional counterexample exists."
-                        : "若二维反例存在，低次数组合受到更强排除。"}
-                    </p>
-                    <a
-                      href="https://arxiv.org/abs/2204.14178"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      degree bound <ArrowUpRight size={13} />
-                    </a>
-                  </div>
-                </li>
-                <li className="timeline-current">
-                  <time>2026</time>
-                  <div>
-                    <b>
-                      {english
-                        ? "Explicit 3D counterexample"
-                        : "三维显式反例"}
-                    </b>
-                    <p>
-                      {english
-                        ? "Component degrees (7, 6, 4), constant Jacobian −2, and three rational points in one fiber."
-                        : "次数 (7, 6, 4)，常雅可比 −2，且有三个有理碰撞点。"}
-                    </p>
-                    <span className="source-links">
-                      <a
-                        href="https://isa-afp.org/entries/Jacobian_Counterexample.html"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        AFP
-                      </a>
-                      <a
-                        href="https://jacobianfun.org/jacobian-explained"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        explanation
-                      </a>
-                    </span>
-                  </div>
-                </li>
-              </ol>
-            </div>
-
-            <article className="known-map">
-              <div className="known-map-head">
-                <div>
-                  <span className="micro-label">FINITE CERTIFICATE</span>
-                  <h3>
-                    {english
-                      ? "The first known 3D construction"
-                      : "已知三维构造"}
-                  </h3>
-                </div>
-                <span className="verified-badge">
-                  <ShieldCheck size={15} />{" "}
-                  {english ? "FORMALLY VERIFIED" : "已形式化核验"}
-                </span>
-              </div>
-              <p className="formula-intro">
-                {english ? "Set " : "令 "}
-                <InlineMath>u=1+xy</InlineMath>
-                {english ? ". Then" : "，则"}
-              </p>
-              <BlockMath>{String.raw`\begin{aligned}
-F_1&=u^3z+y^2u(4+3xy),\\
-F_2&=y+3xu^2z+3xy^2(4+3xy),\\
-F_3&=2x-3x^2y-x^3z.
-\end{aligned}`}</BlockMath>
-              <div className="certificate-row">
-                <div>
-                  <span>{english ? "LOCAL CERTIFICATE" : "局部证书"}</span>
-                  <InlineMath>{String.raw`\det J_F=-2`}</InlineMath>
-                </div>
-                <div>
-                  <span>{english ? "DEGREE VECTOR" : "次数向量"}</span>
-                  <InlineMath>{String.raw`(7,6,4)`}</InlineMath>
-                </div>
-              </div>
-              <div className="collision">
-                <span>{english ? "GLOBAL CERTIFICATE" : "全局证书"}</span>
-                <BlockMath>{String.raw`\begin{gathered}
-F(0,0,-\tfrac14)=F(1,-\tfrac32,\tfrac{13}2)\\
-=F(-1,\tfrac32,\tfrac{13}2)=(-\tfrac14,0,0)
-\end{gathered}`}</BlockMath>
-              </div>
-              <p className="scope-note">
-                {english ? (
-                  <>
-                    Adding identity coordinates extends the construction to all{" "}
-                    <InlineMath>d\ge 3</InlineMath>; dimension two remains a
-                    separate open frontier.
-                  </>
-                ) : (
-                  <>
-                    直接添上恒等坐标可扩展到所有{" "}
-                    <InlineMath>d\ge 3</InlineMath>；二维情形仍需单独解决。
-                  </>
-                )}
-              </p>
-            </article>
+          <SectionLead index="01" eyebrow="MATHEMATICAL ATLAS" title={english ? conjecture.atlas.title : conjecture.atlas.titleZh} body={english ? conjecture.atlas.body : conjecture.atlas.bodyZh} />
+          <div className="atlas-grid data-atlas-grid">
+            <div className="timeline-panel"><h3>{english ? "Progress timeline" : "进展时间线"}</h3><ol className="timeline">{conjecture.atlas.events.map((event, index) => <li className={index === conjecture.atlas.events.length - 1 ? "timeline-current" : ""} key={`${event.year}-${event.title}`}><time>{event.year}</time><div><b>{english ? event.title : event.titleZh}</b><MathText>{english ? event.description : event.descriptionZh}</MathText><span className="source-links">{event.links.map((link) => <a href={link.url} target="_blank" rel="noreferrer" key={link.url}>{link.label} <ArrowUpRight size={13} /></a>)}</span></div></li>)}</ol></div>
+            <aside className="atlas-side-card"><span>{english ? "CURRENT FRONTIER" : "当前前沿"}</span><h3>{english ? conjecture.status : conjecture.statusZh}</h3><p>{english ? conjecture.visualization.caption : conjecture.visualization.captionZh}</p><BlockMath>{conjecture.visualization.example}</BlockMath></aside>
           </div>
         </section>
 
-        <TaskSection
-          data={data}
-          likes={community.taskLikes}
-          likedTasks={community.likedTasks ?? []}
-          onLike={likeTask}
-          communityOnline={communityOnline}
-          language={language}
-        />
-        <ResultsDashboard data={data} language={language} />
-        <PolynomialVerifier language={language} />
-        <CommunityBoard
-          apiUrl={COMMUNITY_API_URL}
-          snapshot={community}
-          online={communityOnline}
-          refresh={refreshCommunity}
-          getClientKey={getClientKey}
-          language={language}
-        />
+        <TaskSection data={data} content={conjecture.benchmark} likes={community.taskLikes} likedTasks={community.likedTasks ?? []} onLike={likeTask} communityOnline={communityOnline} language={language} />
+        <ResultsDashboard data={data} content={conjecture.evaluation} language={language} />
+        <SymbolicLab conjecture={conjecture} data={data} language={language} />
+        {conjecture.symbolicLab.interactive === "jacobian" ? <PolynomialVerifier language={language} sectionId="interactive-verifier" sectionIndex="04B / INTERACTIVE VERIFIER" /> : null}
 
-        <section className="sources section-shell" id="sources">
-          <span className="section-index">06 / SOURCES</span>
-          <div>
-            <h2>
-              {english
-                ? "Counterexamples turn conjectures into decidable evidence"
-                : "反例验证是解决猜想的关键证据"}
-            </h2>
-            <p>
-              {english
-                ? "A single verified counterexample can settle a universal claim. This research interface is not an independent publication or proof repository: model outputs may be incomplete or wrong, novelty is not decided automatically, and every mathematical claim should be checked against the linked primary material."
-                : "一个经过验证的反例可以否定一个全称猜想。本页面不是独立论文或证明库；模型输出可能错误，创新性不会自动判定，数学陈述应以原始来源为准。"}
-            </p>
-          </div>
-          <div className="source-list">
-            <a
-              href="https://isa-afp.org/entries/Jacobian_Counterexample.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>01</span>Archive of Formal Proofs
-              <ArrowUpRight size={15} />
-            </a>
-            <a
-              href="https://jacobianfun.org/jacobian-explained"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>02</span>Counterexample explained
-              <ArrowUpRight size={15} />
-            </a>
-            <a
-              href="https://zzhang-iu.github.io/papers/direct-consequences-jacobian/index.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>03</span>Direct consequences
-              <ArrowUpRight size={15} />
-            </a>
-            <a
-              href="https://www.theatlantic.com/technology/archive/2024/10/terence-tao-ai-interview/680153/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>04</span>Terence Tao on AI and proof assistants
-              <ArrowUpRight size={15} />
-            </a>
-            <a
-              href="https://doi.org/10.1515/9780691218304"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>05</span>Pólya · Mathematics and Plausible Reasoning
-              <ArrowUpRight size={15} />
-            </a>
-          </div>
-          <div className="acknowledgement">
-            <span>ACKNOWLEDGEMENT</span>
-            <p>
-              {english
-                ? "We thank the authors and maintainers of the formal counterexample materials, the benchmark contributors, and the open-source KaTeX and mathjs communities. “Certainly, let us learn proving, but also let us learn guessing.” — George Pólya."
-                : "感谢形式化反例材料的作者与维护者、评测贡献者，以及 KaTeX 和 mathjs 开源社区。"}
-            </p>
-          </div>
-        </section>
+        <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} />
       </main>
 
-      <footer>
-        <div className="section-shell footer-inner">
-          <div className="footer-brand">
-            <span className="brand-mark conjecture-mark" aria-hidden="true">
-              ∃
-            </span>
-            <p>
-              <b>Conjecture Frontier</b>
-              <br />
-              Counterexample Benchmark
-            </p>
-          </div>
-          <div className="footer-meta">
-            <p>ExoMind Team, Shanghai Artificial Intelligence Laboratory</p>
-            <p>Contact: yufangchen at pjlab.org.cn</p>
-            <p>Page assisted by Codex with GPT-5.6 Sol</p>
-          </div>
-          <a href="#top">
-            {english ? "Back to top" : "回到顶部"}{" "}
-            <ArrowDown className="arrow-up" size={16} />
-          </a>
-        </div>
-      </footer>
+      <footer className="site-footer"><div><b>OPBench · OpenProblemBench</b><p>{english ? "A verifiable open-problem benchmark and discussion platform by Shanghai Artificial Intelligence Laboratory." : "上海人工智能实验室出品的开放问题可验证评测与讨论平台。"}</p></div><div><a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} /></a><a href="mailto:yufangchen@pjlab.org.cn">yufangchen@pjlab.org.cn</a></div></footer>
     </>
   );
 }
 
-function SectionLead({
-  index,
-  eyebrow,
-  title,
-  body,
-}: {
-  index: string;
-  eyebrow: string;
-  title: string;
-  body: string;
-}) {
-  return (
-    <div className="section-lead">
-      <span className="section-index">
-        {index} / {eyebrow}
-      </span>
-      <h2>{title}</h2>
-      <p>{body}</p>
-    </div>
-  );
+function SectionLead({ index, eyebrow, title, body }: { index: string; eyebrow: string; title: string; body: string }) {
+  return <div className="section-lead"><span className="section-index">{index} / {eyebrow}</span><h2>{title}</h2><p>{body}</p></div>;
 }

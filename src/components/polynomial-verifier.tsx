@@ -296,7 +296,15 @@ function valuesEqual(a: unknown, b: unknown) {
   }
 }
 
-export function PolynomialVerifier({ language }: { language: Language }) {
+export function PolynomialVerifier({
+  language,
+  sectionId = "verify",
+  sectionIndex = "04 / SYMBOLIC LAB",
+}: {
+  language: Language;
+  sectionId?: string;
+  sectionIndex?: string;
+}) {
   const english = language === "en";
   const [expressions, setExpressions] = useState(KNOWN_MAP);
   const [points, setPoints] = useState<PointInput[]>(KNOWN_POINTS);
@@ -492,9 +500,9 @@ export function PolynomialVerifier({ language }: { language: Language }) {
   }
 
   return (
-    <section className="verifier section-shell" id="verify">
+    <section className="verifier section-shell" id={sectionId}>
       <div className="section-lead">
-        <span className="section-index">04 / SYMBOLIC LAB</span>
+        <span className="section-index">{sectionIndex}</span>
         <h2>
           {english
             ? "Test a candidate counterexample interactively"

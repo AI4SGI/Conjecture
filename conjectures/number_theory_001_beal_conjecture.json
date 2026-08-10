@@ -76,12 +76,12 @@
     "bodyZh": "解析、正整数、指数范围、最大公因数与等式逐项展示，并保留残差作为优化指标。"
   },
   "symbolicLab": {
-    "title": "Six-integer output and exact verifier",
-    "titleZh": "六整数输出与精确验证器",
-    "body": "The offline script parses the declared JSON keys, rejects booleans and non-integers, checks the gcd, and computes both sides with arbitrary-precision integers.",
-    "bodyZh": "离线脚本解析固定 JSON 字段，拒绝布尔值与非整数，核验最大公因数，并以任意精度整数计算等式两侧。",
+    "title": "Test a candidate solution interactively",
+    "titleZh": "交互验证候选解",
+    "body": "Enter A, B, C, x, y, and z. The browser checks every declared Beal constraint with exact integer arithmetic; it does not use an LLM judge or assess novelty.",
+    "bodyZh": "输入 A、B、C、x、y、z。浏览器以精确整数运算逐项检查 Beal 约束；不使用 LLM judge，也不判断创新性。",
     "verifierPath": "eval/eval_number_theory_001_beal_conjecture.py",
-    "interactive": "conditions",
+    "interactive": "beal",
     "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
   }
 }

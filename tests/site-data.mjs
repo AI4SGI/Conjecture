@@ -35,9 +35,9 @@ assert.deepEqual(
 assert(!JSON.stringify(site).includes("/mnt/"), "generated page data must not expose absolute workspace paths");
 
 const expected = new Map([
-  ["jacobian_conjecture", { tasks: 5, records: 50, hints: ["nohint", "hint"] }],
-  ["number_theory_001_beal_conjecture", { tasks: 2, records: 1, hints: ["nohint"] }],
-  ["number_theory_002_odd_perfect_number", { tasks: 1, records: 1, hints: ["nohint"] }],
+  ["jacobian_conjecture", { tasks: 5, records: 50, hints: ["nohint", "hint"], interactive: "jacobian" }],
+  ["number_theory_001_beal_conjecture", { tasks: 2, records: 1, hints: ["nohint"], interactive: "beal" }],
+  ["number_theory_002_odd_perfect_number", { tasks: 1, records: 1, hints: ["nohint"], interactive: "odd-perfect" }],
 ]);
 let totalRecords = 0;
 for (const config of conjectures) {
@@ -49,6 +49,7 @@ for (const config of conjectures) {
   assert.deepEqual(generated.benchmarkData.dataset.hintModes, contract.hints, `${config.id} hint policy`);
   assert.equal(generated.problemSource, config.problemSource);
   assert.equal(generated.resultsPath, config.resultsPath);
+  assert.equal(generated.symbolicLab.interactive, contract.interactive, `${config.id} interactive verifier`);
   assert(generated.atlas.events.every((event) => event.links.every((link) => link.url.startsWith("https://"))), `${config.id} atlas needs web sources`);
   assert(generated.visualization.codePath.startsWith("src/components/"));
   assert(generated.symbolicLab.verifierPath.startsWith("eval/"));

@@ -106,10 +106,10 @@
     "bodyZh": "结果类型由确定性验证字段导出，传输失败与数学失败分开统计。"
   },
   "symbolicLab": {
-    "title": "Certificate contract and offline verification",
-    "titleZh": "证书协议与离线验证",
-    "body": "Every problem uses the same polynomial-map certificate; task-specific degree and fiber requirements are then checked on top.",
-    "bodyZh": "所有题目采用同一多项式映射证书，再叠加各题的次数与纤维约束。",
+    "title": "Test a candidate counterexample interactively",
+    "titleZh": "交互验证候选反例",
+    "body": "Enter a three-variable polynomial map and explicit collision points. The browser checks the stated Jacobian and collision constraints locally; it does not use an LLM judge or assess novelty.",
+    "bodyZh": "输入三变量多项式映射及明确的碰撞点。浏览器在本地检查雅可比与碰撞约束；不使用 LLM judge，也不判断创新性。",
     "verifierPath": "eval/eval_jacobian_conjecture.py",
     "interactive": "jacobian",
     "outputFormat": "FINAL_CERTIFICATE_JSON:\n{\n  \"variables\": [\"x\", \"y\", \"z\"],\n  \"components\": [\"F1\", \"F2\", \"F3\"],\n  \"collision_points\": [[\"x1\", \"y1\", \"z1\"], [\"x2\", \"y2\", \"z2\"]]\n}"

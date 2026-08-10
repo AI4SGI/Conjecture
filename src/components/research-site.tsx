@@ -6,7 +6,6 @@ import type { CommunitySnapshot, FrontierNewsItem, Language, SiteData } from "..
 import { CommunityBoard } from "./community-board";
 import { ConjectureVisual } from "./conjecture-visual";
 import { BlockMath } from "./math";
-import { PolynomialVerifier } from "./polynomial-verifier";
 import { ResultsDashboard } from "./results-dashboard";
 import { SymbolicLab } from "./symbolic-lab";
 import { MathText, TaskSection } from "./task-section";
@@ -207,8 +206,7 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
 
         <TaskSection data={data} content={conjecture.benchmark} likes={community.taskLikes} likedTasks={community.likedTasks ?? []} onLike={likeTask} communityOnline={communityOnline} language={language} />
         <ResultsDashboard data={data} content={conjecture.evaluation} language={language} />
-        <SymbolicLab conjecture={conjecture} data={data} language={language} />
-        {conjecture.symbolicLab.interactive === "jacobian" ? <PolynomialVerifier language={language} sectionId="interactive-verifier" sectionIndex="04B / INTERACTIVE VERIFIER" /> : null}
+        <SymbolicLab conjecture={conjecture} language={language} />
 
         <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} />
       </main>

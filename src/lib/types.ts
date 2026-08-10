@@ -263,7 +263,7 @@ export interface ConjectureData {
     body: string;
     bodyZh: string;
     verifierPath: string;
-    interactive: "jacobian" | "conditions";
+    interactive: "jacobian" | "beal" | "odd-perfect";
     outputFormat: string;
   };
   benchmarkData: BenchmarkData;

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T15:32:03.842Z",
+  "generatedAt": "2026-08-10T16:51:39.929Z",
   "conjectures": [
     {
       "schemaVersion": 1,
@@ -260,16 +260,16 @@
         "bodyZh": "结果类型由确定性验证字段导出，传输失败与数学失败分开统计。"
       },
       "symbolicLab": {
-        "title": "Certificate contract and offline verification",
-        "titleZh": "证书协议与离线验证",
-        "body": "Every problem uses the same polynomial-map certificate; task-specific degree and fiber requirements are then checked on top.",
-        "bodyZh": "所有题目采用同一多项式映射证书，再叠加各题的次数与纤维约束。",
+        "title": "Test a candidate counterexample interactively",
+        "titleZh": "交互验证候选反例",
+        "body": "Enter a three-variable polynomial map and explicit collision points. The browser checks the stated Jacobian and collision constraints locally; it does not use an LLM judge or assess novelty.",
+        "bodyZh": "输入三变量多项式映射及明确的碰撞点。浏览器在本地检查雅可比与碰撞约束；不使用 LLM judge，也不判断创新性。",
         "verifierPath": "eval/eval_jacobian_conjecture.py",
         "interactive": "jacobian",
         "outputFormat": "FINAL_CERTIFICATE_JSON:\n{\n  \"variables\": [\"x\", \"y\", \"z\"],\n  \"components\": [\"F1\", \"F2\", \"F3\"],\n  \"collision_points\": [[\"x1\", \"y1\", \"z1\"], [\"x2\", \"y2\", \"z2\"]]\n}"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T15:32:03.790Z",
+        "generatedAt": "2026-08-10T16:51:39.882Z",
         "dataset": {
           "id": "jacobian_conjecture",
           "name": "OPBench · Jacobian Counterexample Construction",
@@ -4778,16 +4778,16 @@
         "bodyZh": "解析、正整数、指数范围、最大公因数与等式逐项展示，并保留残差作为优化指标。"
       },
       "symbolicLab": {
-        "title": "Six-integer output and exact verifier",
-        "titleZh": "六整数输出与精确验证器",
-        "body": "The offline script parses the declared JSON keys, rejects booleans and non-integers, checks the gcd, and computes both sides with arbitrary-precision integers.",
-        "bodyZh": "离线脚本解析固定 JSON 字段，拒绝布尔值与非整数，核验最大公因数，并以任意精度整数计算等式两侧。",
+        "title": "Test a candidate solution interactively",
+        "titleZh": "交互验证候选解",
+        "body": "Enter A, B, C, x, y, and z. The browser checks every declared Beal constraint with exact integer arithmetic; it does not use an LLM judge or assess novelty.",
+        "bodyZh": "输入 A、B、C、x、y、z。浏览器以精确整数运算逐项检查 Beal 约束；不使用 LLM judge，也不判断创新性。",
         "verifierPath": "eval/eval_number_theory_001_beal_conjecture.py",
-        "interactive": "conditions",
+        "interactive": "beal",
         "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T15:32:03.821Z",
+        "generatedAt": "2026-08-10T16:51:39.909Z",
         "dataset": {
           "id": "number_theory_001_beal_conjecture",
           "name": "OPBench · Beal Counterexample Search",
@@ -5209,16 +5209,16 @@
         "bodyZh": "仪表板分别展示解析、奇偶性、分解认证与最终约数和等式。"
       },
       "symbolicLab": {
-        "title": "Prime-power certificate and exact divisor sum",
-        "titleZh": "素数幂证书与精确约数和",
-        "body": "The verifier multiplies the declared factorization, certifies each prime, and evaluates $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$ with integers.",
-        "bodyZh": "验证器重建所声明的分解、认证每个素数，并以整数计算 $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$。",
+        "title": "Test a candidate odd perfect number interactively",
+        "titleZh": "交互验证候选奇完全数",
+        "body": "Enter N and its complete prime-power factorization. The browser certifies the factors and checks the divisor-sum constraints locally; it does not use an LLM judge or assess novelty.",
+        "bodyZh": "输入 N 及其完整素数幂分解。浏览器在本地认证因子并检查除数和约束；不使用 LLM judge，也不判断创新性。",
         "verifierPath": "eval/eval_number_theory_002_odd_perfect_number.py",
-        "interactive": "conditions",
+        "interactive": "odd-perfect",
         "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T15:32:03.834Z",
+        "generatedAt": "2026-08-10T16:51:39.922Z",
         "dataset": {
           "id": "number_theory_002_odd_perfect_number",
           "name": "OPBench · Odd Perfect Number Construction",

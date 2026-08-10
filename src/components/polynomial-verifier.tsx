@@ -300,10 +300,12 @@ export function PolynomialVerifier({
   language,
   sectionId = "verify",
   sectionIndex = "04 / SYMBOLIC LAB",
+  embedded = false,
 }: {
   language: Language;
   sectionId?: string;
   sectionIndex?: string;
+  embedded?: boolean;
 }) {
   const english = language === "en";
   const [expressions, setExpressions] = useState(KNOWN_MAP);
@@ -500,31 +502,36 @@ export function PolynomialVerifier({
   }
 
   return (
-    <section className="verifier section-shell" id={sectionId}>
-      <div className="section-lead">
-        <span className="section-index">{sectionIndex}</span>
-        <h2>
-          {english
-            ? "Test a candidate counterexample interactively"
-            : "把候选反例放上检验台"}
-        </h2>
-        <p>
-          {english ? (
-            <>
-              Enter three polynomials and at least two points. The browser
-              differentiates symbolically, expands <InlineMath>\det J_F</InlineMath>,
-              and evaluates every image. Nothing is sent to a model.
-            </>
-          ) : (
-            <>
-              输入三个多项式与至少两个点。浏览器会符号求导、展开
-              <InlineMath>\det J_F</InlineMath>，并逐点计算像；数据不会发送给模型。
-            </>
-          )}
-        </p>
-      </div>
+    <section
+      className={embedded ? "verifier-embedded" : "verifier section-shell"}
+      id={embedded ? undefined : sectionId}
+    >
+      {!embedded ? (
+        <div className="section-lead">
+          <span className="section-index">{sectionIndex}</span>
+          <h2>
+            {english
+              ? "Test a candidate counterexample interactively"
+              : "交互验证候选反例"}
+          </h2>
+          <p>
+            {english ? (
+              <>
+                Enter three polynomials and at least two points. The browser
+                differentiates symbolically, expands <InlineMath>\det J_F</InlineMath>,
+                and evaluates every image. Nothing is sent to a model.
+              </>
+            ) : (
+              <>
+                输入三个多项式与至少两个点。浏览器会符号求导、展开
+                <InlineMath>\det J_F</InlineMath>，并逐点计算像；数据不会发送给模型。
+              </>
+            )}
+          </p>
+        </div>
+      ) : null}
 
-      <div className="verifier-shell">
+      <div className="verifier-shell" data-verifier="jacobian">
         <div className="verifier-toolbar">
           <div>
             <FlaskConical size={18} />

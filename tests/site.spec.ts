@@ -41,7 +41,18 @@ test("three conjectures share one data-driven research interface", async ({ page
   await expect(page.locator(".output-section-heading.original")).toContainText("ORIGINAL OUTPUT FORMAT");
   await page.locator("#results").getByRole("button", { name: "Copy", exact: true }).click();
   await expect(page.locator("#results").getByRole("button", { name: "Copied", exact: true })).toBeVisible();
-  await expect(page.locator("#interactive-verifier")).toBeVisible();
+  await expect(page.locator("#verify .section-lead h2")).toHaveText(
+    "Test a candidate counterexample interactively",
+  );
+  await expect(page.locator('#verify [data-verifier="jacobian"]')).toBeVisible();
+  await expect(page.locator("#verify")).toContainText("3-variable polynomial verifier");
+  await expect(page.locator("#verify .interactive-scope")).toContainText("NO LLM JUDGE");
+  await expect(page.locator("#verify .interactive-scope")).toContainText("NO NOVELTY JUDGMENT");
+  await expect(page.locator("#interactive-verifier")).toHaveCount(0);
+  await expect(page.locator(".symbolic-contract-grid")).toHaveCount(0);
+  await expect(page.locator(".lab-task-tabs")).toHaveCount(0);
+  await expect(page.getByText("Machine-readable output contract")).toHaveCount(0);
+  await expect(page.getByText(/04B \/ INTERACTIVE VERIFIER/)).toHaveCount(0);
   await expect(page.locator(".data-provenance")).not.toContainText("/mnt/");
 
   await page.locator(".conjecture-selector button").nth(1).click();
@@ -52,9 +63,22 @@ test("three conjectures share one data-driven research interface", async ({ page
   await expect(page.locator(".trace-filters label")).toHaveCount(3);
   await expect(page.locator(".benchmark-matrix .matrix-row")).toHaveCount(1);
   await expect(page.locator(".benchmark-matrix .matrix-run:not(.empty)")).toHaveCount(1);
-  await expect(page.locator(".lab-task-tabs button")).toHaveCount(2);
-  await expect(page.locator(".verifier-source-link")).toContainText("eval/eval_number_theory_001_beal_conjecture.py");
+  await expect(page.locator("#verify .section-lead h2")).toHaveText(
+    "Test a candidate solution interactively",
+  );
+  await expect(page.locator('#verify [data-verifier="beal"]')).toBeVisible();
+  await expect(page.locator('#verify [data-verifier="beal"] input')).toHaveCount(6);
+  await expect(page.locator("#verify .interactive-scope a")).toHaveAttribute(
+    "href",
+    /eval_number_theory_001_beal_conjecture\.py/,
+  );
+  await expect(page.locator(".lab-task-tabs")).toHaveCount(0);
   await expect(page.locator("#interactive-verifier")).toHaveCount(0);
+  await page.getByRole("button", { name: "Verify all Beal constraints" }).click();
+  await expect(page.locator("#verify .interactive-condition-list > div")).toHaveCount(5);
+  await expect(page.locator("#verify .interactive-condition-list > .pass")).toHaveCount(4);
+  await expect(page.locator("#verify .interactive-condition-list > .fail")).toHaveCount(1);
+  await expect(page.locator("#verify .exact-stat-grid")).toContainText("432");
   await page.locator(".trace-item").first().click();
   await expect(page.locator(".trace-detail h3")).toHaveText("GPT-5.2");
   await page.getByRole("button", { name: "Extracted output" }).click();
@@ -68,9 +92,21 @@ test("three conjectures share one data-driven research interface", async ({ page
   await page.getByRole("button", { name: "Extracted output" }).click();
   await expect(page.locator(".counterexample-point-card")).toContainText("DIVISOR-SUM CHECK");
   await expect(page.locator(".arithmetic-stat-grid")).toContainText("426027470778");
-  await expect(page.locator(".lab-task-tabs")).toHaveCount(0);
-  await expect(page.locator(".condition-trace")).toContainText("sigma(N)=426027470778");
-  await expect(page.locator(".verifier-source-link")).toContainText("eval/eval_number_theory_002_odd_perfect_number.py");
+  await expect(page.locator("#verify .section-lead h2")).toHaveText(
+    "Test a candidate odd perfect number interactively",
+  );
+  await expect(page.locator('#verify [data-verifier="odd-perfect"]')).toBeVisible();
+  await page
+    .getByRole("button", { name: "Verify factorization and divisor sum" })
+    .click();
+  await expect(page.locator("#verify .interactive-condition-list > div")).toHaveCount(3);
+  await expect(page.locator("#verify .interactive-condition-list > .pass")).toHaveCount(2);
+  await expect(page.locator("#verify .interactive-condition-list > .fail")).toHaveCount(1);
+  await expect(page.locator("#verify .exact-stat-grid")).toContainText("426027470778");
+  await expect(page.locator("#verify .interactive-scope a")).toHaveAttribute(
+    "href",
+    /eval_number_theory_002_odd_perfect_number\.py/,
+  );
 
   await page.screenshot({ path: "/tmp/opbench-three-conjectures.png", fullPage: true });
 });
@@ -96,5 +132,6 @@ test("language switch localizes dynamic conjecture content", async ({ page }) =>
   await page.locator(".conjecture-selector button").nth(2).click();
   await expect(page.locator(".hero-case-copy h2")).toHaveText("奇完全数问题");
   await expect(page.locator(".task-card")).toHaveCount(1);
-  await expect(page.locator("#verify .section-lead h2")).toHaveText("素数幂证书与精确约数和");
+  await expect(page.locator("#verify .section-lead h2")).toHaveText("交互验证候选奇完全数");
+  await expect(page.locator("#verify .interactive-scope")).toContainText("不使用 LLM judge");
 });

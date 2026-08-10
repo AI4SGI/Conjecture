@@ -76,12 +76,12 @@
     "bodyZh": "仪表板分别展示解析、奇偶性、分解认证与最终约数和等式。"
   },
   "symbolicLab": {
-    "title": "Prime-power certificate and exact divisor sum",
-    "titleZh": "素数幂证书与精确约数和",
-    "body": "The verifier multiplies the declared factorization, certifies each prime, and evaluates $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$ with integers.",
-    "bodyZh": "验证器重建所声明的分解、认证每个素数，并以整数计算 $\\sigma(N)=\\prod_i(p_i^{e_i+1}-1)/(p_i-1)$。",
+    "title": "Test a candidate odd perfect number interactively",
+    "titleZh": "交互验证候选奇完全数",
+    "body": "Enter N and its complete prime-power factorization. The browser certifies the factors and checks the divisor-sum constraints locally; it does not use an LLM judge or assess novelty.",
+    "bodyZh": "输入 N 及其完整素数幂分解。浏览器在本地认证因子并检查除数和约束；不使用 LLM judge，也不判断创新性。",
     "verifierPath": "eval/eval_number_theory_002_odd_perfect_number.py",
-    "interactive": "conditions",
+    "interactive": "odd-perfect",
     "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
   }
 }

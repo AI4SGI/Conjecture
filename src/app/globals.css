@@ -3600,6 +3600,429 @@ footer {
   }
 }
 
+/* Unified interactive-only Symbolic Lab */
+
+.interactive-scope {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) auto auto auto;
+  gap: 1px;
+  margin: -22px 0 24px;
+  border: 1px solid var(--rule-strong);
+  background: var(--rule);
+}
+
+.interactive-scope > div,
+.interactive-scope > span,
+.interactive-scope > a {
+  min-width: 0;
+  min-height: 58px;
+  padding: 11px 14px;
+  background: var(--paper);
+}
+
+.interactive-scope > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.interactive-scope > div svg {
+  flex: 0 0 auto;
+  color: var(--green);
+}
+
+.interactive-scope > div span,
+.interactive-scope > div b,
+.interactive-scope > div small {
+  display: block;
+}
+
+.interactive-scope > div b {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.interactive-scope > div small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.interactive-scope > span,
+.interactive-scope > a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.interactive-scope > a {
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.interactive-scope > a:hover {
+  background: var(--blue);
+  color: white;
+}
+
+.verifier-embedded .verifier-note {
+  margin-left: 0;
+}
+
+.exact-verifier-columns {
+  grid-template-columns: minmax(0, 0.95fr) minmax(430px, 1.05fr);
+}
+
+.integer-field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.integer-field {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  min-width: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.integer-field:focus-within {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+
+.integer-field > span {
+  display: flex;
+  grid-row: 1 / 3;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: white;
+  font-family: var(--serif);
+  font-size: 17px;
+}
+
+.integer-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 11px 5px;
+  border: 0;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 14px;
+  outline: none;
+}
+
+.integer-field small {
+  padding: 0 11px 8px;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.candidate-formula {
+  display: flex;
+  gap: 18px;
+  margin-top: 23px;
+  padding: 17px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.28);
+  font-family: var(--serif);
+  font-size: 21px;
+}
+
+.odd-n-field {
+  max-width: 430px;
+}
+
+.factor-editor-head {
+  display: flex;
+  gap: 12px;
+  margin-top: 27px;
+  padding-bottom: 11px;
+  align-items: end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.factor-editor-head b,
+.factor-editor-head small {
+  display: block;
+}
+
+.factor-editor-head b {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.factor-editor-head small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.factor-editor-head button,
+.factor-editor-row > button {
+  display: inline-flex;
+  gap: 5px;
+  padding: 7px 9px;
+  align-items: center;
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.factor-editor {
+  max-height: 430px;
+  overflow-y: auto;
+}
+
+.factor-editor-row {
+  display: grid;
+  grid-template-columns: 28px minmax(75px, 0.7fr) minmax(62px, 0.45fr) minmax(145px, 1.3fr) 32px;
+  gap: 7px;
+  padding: 9px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.factor-editor-row > b {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+
+.factor-editor-row label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  min-width: 0;
+  align-items: center;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.factor-editor-row label:focus-within {
+  border-color: var(--blue);
+}
+
+.factor-editor-row label span {
+  padding-left: 7px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.factor-editor-row input,
+.factor-editor-row textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 7px;
+  border: 0;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 10px;
+  outline: none;
+  resize: vertical;
+}
+
+.factor-editor-row > button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  place-items: center;
+}
+
+.factor-editor-row > button:hover:not(:disabled) {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.factor-editor-row > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.25;
+}
+
+.exact-verification-output .verdict {
+  margin-top: 0;
+}
+
+.exact-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+
+.exact-stat-grid > div {
+  display: flex;
+  min-width: 0;
+  min-height: 78px;
+  padding: 11px;
+  flex-direction: column;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.exact-stat-grid span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.exact-stat-grid b {
+  margin-top: auto;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exact-stat-grid .accent b {
+  color: var(--green);
+}
+
+.interactive-condition-list {
+  margin-top: 18px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.interactive-condition-list > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.interactive-condition-list > div.pass {
+  color: var(--green);
+}
+
+.interactive-condition-list > div.fail {
+  color: var(--red);
+}
+
+.interactive-condition-list > div > svg {
+  margin-top: 2px;
+}
+
+.interactive-condition-list > div > span,
+.interactive-condition-list b,
+.interactive-condition-list small {
+  display: block;
+}
+
+.interactive-condition-list b {
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.interactive-condition-list .prompt-math {
+  margin-top: 5px;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.interactive-condition-list .prompt-math p {
+  margin: 0;
+}
+
+.interactive-condition-list small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1100px) {
+  .interactive-scope {
+    grid-template-columns: minmax(280px, 1fr) auto auto;
+  }
+
+  .interactive-scope > a {
+    grid-column: 1 / -1;
+  }
+
+  .exact-verifier-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .interactive-scope {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .interactive-scope > div {
+    grid-column: 1 / -1;
+  }
+
+  .exact-verifier-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .interactive-scope {
+    grid-template-columns: 1fr;
+    margin-top: -20px;
+  }
+
+  .interactive-scope > div,
+  .interactive-scope > span,
+  .interactive-scope > a {
+    grid-column: 1;
+    min-height: 48px;
+  }
+
+  .integer-field-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .factor-editor-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .factor-editor-head button {
+    justify-content: center;
+  }
+
+  .factor-editor-row {
+    grid-template-columns: 24px minmax(0, 1fr) minmax(0, 0.7fr) 32px;
+  }
+
+  .factor-editor-row .certificate-field {
+    grid-column: 2 / -1;
+  }
+
+  .exact-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Evaluation: restore the previous dark benchmark system after the
    data-driven conjecture migration. Keep this scoped so other panels retain
    their paper treatment. */

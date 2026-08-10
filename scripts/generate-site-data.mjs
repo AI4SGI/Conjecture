@@ -104,7 +104,12 @@ for (const config of conjectures) {
       modelLabel: modelLabel(model),
       hint: Boolean(record.hint),
       hintMode: record.hint ? "hint" : "nohint",
-      repeatIndex: Number(record.repeat_index ?? record.rollout_index ?? 0),
+      repeatIndex:
+        record.repeat_index != null
+          ? Number(record.repeat_index)
+          : record.rollout_index != null
+            ? Number(record.rollout_index) + 1
+            : 1,
       parameters: recordParameters(record),
       eval: evaluation,
       analysis,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T13:45:07.509Z",
+  "generatedAt": "2026-08-10T15:32:03.842Z",
   "conjectures": [
     {
       "schemaVersion": 1,
@@ -269,7 +269,7 @@
         "outputFormat": "FINAL_CERTIFICATE_JSON:\n{\n  \"variables\": [\"x\", \"y\", \"z\"],\n  \"components\": [\"F1\", \"F2\", \"F3\"],\n  \"collision_points\": [[\"x1\", \"y1\", \"z1\"], [\"x2\", \"y2\", \"z2\"]]\n}"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T13:45:07.461Z",
+        "generatedAt": "2026-08-10T15:32:03.790Z",
         "dataset": {
           "id": "jacobian_conjecture",
           "name": "OPBench · Jacobian Counterexample Construction",
@@ -4787,7 +4787,7 @@
         "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T13:45:07.489Z",
+        "generatedAt": "2026-08-10T15:32:03.821Z",
         "dataset": {
           "id": "number_theory_001_beal_conjecture",
           "name": "OPBench · Beal Counterexample Search",
@@ -4979,7 +4979,7 @@
             "modelLabel": "GPT-5.2",
             "hint": false,
             "hintMode": "nohint",
-            "repeatIndex": 0,
+            "repeatIndex": 1,
             "parameters": {
               "temperature": 1,
               "top_p": 0.95,
@@ -5218,7 +5218,7 @@
         "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T13:45:07.501Z",
+        "generatedAt": "2026-08-10T15:32:03.834Z",
         "dataset": {
           "id": "number_theory_002_odd_perfect_number",
           "name": "OPBench · Odd Perfect Number Construction",
@@ -5339,7 +5339,7 @@
             "modelLabel": "GLM-5.2",
             "hint": false,
             "hintMode": "nohint",
-            "repeatIndex": 0,
+            "repeatIndex": 1,
             "parameters": {
               "temperature": 1,
               "top_p": 0.95,

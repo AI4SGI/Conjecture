@@ -3600,6 +3600,468 @@ footer {
   }
 }
 
+/* Evaluation: restore the previous dark benchmark system after the
+   data-driven conjecture migration. Keep this scoped so other panels retain
+   their paper treatment. */
+
+.results-section .filter-bar.no-hint {
+  grid-template-columns: repeat(2, minmax(180px, 1fr)) auto;
+}
+
+.results-section .matrix-cell.single-mode {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.results-section .matrix-cell.single-mode .matrix-run {
+  width: 100%;
+}
+
+.results-section .matrix-legend {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.results-section .model-table.detailed.no-hint {
+  min-width: 1030px;
+}
+
+.results-section .model-table.detailed.no-hint .model-row {
+  grid-template-columns: minmax(250px, 1.65fr) repeat(7, minmax(84px, 0.62fr));
+}
+
+.results-section .trace-browser {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  min-height: 720px;
+  margin-top: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+}
+
+.results-section .trace-list {
+  min-width: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.results-section .trace-filters {
+  display: grid;
+  gap: 1px;
+  padding: 1px;
+  align-items: stretch;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+}
+
+.results-section .trace-filters label {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 12px;
+  align-items: center;
+  background: var(--ink);
+  font-family: inherit;
+  text-transform: none;
+}
+
+.results-section .trace-filters select {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: white;
+}
+
+.results-section .trace-detail {
+  min-width: 0;
+  padding: 0;
+  background: var(--ink);
+  color: white;
+}
+
+.results-section .trace-detail-head {
+  display: flex;
+  min-height: 127px;
+  padding: 24px 25px;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.results-section .trace-detail-head h3 {
+  margin: 13px 0 0;
+  color: white;
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.results-section .trace-detail-head p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.43);
+}
+
+.results-section .official-status {
+  min-width: 126px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: inherit;
+}
+
+.results-section .official-status.passed {
+  border-color: var(--acid);
+  color: var(--acid);
+}
+
+.results-section .official-status.failed {
+  color: #ef8f84;
+}
+
+.results-section .result-analysis {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 11px;
+  margin: 0;
+  padding: 16px 18px;
+  background: color-mix(in srgb, var(--analysis-color) 8%, transparent);
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--analysis-color) 45%, transparent);
+}
+
+.results-section .record-provenance {
+  display: flex;
+  gap: 10px;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 14px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.results-section .record-provenance a {
+  flex: 0 0 auto;
+  color: var(--acid);
+}
+
+.results-section .trace-tabs {
+  min-height: 54px;
+  padding: 0 12px;
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.results-section .trace-tabs button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.results-section .trace-content {
+  height: 590px;
+  min-height: 0;
+  max-height: none;
+  padding: 0;
+  overflow: auto;
+  background: var(--ink);
+}
+
+.results-section .trace-content pre {
+  color: #d8dbc8;
+}
+
+.results-section .eval-grid {
+  gap: 0;
+}
+
+.results-section .evaluation-conditions {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.results-section .evaluation-conditions > span {
+  display: block;
+  padding: 13px 0 9px;
+  color: rgba(255, 255, 255, 0.48);
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+}
+
+.results-section .evaluation-conditions article {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 13px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.results-section .evaluation-conditions article > b {
+  margin: 2px 0 0;
+  font-size: 10px;
+}
+
+.results-section .evaluation-conditions article.pass > b {
+  color: var(--acid);
+}
+
+.results-section .evaluation-conditions article.fail > b {
+  color: #ed9d94;
+}
+
+.results-section .evaluation-conditions article p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+}
+
+.results-section .evaluation-conditions article small {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.results-section .output-inspector {
+  min-height: 100%;
+  padding: clamp(22px, 3.2vw, 42px);
+}
+
+.results-section .output-section-heading {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.results-section .output-section-heading.original {
+  margin-top: 34px;
+}
+
+.results-section .output-section-heading span {
+  color: white;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.results-section .output-section-heading small {
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+}
+
+.results-section .output-visual-body.counterexample-view {
+  padding: 16px 0 0;
+}
+
+.results-section .output-kind-card {
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.results-section .output-kind-card span,
+.results-section .arithmetic-stat-grid span {
+  display: block;
+  color: rgba(255, 255, 255, 0.48);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.results-section .output-kind-card b {
+  display: block;
+  margin-top: 8px;
+  color: white;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.results-section .output-kind-card p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.results-section .output-kind-card.compact-card {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.55fr) minmax(180px, 0.8fr) minmax(240px, 1.4fr);
+  gap: 12px 18px;
+  align-items: center;
+}
+
+.results-section .output-kind-card.compact-card b,
+.results-section .output-kind-card.compact-card p {
+  margin: 0;
+}
+
+.results-section .arithmetic-output {
+  padding-top: 1px;
+}
+
+.results-section .arithmetic-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.results-section .arithmetic-stat-grid > div {
+  display: flex;
+  min-height: 92px;
+  padding: 15px;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.results-section .arithmetic-stat-grid b {
+  margin-top: auto;
+  overflow-wrap: anywhere;
+  color: white;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.results-section .arithmetic-stat-grid > div.accent b {
+  color: var(--acid);
+}
+
+.results-section .factor-strip {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.results-section .factor-strip > span {
+  display: inline-flex;
+  min-width: 66px;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  background: rgba(255, 255, 255, 0.035);
+  color: white;
+  font-family: var(--serif);
+  font-size: 20px;
+}
+
+.results-section .factor-strip sup {
+  margin: -17px 0 0 3px;
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.results-section .output-inspector > .raw-output {
+  min-height: 0;
+  max-height: 430px;
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.results-section .output-contract {
+  margin-top: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.results-section .output-contract summary {
+  padding: 13px 15px;
+  color: rgba(255, 255, 255, 0.64);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.results-section .output-contract pre {
+  margin: 0;
+  padding: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0c0e0d;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+  .results-section .trace-browser {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .results-section .output-kind-card.compact-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .results-section .filter-bar.no-hint,
+  .results-section .filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .results-section .trace-browser {
+    grid-template-columns: 1fr;
+  }
+
+  .results-section .trace-list {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .results-section .trace-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .results-section .trace-filters label {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 8px 10px;
+  }
+
+  .results-section .trace-detail-head,
+  .results-section .output-section-heading {
+    gap: 12px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .results-section .official-status {
+    min-width: 112px;
+  }
+
+  .results-section .record-mini-metrics {
+    flex-wrap: wrap;
+  }
+
+  .results-section .trace-tabs {
+    padding: 0 5px;
+    overflow-x: auto;
+  }
+
+  .results-section .trace-tabs button {
+    flex: 0 0 auto;
+    padding: 0 7px;
+    font-size: 10px;
+  }
+
+  .results-section .eval-grid {
+    grid-template-columns: 1fr 1fr;
+    padding: 16px;
+  }
+
+  .results-section .arithmetic-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* OPBench data-driven multi-conjecture interface */
 
 .conjecture-selector {

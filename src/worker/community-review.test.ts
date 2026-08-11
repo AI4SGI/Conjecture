@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   parseCommunityAiReview,
   reviewCommunityMessage,
@@ -9,6 +9,10 @@ import {
 } from "./community-security";
 
 describe("community AI review contract", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("accepts only the fixed verdict, category, and risk taxonomies", () => {
     const review = parseCommunityAiReview(JSON.stringify({
       verdict: "allow",
@@ -99,6 +103,82 @@ describe("community AI review contract", () => {
       conjecture: "jacobian_conjecture",
       task: "P1",
     })).rejects.toThrow("ai_review_not_configured");
+  });
+
+  it("uses the full Gemini thinking budget and accepts structured text content", async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      choices: [{
+        finish_reason: "stop",
+        message: {
+          content: [{
+            type: "text",
+            text: JSON.stringify({
+              verdict: "allow",
+              category: "research_question",
+              risk_flags: [],
+              original_language: "en",
+              title_zh: "一个问题",
+              body_zh: "一条可验证的留言。",
+            }),
+          }],
+        },
+      }],
+    }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const review = await reviewCommunityMessage({
+      COMMUNITY_AI_BASE_URL: "https://review.example/v1/chat/completions",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+    }, {
+      nickname: "Researcher",
+      title: "A verification question",
+      body: "Could the offline verifier expose this intermediate condition?",
+      conjecture: "jacobian_conjecture",
+      task: "P1",
+    });
+
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    const requestBody = JSON.parse(String(init.body)) as { max_tokens: number };
+    expect(url).toBe("https://review.example/v1/chat/completions");
+    expect(requestBody.max_tokens).toBe(65_536);
+    expect(review.status).toBe("completed");
+    expect(review.finishReason).toBe("stop");
+    expect(review.maxTokens).toBe(65_536);
+  });
+
+  it("records the finish reason when a provider returns empty content", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({
+      choices: [{ finish_reason: "length", message: { content: "" } }],
+    }), { status: 200 })));
+    await expect(reviewCommunityMessage({
+      COMMUNITY_AI_BASE_URL: "https://review.example/v1",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+    }, {
+      nickname: "Researcher",
+      title: "A verification question",
+      body: "Could the offline verifier expose this intermediate condition?",
+      conjecture: "jacobian_conjecture",
+      task: "P1",
+    })).rejects.toThrow("ai_review_empty_content_finish_length");
+  });
+
+  it("keeps a safe upstream error detail for moderator diagnostics", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({
+      error: { code: "model_not_found", message: "Unknown review model" },
+    }), { status: 404 })));
+    await expect(reviewCommunityMessage({
+      COMMUNITY_AI_BASE_URL: "https://review.example/v1",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+    }, {
+      nickname: "Researcher",
+      title: "A verification question",
+      body: "Could the offline verifier expose this intermediate condition?",
+      conjecture: "jacobian_conjecture",
+      task: "P1",
+    })).rejects.toThrow("ai_review_http_404:model_not_found:Unknown review model");
   });
 });
 

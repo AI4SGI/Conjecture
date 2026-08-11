@@ -7097,6 +7097,41 @@ body {
   color: var(--green);
 }
 
+.moderator-storage-summary {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.35);
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.moderator-storage-summary > div,
+.moderator-storage-summary button {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.moderator-storage-summary button {
+  min-height: 32px;
+  padding: 0 10px;
+  background: var(--ink);
+  color: white;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.moderator-storage-summary button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
 .moderation-view-toggle {
   display: inline-flex;
   margin-top: 16px;
@@ -7323,6 +7358,20 @@ body {
   overflow-wrap: anywhere;
   font-size: 11px;
   line-height: 1.5;
+}
+
+.ai-review-detail .wide {
+  grid-column: 1 / -1;
+}
+
+.ai-failure-override-note {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--red);
+  background: rgba(193, 70, 56, 0.08);
+  color: #7a2921;
+  font-size: 11px;
+  line-height: 1.55;
 }
 
 .human-decision-fields {

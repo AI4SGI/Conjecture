@@ -90,8 +90,11 @@ test("three conjectures share one data-driven research interface", async ({ page
 
   const relatedConjecture = page.getByLabel("Related conjecture");
   const relatedTask = page.getByLabel("Related task");
-  await expect(relatedConjecture.locator("option")).toHaveCount(3);
+  await expect(relatedConjecture.locator("option")).toHaveCount(4);
+  await expect(relatedConjecture.locator("option").first()).toHaveText("New Conjecture or Problem");
   await expect(relatedTask.locator("option")).toHaveCount(2);
+  await relatedConjecture.selectOption("new");
+  await expect(relatedTask.locator("option")).toHaveCount(1);
   await relatedConjecture.selectOption("jacobian_conjecture");
   await expect(relatedTask.locator("option")).toHaveCount(6);
   await relatedConjecture.selectOption("number_theory_002_odd_perfect_number");
@@ -313,4 +316,126 @@ test("approved community messages are timestamped and grouped by review category
   await expect(page.locator(".message-item")).toHaveCount(1);
   await expect(page.locator(".message-page-count")).toHaveText("2 / 2");
   await page.locator("#community").screenshot({ path: "/tmp/opbench-community-review.png" });
+});
+
+test("human moderation remains operable after an AI review failure", async ({ page }) => {
+  let moderated = false;
+  let moderationBody: Record<string, unknown> | undefined;
+  const failedMessage = {
+    id: "failed-ai-message",
+    nickname: "Independent Checker",
+    contactEmail: "checker@example.org",
+    title: "A candidate condition for manual review",
+    body: "Please inspect this **finite verification condition** manually.",
+    conjecture: "new",
+    task: "general",
+    status: "ai_pending",
+    likes: 0,
+    createdAt: "2026-08-11T03:04:05.000Z",
+    submittedAt: "2026-08-11T03:04:05.000Z",
+    submittedDate: "2026-08-11",
+    submittedTime: "03:04:05Z",
+    source: { country: "ZZ", fingerprint: "0123456789…" },
+    aiReview: {
+      status: "failed",
+      model: "gemini-3.5-flash-thinking",
+      riskFlags: [],
+      reviewedAt: "2026-08-11T03:05:05.000Z",
+      maxTokens: 65_536,
+      error: "ai_review_http_404:model_not_found:Unknown review model",
+    },
+  };
+
+  await page.route("**/api/community*", async (route) => {
+    const request = route.request();
+    if (request.method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+          likedTasks: [],
+          pendingCount: moderated ? 0 : 1,
+          messages: [],
+        }),
+      });
+      return;
+    }
+    const body = request.postDataJSON() as Record<string, unknown>;
+    if (body.action === "admin_queue") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          messages: moderated ? [] : [failedMessage],
+          count: moderated ? 0 : 1,
+          storage: {
+            backend: "Cloudflare Durable Object (SQLite-backed storage)",
+            storedCount: 1,
+            applicationCapacity: 10_000,
+            automaticDeletion: false,
+          },
+        }),
+      });
+      return;
+    }
+    if (body.action === "admin_export") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          schemaVersion: 2,
+          exportedAt: "2026-08-11T03:06:05.000Z",
+          total: 1,
+          offset: 0,
+          nextOffset: null,
+          messages: [failedMessage],
+        }),
+      });
+      return;
+    }
+    if (body.action === "moderate") {
+      moderationBody = body;
+      moderated = true;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true, aiOverride: true }),
+      });
+      return;
+    }
+    await route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+  });
+
+  await page.goto(siteRoot);
+  await page.getByRole("button", { name: "Human moderator console" }).click();
+  await page.getByLabel("Moderator key").fill("test-admin-key");
+  await page.getByLabel("Reviewer name").fill("Browser test moderator");
+  await page.getByRole("button", { name: "Load pending queue" }).click();
+
+  const card = page.locator(".moderation-card");
+  await expect(card).toContainText("AI · failed");
+  await expect(card).toContainText("ai_review_http_404:model_not_found");
+  await expect(card).toContainText("65,536");
+  await expect(card.getByRole("button", { name: "Reject" })).toBeEnabled();
+  await expect(card.getByRole("button", { name: "Approve with override" })).toBeDisabled();
+  await expect(page.locator(".moderator-storage-summary")).toContainText("automatic deletion off");
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export private backup" }).click();
+  await expect((await downloadPromise).suggestedFilename()).toBe("community-private-backup-2026-08-11.json");
+
+  await card.getByLabel("Public category").selectOption("verification_gap");
+  await card.getByLabel("Private review note").fill(
+    "I independently checked the safety and relevance of this message.",
+  );
+  await expect(card.getByRole("button", { name: "Approve with override" })).toBeEnabled();
+  await card.getByRole("button", { name: "Approve with override" }).click();
+  await expect(page.locator(".moderator-notice")).toContainText("message is now public");
+  expect(moderationBody).toMatchObject({
+    status: "approved",
+    category: "verification_gap",
+    reviewer: "Browser test moderator",
+    overrideAiFailure: true,
+  });
 });

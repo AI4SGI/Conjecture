@@ -35,6 +35,6 @@
     ]
   },
   "vars": {
-    "COMMUNITY_ALLOWED_TARGETS": "{\"jacobian_conjecture\":[\"general\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\"],\"number_theory_001_beal_conjecture\":[\"general\",\"P1\"],\"number_theory_002_odd_perfect_number\":[\"general\",\"P1\"]}"
+    "COMMUNITY_ALLOWED_TARGETS": "{\"new\":[\"general\"],\"jacobian_conjecture\":[\"general\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\"],\"number_theory_001_beal_conjecture\":[\"general\",\"P1\"],\"number_theory_002_odd_perfect_number\":[\"general\",\"P1\"]}"
   }
 }

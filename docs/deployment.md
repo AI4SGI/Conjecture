@@ -70,8 +70,12 @@ Worker，需要将上述命令的配置文件改为 wrangler.jsonc 后再设置�
 
 本地开发只在已被 .gitignore 排除的 .dev.vars 或 .env 中设置同名变量；两者
 选择一个使用，不要同时维护，也不要创建包含真实值的可提交示例文件。缺少
-任意 AI Secret 时，初审会 fail-closed：留言保留在 ai_pending，不能进入人工
-批准和公开展示。Cloudflare 配置完成后，管理员可在审核台重试初审。
+任意 AI Secret 时，初审会显示明确的失败原因并将留言保留在 ai_pending。
+Cloudflare 配置完成后，管理员可在审核台重试初审。Gemini 开头的模型统一使用
+`max_tokens=65536`，其他模型使用 `max_tokens=128000`；OpenAI-compatible
+base URL 可以填写 `/v1` 根路径，也可以直接填写完整 `/chat/completions` 路径。
+初审任务进入 Durable Object Alarm 队列后台执行，不依赖提交页面持续连接；这也
+避免了普通 `waitUntil()` 在响应结束后的短时限截断 thinking 模型。
 
 随后重新运行 Deploy GitHub Pages 工作流，让静态前端嵌入社区 API 地址。
 Worker 的 CORS 白名单默认只接受 `https://ai4sgi.github.io` 与本地开发地址。
@@ -95,7 +99,9 @@ Authorization: Bearer <COMMUNITY_ADMIN_KEY>
 页面 05 / COMMUNITY 底部展开 Human moderator console，输入
 COMMUNITY_ADMIN_KEY 后，可在 Pending review 查看原始留言、私有联系邮箱和
 AI 初审结果，在 Review history 查看已经通过或拒绝的完整人工审核记录。选择
-公开分类、填写内部备注并通过或拒绝；只有 approved 会出现在公开列表。通过
+公开分类、填写内部备注并通过或拒绝；只有 approved 会出现在公开列表。
+AI 失败不会锁死人工作流：人工可以直接拒绝；如确认内容适合公开，也可以选择
+分类并填写至少 12 个字符的内部理由，以带审计记录的 human override 通过。通过
 后当前审核页面会立即刷新公开留言，其他已经打开的浏览器页面刷新后可见。
 
 Durable Object 为每条留言单独持久化提交日期、UTC 具体时间、匿名来源指纹、
@@ -103,5 +109,36 @@ Durable Object 为每条留言单独持久化提交日期、UTC 具体时间、�
 接口不会返回邮箱、指纹、AI 理由或审核人信息。
 边缘 Worker 同时限制 CORS 来源、JSON 类型和 12 KB 请求体，存储层继续执行
 浏览器与匿名指纹双重限流、小时/日限流、目标白名单、蜜罐、重复内容与危险
-文本检查。AI 服务不可用时采用 fail-closed：留言停留在 ai_pending，只能由
-管理员重试 AI 初审，不能跳过 AI 直接批准。
+文本检查。AI 服务不可用时不会自动公开内容，任何公开决定仍必须由人工明确
+作出。
+
+### 存储、容量与备份
+
+留言统一保存在名为 `CommunityStore` 的 SQLite-backed Cloudflare Durable
+Object 中；公开网页和 GitHub 仓库都不保存私有邮箱或审核记录。Cloudflare
+目前规定单个 SQLite-backed Durable Object 最大 10 GB，单个 key/value 最大
+2 MB；行数本身没有固定上限，账户总容量仍受套餐额度约束。官方说明见
+[Durable Objects limits](https://developers.cloudflare.com/durable-objects/platform/limits/)。
+
+应用层最多接受 10,000 条留言，达到阈值后返回
+`message_capacity_reached`，不会像旧实现那样删除最早留言。管理员载入审核队列
+后可以点击 **Export private backup**，接口会以每页最多 250 条读取，然后在
+浏览器下载包含原始留言、私有邮箱、AI 结果和人工审计记录的 JSON；该文件包含
+敏感数据，必须放入受控的加密存储，不得提交 GitHub。
+
+Durable Object 存储是事务性、强一致的，SQLite-backed Durable Objects 还提供
+整库最近 30 天的 point-in-time recovery。恢复操作和 bookmarks 说明见
+[SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/)。
+建议至少每周导出一次异地加密备份，并在 Cloudflare Dashboard 监控 Durable
+Objects 的总存储量。PITR 负责 30 天内的平台恢复，定期导出负责更长期且跨平台
+的兜底。
+
+### 后续新增猜想
+
+社区表单第一项固定为 **New Conjecture or Problem**，对应 `new/general`，可在
+猜想正式进入数据集前先讨论。正式新增猜想时，页面选择器、留言表单和公开筛选
+均从 `src/data/site-data.json` 的 conjecture 数组自动生成；一般讨论会自动兼容
+新的安全 ID。若新猜想需要 `P1` 等任务级留言，再把允许的 task key 加到
+`COMMUNITY_ALLOWED_TARGETS`（`wrangler.community.jsonc` 和
+`wrangler.jsonc`）并重新部署 Worker。这样只增加一般讨论时无需修改留言组件，
+增加任务时也只需维护数据和一处服务端白名单配置。

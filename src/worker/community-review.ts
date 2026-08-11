@@ -33,6 +33,8 @@ export interface CommunityAiReview {
   rationale?: string;
   translations?: CommunityMessageTranslations;
   reviewedAt?: string;
+  finishReason?: string;
+  maxTokens?: number;
   error?: string;
 }
 
@@ -86,6 +88,50 @@ function jsonObjectFromText(raw: string) {
     const end = candidate.lastIndexOf("}");
     if (start < 0 || end <= start) throw new Error("ai_review_invalid_json");
     return JSON.parse(candidate.slice(start, end + 1)) as Record<string, unknown>;
+  }
+}
+
+function completionEndpoint(baseUrl: string) {
+  return /\/chat\/completions$/i.test(baseUrl)
+    ? baseUrl
+    : baseUrl + "/chat/completions";
+}
+
+function completionContent(value: unknown) {
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return "";
+  return value
+    .map((part) => {
+      if (typeof part === "string") return part;
+      if (!part || typeof part !== "object") return "";
+      const record = part as Record<string, unknown>;
+      return typeof record.text === "string"
+        ? record.text
+        : typeof record.content === "string"
+          ? record.content
+          : "";
+    })
+    .join("");
+}
+
+async function upstreamErrorDetail(response: Response) {
+  const raw = await response.text().catch(() => "");
+  if (!raw) return "";
+  try {
+    const parsed = JSON.parse(raw) as {
+      error?: string | { message?: unknown; code?: unknown };
+      message?: unknown;
+    };
+    if (typeof parsed.error === "string") return shortText(parsed.error, 240);
+    if (parsed.error && typeof parsed.error === "object") {
+      return shortText(
+        [parsed.error.code, parsed.error.message].filter(Boolean).join(":"),
+        240,
+      );
+    }
+    return shortText(parsed.message, 240);
+  } catch {
+    return shortText(raw, 240);
   }
 }
 
@@ -160,36 +206,60 @@ export async function reviewCommunityMessage(
     message: input.body,
   });
 
-  const response = await fetch(baseUrl + "/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + apiKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.1,
-      max_tokens: 16_384,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
-    }),
-    signal: AbortSignal.timeout(90_000),
-  });
+  const maxTokens = model.toLowerCase().startsWith("gemini") ? 65_536 : 128_000;
+
+  let response: Response;
+  try {
+    response = await fetch(completionEndpoint(baseUrl), {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + apiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0.1,
+        max_tokens: maxTokens,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
+        ],
+      }),
+      signal: AbortSignal.timeout(240_000),
+    });
+  } catch (error) {
+    throw new Error(
+      "ai_review_network:" + shortText(
+        error instanceof Error ? error.message : "request_failed",
+        180,
+      ),
+    );
+  }
   if (!response.ok) {
-    throw new Error("ai_review_http_" + response.status);
+    const detail = await upstreamErrorDetail(response);
+    throw new Error(
+      "ai_review_http_" + response.status + (detail ? ":" + detail : ""),
+    );
   }
   const payload = await response.json() as {
-    choices?: Array<{ message?: { content?: string | null } }>;
+    choices?: Array<{
+      finish_reason?: unknown;
+      message?: { content?: unknown; reasoning_content?: unknown };
+    }>;
   };
-  const content = payload.choices?.[0]?.message?.content;
-  if (!content) throw new Error("ai_review_empty_content");
+  const choice = payload.choices?.[0];
+  const finishReason = shortText(choice?.finish_reason, 40) || "unknown";
+  const content = completionContent(choice?.message?.content);
+  if (!content.trim()) {
+    throw new Error("ai_review_empty_content_finish_" + finishReason);
+  }
   const parsed = parseCommunityAiReview(content);
   return {
     status: "completed",
     model,
     ...parsed,
     reviewedAt: new Date().toISOString(),
+    finishReason,
+    maxTokens,
   };
 }

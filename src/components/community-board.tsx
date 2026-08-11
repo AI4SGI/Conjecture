@@ -111,7 +111,7 @@ export function CommunityBoard({
   const [messageLanguages, setMessageLanguages] = useState<Record<string, MessageDisplayMode>>({});
   const [copiedMessageId, setCopiedMessageId] = useState("");
   const [expandedMessageId, setExpandedMessageId] = useState("");
-  const selectedConjecture = conjectures.find((item) => item.id === form.conjecture) ?? conjectures[0];
+  const selectedConjecture = conjectures.find((item) => item.id === form.conjecture);
   const selectedTasks = selectedConjecture?.benchmarkData.dataset.tasks ?? [];
   const filterTasks = useMemo(() => {
     const source = conjectureFilter === "all"
@@ -456,6 +456,7 @@ export function CommunityBoard({
                 }}
               >
                 <option value="all">{english ? "All conjectures" : "所有猜想"}</option>
+                <option value="new">{english ? "New Conjecture or Problem" : "新猜想或问题"}</option>
                 {conjectures.map((item) => <option value={item.id} key={item.id}>{english ? item.title : item.titleZh}</option>)}
               </select>
             </label>
@@ -626,6 +627,7 @@ export function CommunityBoard({
                 }))
               }
             >
+              <option value="new">{english ? "New Conjecture or Problem" : "新猜想或问题"}</option>
               {conjectures.map((item) => <option value={item.id} key={item.id}>{english ? item.title : item.titleZh}</option>)}
             </select>
           </label>

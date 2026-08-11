@@ -43,6 +43,9 @@ interface StoredCommunityMessage {
     category?: CommunityCategory;
     note: string;
     reviewedAt: string;
+    aiOverride?: boolean;
+    aiStatusAtDecision?: CommunityAiReview["status"];
+    aiErrorAtDecision?: string;
   };
 }
 
@@ -81,8 +84,10 @@ const EMPTY_LIKES: Record<TaskKey, number> = {
 };
 const MESSAGE_INDEX_KEY = "messageIndex:v2";
 const MESSAGE_PREFIX = "message:v2:";
-const MAX_MESSAGES = 500;
+const AI_REVIEW_QUEUE_KEY = "aiReviewQueue:v1";
+const MAX_MESSAGES = 10_000;
 const DEFAULT_ALLOWED_TARGETS: Record<string, string[]> = {
+  new: ["general"],
   jacobian_conjecture: ["general", "P1", "P2", "P3", "P4", "P5"],
   number_theory_001_beal_conjecture: ["general", "P1"],
   number_theory_002_odd_perfect_number: ["general", "P1"],
@@ -203,7 +208,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       }
       if (Object.keys(values).length) await this.ctx.storage.put(values);
     }
-    const index = normalized.map((message) => message.id).slice(0, MAX_MESSAGES);
+    const index = normalized.map((message) => message.id);
     await this.ctx.storage.put(MESSAGE_INDEX_KEY, index);
     if (legacy.length) await this.ctx.storage.delete("messages");
     return index;
@@ -234,22 +239,14 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
 
   private async addMessage(message: StoredCommunityMessage) {
     const index = await this.messageIndex();
-    const next = [message.id, ...index.filter((id) => id !== message.id)];
-    const overflow = next.slice(MAX_MESSAGES);
-    const deletionKeys = overflow.map((id) => MESSAGE_PREFIX + id);
-    for (const id of overflow) {
-      const expired = await this.loadMessage(id);
-      if (expired?.contentFingerprint) {
-        deletionKeys.push("content:" + expired.contentFingerprint);
-      }
+    if (index.length >= MAX_MESSAGES && !index.includes(message.id)) {
+      throw new Error("message_capacity_reached");
     }
+    const next = [message.id, ...index.filter((id) => id !== message.id)];
     await this.ctx.storage.put({
       [MESSAGE_PREFIX + message.id]: message,
-      [MESSAGE_INDEX_KEY]: next.slice(0, MAX_MESSAGES),
+      [MESSAGE_INDEX_KEY]: next,
     });
-    if (deletionKeys.length) {
-      await this.ctx.storage.delete(deletionKeys);
-    }
   }
 
   private allowedTargets() {
@@ -298,28 +295,61 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
   }
 
   private async runAiReview(id: string) {
-    const message = await this.loadMessage(id);
-    if (!message || ["approved", "rejected"].includes(message.status)) return;
+    const submittedMessage = await this.loadMessage(id);
+    if (!submittedMessage || ["approved", "rejected"].includes(submittedMessage.status)) return;
+    let aiReview: CommunityAiReview;
     try {
-      message.aiReview = await reviewCommunityMessage(this.env, {
-        nickname: message.nickname,
-        title: message.title,
-        body: message.body,
-        conjecture: message.conjecture,
-        task: message.task,
+      aiReview = await reviewCommunityMessage(this.env, {
+        nickname: submittedMessage.nickname,
+        title: submittedMessage.title,
+        body: submittedMessage.body,
+        conjecture: submittedMessage.conjecture,
+        task: submittedMessage.task,
       });
-      message.category = message.aiReview.category;
-      message.status = "human_pending";
     } catch (error) {
-      message.aiReview = {
+      const model = this.env.COMMUNITY_AI_MODEL_NAME ?? "unconfigured";
+      aiReview = {
         status: "failed",
-        model: this.env.COMMUNITY_AI_MODEL_NAME ?? "unconfigured",
+        model,
         riskFlags: [],
-        error: cleanText(error instanceof Error ? error.message : "ai_review_failed", 80),
+        reviewedAt: new Date().toISOString(),
+        maxTokens: model.toLowerCase().startsWith("gemini") ? 65_536 : 128_000,
+        error: cleanText(error instanceof Error ? error.message : "ai_review_failed", 300),
       };
-      message.status = "ai_pending";
     }
-    await this.saveMessage(message);
+    const latest = await this.loadMessage(id);
+    if (!latest || ["approved", "rejected"].includes(latest.status)) return;
+    latest.aiReview = aiReview;
+    if (aiReview.status === "completed") {
+      latest.category = aiReview.category;
+      latest.status = "human_pending";
+    } else {
+      latest.status = "ai_pending";
+    }
+    await this.saveMessage(latest);
+  }
+
+  private async enqueueAiReview(id: string) {
+    const queue = (await this.ctx.storage.get<string[]>(AI_REVIEW_QUEUE_KEY)) ?? [];
+    if (!queue.includes(id)) {
+      await this.ctx.storage.put(AI_REVIEW_QUEUE_KEY, [...queue, id]);
+    }
+    if (await this.ctx.storage.getAlarm() === null) {
+      await this.ctx.storage.setAlarm(Date.now() + 100);
+    }
+  }
+
+  async alarm() {
+    const queue = (await this.ctx.storage.get<string[]>(AI_REVIEW_QUEUE_KEY)) ?? [];
+    const id = queue[0];
+    if (!id) return;
+    await this.runAiReview(id);
+    const latestQueue = (await this.ctx.storage.get<string[]>(AI_REVIEW_QUEUE_KEY)) ?? [];
+    const remaining = latestQueue.filter((queuedId) => queuedId !== id);
+    await this.ctx.storage.put(AI_REVIEW_QUEUE_KEY, remaining);
+    if (remaining.length) {
+      await this.ctx.storage.setAlarm(Date.now() + 250);
+    }
   }
 
   async snapshot(
@@ -420,10 +450,18 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       || title.length < 4
       || messageBody.length < 12
       || !/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)
-      || !allowedTargets[conjecture]?.includes(task)
+      || !(allowedTargets[conjecture]?.includes(task)
+        || (task === "general" && /^[a-z0-9][a-z0-9_-]{1,79}$/i.test(conjecture)))
       || contentIsSuspicious(title, messageBody, nickname)
     ) {
       return json({ error: "invalid_request" }, 400);
+    }
+
+    if ((await this.messageIndex()).length >= MAX_MESSAGES) {
+      return json({
+        error: "message_capacity_reached",
+        detail: "No existing messages were deleted. A moderator must archive or expand storage before accepting more.",
+      }, 503);
     }
 
     const fingerprint = sourceFingerprint(request);
@@ -467,7 +505,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     };
     await this.addMessage(message);
     await this.ctx.storage.put("content:" + contentFingerprint, message.id);
-    this.ctx.waitUntil(this.runAiReview(message.id));
+    await this.enqueueAiReview(message.id);
     return json({
       ok: true,
       id: message.id,
@@ -525,7 +563,42 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
             }
           : undefined,
       }));
-    return json({ messages, count: messages.length });
+    const storedCount = (await this.messageIndex()).length;
+    return json({
+      messages,
+      count: messages.length,
+      storage: {
+        backend: "Cloudflare Durable Object (SQLite-backed storage)",
+        storedCount,
+        applicationCapacity: MAX_MESSAGES,
+        automaticDeletion: false,
+      },
+    });
+  }
+
+  async adminExport(request: Request, body: Record<string, unknown>) {
+    if (!this.authorized(request)) return json({ error: "unauthorized" }, 401);
+    const requestedOffset = Number(body.offset);
+    const requestedLimit = Number(body.limit);
+    const offset = Number.isInteger(requestedOffset) && requestedOffset >= 0
+      ? requestedOffset
+      : 0;
+    const limit = Number.isInteger(requestedLimit)
+      ? Math.min(250, Math.max(1, requestedLimit))
+      : 100;
+    const messages = await this.loadMessages();
+    const page = messages.slice(offset, offset + limit);
+    const nextOffset = offset + page.length;
+    return json({
+      schemaVersion: 2,
+      exportedAt: new Date().toISOString(),
+      backend: "Cloudflare Durable Object (SQLite-backed storage)",
+      automaticDeletion: false,
+      total: messages.length,
+      offset,
+      messages: page,
+      nextOffset: nextOffset < messages.length ? nextOffset : null,
+    });
   }
 
   async retryAiReview(request: Request, body: Record<string, unknown>) {
@@ -542,7 +615,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       riskFlags: [],
     };
     await this.saveMessage(message);
-    this.ctx.waitUntil(this.runAiReview(id));
+    await this.enqueueAiReview(id);
     return json({ ok: true, id, status: "ai_pending" });
   }
 
@@ -555,13 +628,25 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     }
     const message = await this.loadMessage(id);
     if (!message) return json({ error: "not_found" }, 404);
-    if (message.aiReview?.status !== "completed") {
+    if (["approved", "rejected"].includes(message.status)) {
+      return json({ error: "already_moderated" }, 409);
+    }
+    const note = cleanText(body.note, 600);
+    const aiFailed = message.aiReview?.status === "failed";
+    const overrideAiFailure = body.overrideAiFailure === true;
+    if (status === "approved" && message.aiReview?.status !== "completed" && !aiFailed) {
       return json({ error: "ai_review_required" }, 409);
+    }
+    if (status === "approved" && aiFailed && !overrideAiFailure) {
+      return json({ error: "ai_review_override_required" }, 409);
+    }
+    if (status === "approved" && aiFailed && note.length < 12) {
+      return json({ error: "override_note_required" }, 400);
     }
     const requestedCategory = cleanText(body.category, 40) as CommunityCategory;
     const category = COMMUNITY_CATEGORIES.includes(requestedCategory)
       ? requestedCategory
-      : message.aiReview.category ?? "other";
+      : message.aiReview?.category ?? "other";
     const reviewedAt = new Date().toISOString();
     message.status = status;
     message.category = category;
@@ -569,12 +654,26 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       status,
       reviewer: cleanText(body.reviewer, 40) || "moderator",
       category,
-      note: cleanText(body.note, 600),
+      note,
       reviewedAt,
+      ...(aiFailed && overrideAiFailure
+        ? {
+            aiOverride: true,
+            aiStatusAtDecision: "failed" as const,
+            aiErrorAtDecision: message.aiReview?.error,
+          }
+        : {}),
     };
     if (status === "approved") message.publishedAt = reviewedAt;
     await this.saveMessage(message);
-    return json({ ok: true, id, status, category, reviewedAt });
+    return json({
+      ok: true,
+      id,
+      status,
+      category,
+      reviewedAt,
+      aiOverride: aiFailed && overrideAiFailure,
+    });
   }
 
   async fetch(request: Request) {
@@ -603,6 +702,8 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
         return this.likeMessage(request, body);
       case "admin_queue":
         return this.adminQueue(request, body);
+      case "admin_export":
+        return this.adminExport(request, body);
       case "retry_ai_review":
         return this.retryAiReview(request, body);
       case "moderate":

@@ -17,6 +17,9 @@ test("three conjectures share one data-driven research interface", async ({ page
   await expect(page.locator(".frontier-news-timeline")).toContainText("all ten research-level proof problems");
 
   await expect(page.locator(".hero-case-copy h2")).toHaveText("Jacobian Conjecture");
+  await expect(page.locator(".community-review-pipeline > div")).toHaveCount(5);
+  await expect(page.locator(".community-review-pipeline")).toContainText("Strong-model review");
+  await expect(page.locator(".community-review-pipeline")).toContainText("Human decision");
   await expect(page.locator("#atlas .section-lead h2")).toHaveText("From the conjecture to the first counterexample");
   await expect(page.locator(".jacobian-frontier-card")).toContainText("The first known 3D construction");
   await expect(page.locator(".jacobian-frontier-card")).toContainText("LOCAL CERTIFICATE");
@@ -94,6 +97,16 @@ test("three conjectures share one data-driven research interface", async ({ page
   await relatedConjecture.selectOption("number_theory_002_odd_perfect_number");
   await expect(relatedTask.locator("option")).toHaveCount(2);
   await expect(page.locator(".message-editor-head")).toContainText("Markdown and LaTeX are supported");
+  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
+  await expect(page.locator("#community-email-privacy")).toContainText("Never published or included in AI review");
+  await expect(page.locator(".community-filters label")).toHaveCount(3);
+  await expect(page.getByLabel("Category").locator("option")).toHaveCount(6);
+  await expect(page.locator(".moderation-note")).toContainText("human approval is mandatory");
+  await page.getByRole("button", { name: "Human moderator console" }).click();
+  await expect(page.getByLabel("Moderator key")).toBeVisible();
+  await expect(page.getByLabel("Reviewer name")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pending review" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Review history" })).toBeVisible();
   await page.getByLabel("Message", { exact: true }).fill("A **bold** note with $x^2$. ");
   await page.getByRole("button", { name: "Preview" }).click();
   await expect(page.locator(".message-preview strong")).toHaveText("bold");
@@ -161,4 +174,143 @@ test("language switch localizes dynamic conjecture content", async ({ page }) =>
   await expect(page.locator(".task-card")).toHaveCount(1);
   await expect(page.locator("#verify .section-lead h2")).toHaveText("交互验证候选奇完全数");
   await expect(page.locator("#verify .interactive-scope")).toContainText("不使用 LLM judge");
+  await expect(page.locator(".community-review-pipeline")).toContainText("强模型初审");
+  await expect(page.locator(".community-review-pipeline")).toContainText("人工终审");
+});
+
+test("approved community messages are timestamped and grouped by review category", async ({ page }) => {
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.route("**/api/community?*", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+        likedTasks: [],
+        pendingCount: 1,
+        messages: Array.from({ length: 6 }, (_, index) => {
+          const originalLanguage = index === 1 ? "zh" : index === 2 ? "other" : "en";
+          const title = index === 0
+            ? "a condition worth checking"
+            : index === 1
+              ? "一个中文原始问题"
+              : index === 2
+                ? "una pregunta matemática"
+                : `follow-up condition ${index + 1}`;
+          const body = index === 0
+            ? "Please verify the **collision certificate** exactly."
+            : index === 1
+              ? "这是包含 **原始中文** 的留言。"
+              : index === 2
+                ? "Este es el **mensaje original**."
+                : `Verification note ${index + 1}.`;
+          const translations = originalLanguage === "zh"
+            ? {
+                originalLanguage,
+                en: {
+                  title: "An original Chinese question",
+                  body: "This is a message containing **original Chinese**.",
+                },
+              }
+            : originalLanguage === "other"
+              ? {
+                  originalLanguage,
+                  en: { title: "A mathematical question", body: "This is the **original message**." },
+                  zh: { title: "一个数学问题", body: "这是 **原始留言**。" },
+                }
+              : {
+                  originalLanguage,
+                  zh: {
+                    title: index === 0 ? "一个值得检查的条件" : `后续条件 ${index + 1}`,
+                    body: index === 0
+                      ? "请精确验证 **碰撞证书**。"
+                      : `验证留言 ${index + 1}。`,
+                  },
+                };
+          return {
+            id: `reviewed-message-${index + 1}`,
+            nickname: index === 0 ? "Finite Verifier" : `Researcher ${index + 1}`,
+            title,
+            body,
+            conjecture: "jacobian_conjecture",
+            task: "P1",
+            category: "verification_gap",
+            status: "approved",
+            likes: 2,
+            createdAt: "2026-08-11T03:04:05.000Z",
+            submittedAt: "2026-08-11T03:04:05.000Z",
+            aiScreened: true,
+            humanApproved: true,
+            translations,
+          };
+        }),
+      }),
+    });
+  });
+  await page.goto(siteRoot);
+  await expect(page.locator(".message-category-head")).toContainText("Verification gaps");
+  await expect(page.locator(".message-category-head")).toContainText("06");
+  await expect(page.locator(".message-item")).toHaveCount(5);
+  const firstMessage = page.locator(".message-item").first();
+  await expect(firstMessage.locator(".message-card-heading h4")).toHaveText("A condition worth checking");
+  await expect(firstMessage.locator(".message-author")).toContainText("Finite Verifier");
+  await expect(firstMessage.locator(".message-tags > span")).toHaveCount(2);
+  await expect(firstMessage.locator("time")).toContainText(/2026/);
+  await expect(firstMessage.locator("time")).toContainText(/:04:05/);
+  await expect(firstMessage.locator(".message-review-badges")).toContainText("AI SCREENED");
+  await expect(firstMessage.locator(".message-review-badges")).toContainText("HUMAN APPROVED");
+  await expect(firstMessage.locator(".message-content strong")).toHaveText("collision certificate");
+  await expect(firstMessage.getByRole("button", { name: "DEF", exact: true })).toHaveAttribute("aria-pressed", "true");
+
+  await firstMessage.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(firstMessage.locator(".message-card-heading h4")).toHaveText("A condition worth checking");
+  await expect(firstMessage.locator(".message-content strong")).toHaveText("collision certificate");
+  await expect(firstMessage.getByRole("button", { name: "EN", exact: true })).toHaveAttribute("aria-pressed", "true");
+
+  const copyButton = firstMessage.getByRole("button", { name: "Copy original message" });
+  await copyButton.click();
+  await expect(copyButton).toHaveClass(/copied/);
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText()))
+    .toBe("Please verify the **collision certificate** exactly.");
+
+  await firstMessage.getByRole("button", { name: "ZH", exact: true }).click();
+  await expect(firstMessage.locator(".message-card-heading h4")).toHaveText("一个值得检查的条件");
+  await expect(firstMessage.locator(".message-content strong")).toHaveText("碰撞证书");
+  await firstMessage.getByRole("button", { name: "DEF", exact: true }).click();
+  await expect(firstMessage.locator(".message-card-heading h4")).toHaveText("A condition worth checking");
+  await expect(firstMessage.locator(".message-content strong")).toHaveText("collision certificate");
+  await firstMessage.getByRole("button", { name: "ZH", exact: true }).click();
+  await firstMessage.getByRole("button", { name: "Expand message" }).click();
+  const modal = page.locator(".message-modal");
+  await expect(modal).toBeVisible();
+  await expect(modal.getByRole("heading", { name: "一个值得检查的条件" })).toBeVisible();
+  await expect(modal.locator(".message-modal-scroll strong")).toHaveText("碰撞证书");
+  await modal.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(modal.getByRole("heading", { name: "A condition worth checking" })).toBeVisible();
+  await modal.getByRole("button", { name: "Close expanded message" }).click();
+  await expect(modal).toBeHidden();
+
+  const chineseMessage = page.locator(".message-item").nth(1);
+  await expect(chineseMessage.locator(".message-card-heading h4")).toHaveText("一个中文原始问题");
+  await chineseMessage.getByRole("button", { name: "ZH", exact: true }).click();
+  await expect(chineseMessage.locator(".message-content strong")).toHaveText("原始中文");
+  await chineseMessage.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(chineseMessage.locator(".message-card-heading h4")).toHaveText("An original Chinese question");
+  await chineseMessage.getByRole("button", { name: "DEF", exact: true }).click();
+  await expect(chineseMessage.locator(".message-card-heading h4")).toHaveText("一个中文原始问题");
+
+  const otherLanguageMessage = page.locator(".message-item").nth(2);
+  await expect(otherLanguageMessage.locator(".message-card-heading h4")).toHaveText("Una pregunta matemática");
+  await otherLanguageMessage.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(otherLanguageMessage.locator(".message-card-heading h4")).toHaveText("A mathematical question");
+  await otherLanguageMessage.getByRole("button", { name: "ZH", exact: true }).click();
+  await expect(otherLanguageMessage.locator(".message-card-heading h4")).toHaveText("一个数学问题");
+  await otherLanguageMessage.getByRole("button", { name: "DEF", exact: true }).click();
+  await expect(otherLanguageMessage.locator(".message-content strong")).toHaveText("mensaje original");
+
+  await expect(page.getByRole("progressbar", { name: "Message page progress" })).toHaveAttribute("aria-valuenow", "1");
+  await page.getByRole("button", { name: "Next message page" }).click();
+  await expect(page.locator(".message-item")).toHaveCount(1);
+  await expect(page.locator(".message-page-count")).toHaveText("2 / 2");
+  await page.locator("#community").screenshot({ path: "/tmp/opbench-community-review.png" });
 });

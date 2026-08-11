@@ -1,4 +1,9 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import {
+  COMMUNITY_MAX_REQUEST_BYTES,
+  communityRequestCountry,
+  communityRequestFingerprint,
+} from "../../../worker/community-security";
 
 export const dynamic = "force-dynamic";
 
@@ -35,13 +40,25 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const stub = await communityStub();
+    if (!request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) {
+      return Response.json({ error: "unsupported_media_type" }, { status: 415 });
+    }
     const body = await request.text();
+    if (new TextEncoder().encode(body).byteLength > COMMUNITY_MAX_REQUEST_BYTES) {
+      return Response.json({ error: "payload_too_large" }, { status: 413 });
+    }
+    const { env } = getCloudflareContext();
+    const stub = await communityStub();
     const response = await stub.fetch("https://community.internal/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: request.headers.get("Authorization") ?? "",
+        "X-Community-Fingerprint": await communityRequestFingerprint(
+          request,
+          env.COMMUNITY_FINGERPRINT_SALT,
+        ),
+        "X-Community-Country": communityRequestCountry(request),
       },
       body,
     });

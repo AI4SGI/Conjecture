@@ -290,6 +290,13 @@ export interface SiteData {
   conjectures: ConjectureData[];
 }
 
+export type CommunityCategory =
+  | "research_question"
+  | "counterexample_direction"
+  | "verification_gap"
+  | "benchmark_feedback"
+  | "other";
+
 export interface CommunityMessage {
   id: string;
   nickname: string;
@@ -297,9 +304,19 @@ export interface CommunityMessage {
   body: string;
   conjecture?: string;
   task: string | "general";
+  category?: CommunityCategory;
   status: "approved";
   likes: number;
   createdAt: string;
+  submittedAt?: string;
+  publishedAt?: string;
+  aiScreened?: boolean;
+  humanApproved?: boolean;
+  translations?: {
+    originalLanguage: "en" | "zh" | "other";
+    en?: { title: string; body: string };
+    zh?: { title: string; body: string };
+  };
 }
 
 export interface CommunitySnapshot {

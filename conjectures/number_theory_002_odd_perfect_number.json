@@ -50,14 +50,25 @@
       {"year":"2012","title":"The computational lower bound passes $10^{1500}$","titleZh":"计算下界超过 $10^{1500}$","description":"Ochem and Rao eliminate all smaller candidates through a reproducible factor-chain search.","descriptionZh":"Ochem 与 Rao 通过可复现的因子链搜索排除全部更小候选。","links":[{"label":"Mathematics of Computation","url":"https://www.ams.org/journals/mcom/2015-84-295/S0025-5718-2015-02941-X/"}]},
       {"year":"2015","title":"At least ten distinct prime factors are required","titleZh":"至少需要十个不同素因子","description":"Nielsen strengthens the factor-count restriction for every hypothetical odd perfect number.","descriptionZh":"Nielsen 加强了任意潜在奇完全数的不同素因子数量限制。","links":[{"label":"AMS paper", "url":"https://www.ams.org/journals/mcom/2015-84-295/S0025-5718-2015-02941-X/"}]},
       {"year":"2026","title":"Certified branch-search artifacts extend the computational program","titleZh":"认证分支搜索继续推进计算计划","description":"Recent work packages selected smallest-prime branches as verifier-checkable certificates while leaving the global existence question open.","descriptionZh":"近期工作将若干最小素因子分支整理为可由验证器检查的证书，但整体存在性问题仍开放。","links":[{"label":"arXiv:2607.04365","url":"https://arxiv.org/abs/2607.04365"}]}
-    ]
+    ],
+    "frontier": {
+      "title": "A hypothetical integer under severe constraints",
+      "titleZh": "受严苛约束的假想整数",
+      "summary": "Existence remains open, but a candidate can no longer be small or structurally simple. It must combine Euler's special-prime form with an enormous lower bound and a rich factorization, while balancing its divisor sum exactly.",
+      "summaryZh": "存在性仍未解决，但候选已不可能很小或结构简单。它必须同时满足 Euler 特殊素因子形式、极大的数值下界与复杂分解，并让约数和精确平衡。",
+      "formula": "N=q^{4k+1}m^2,\\qquad q\\equiv1\\pmod4,\\qquad \\sigma(N)=2N",
+      "facts": [
+        {"label":"LOWER BOUND","labelZh":"数值下界","text":"Every hypothetical odd perfect number must exceed $10^{1500}$, far beyond direct enumeration of individual integers.","textZh":"任何假想奇完全数都必须超过 $10^{1500}$，远超逐个枚举整数所能覆盖的范围。"},
+        {"label":"FACTORIZATION","labelZh":"素因数分解","text":"At least ten distinct prime factors are required. A complete certified prime-power factorization makes $\\sigma(N)=\\prod_i(1+p_i+\\cdots+p_i^{e_i})$ exactly checkable.","textZh":"候选至少需要十个不同素因子。完整认证的素数幂分解可使 $\\sigma(N)=\\prod_i(1+p_i+\\cdots+p_i^{e_i})$ 得到精确核验。"}
+      ]
+    }
   },
   "benchmark": {
     "name": "OPBench · Odd Perfect Number Construction",
     "title": "One open construction, fully certified",
     "titleZh": "一道开放构造题，完整认证",
-    "body": "Because the source optimization field is empty, the page exposes exactly one evaluation problem.",
-    "bodyZh": "由于源数据的 optimization 字段为空，页面只展示一道评测问题。",
+    "body": "The benchmark asks for one odd perfect number together with the complete factorization certificate needed for an exact offline verdict.",
+    "bodyZh": "评测要求构造一个奇完全数，并同时提交可供离线程序精确判定的完整分解证书。",
     "contextLabel": "Problem context",
     "contextLabelZh": "问题背景",
     "hintPolicy": "none",

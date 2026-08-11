@@ -36,7 +36,7 @@ assert(!JSON.stringify(site).includes("/mnt/"), "generated page data must not ex
 
 const expected = new Map([
   ["jacobian_conjecture", { tasks: 5, records: 50, hints: ["nohint", "hint"], interactive: "jacobian" }],
-  ["number_theory_001_beal_conjecture", { tasks: 2, records: 1, hints: ["nohint"], interactive: "beal" }],
+  ["number_theory_001_beal_conjecture", { tasks: 1, records: 1, hints: ["nohint"], interactive: "beal" }],
   ["number_theory_002_odd_perfect_number", { tasks: 1, records: 1, hints: ["nohint"], interactive: "odd-perfect" }],
 ]);
 let totalRecords = 0;
@@ -82,7 +82,7 @@ assert.equal(totalRecords, 52, "all current evaluation files must be covered");
 
 const numberTheory = await readJsonl(path.join(root, "problems/number_theory.jsonl"));
 assert.equal(numberTheory.length, 2, "the pretty-printed concatenated JSONL source must remain readable");
-assert(String(numberTheory[0].optimization.problem).trim(), "Beal has a real optimization task");
+assert.equal(String(numberTheory[0].optimization.problem).trim(), "", "Beal has no optimization task");
 assert.equal(String(numberTheory[1].optimization.problem).trim(), "", "odd perfect number has no optimization task");
 
 const newsLines = await readJsonl(path.join(root, "news/frontier_news.jsonl"));
@@ -116,7 +116,7 @@ try {
   const initialized = await Promise.all(
     initializedFiles.map(async (file) => JSON.parse(await readFile(path.join(temporary, file), "utf8"))),
   );
-  assert.deepEqual(initialized.map((item) => item.benchmark.tasks.length), [2, 1], "initializer must derive optimization task counts");
+  assert.deepEqual(initialized.map((item) => item.benchmark.tasks.length), [1, 1], "initializer must derive optimization task counts");
   const after = createHash("sha256").update(await readFile(source)).digest("hex");
   assert.equal(after, before, "initializer must never modify the JSONL source");
   await assert.rejects(
@@ -128,4 +128,4 @@ try {
   await rm(temporary, { recursive: true, force: true });
 }
 
-console.log(`OPBench data audit passed: 3 conjectures, 8 tasks, ${totalRecords} source-aligned records, ${newsLines.length} news items.`);
+console.log(`OPBench data audit passed: 3 conjectures, 7 tasks, ${totalRecords} source-aligned records, ${newsLines.length} news items.`);

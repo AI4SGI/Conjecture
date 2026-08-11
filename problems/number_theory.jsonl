@@ -17,11 +17,11 @@
         ]
     },
     "optimization": {
-        "problem": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.",
-        "scoring": "Scoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
-        "prompt": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.\n\nScoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
-        "type": "minimize",
-        "metric": "abs(A**x + B**y - C**z)"
+        "problem": "",
+        "scoring": "",
+        "prompt": "",
+        "type": null,
+        "metric": ""
     },
     "domain": "number theory",
     "validation_type": "program verification",

@@ -197,6 +197,20 @@ export interface AtlasEvent {
   links: Array<{ label: string; url: string }>;
 }
 
+export interface AtlasFrontier {
+  title: string;
+  titleZh: string;
+  summary: string;
+  summaryZh: string;
+  formula: string;
+  facts: Array<{
+    label: string;
+    labelZh: string;
+    text: string;
+    textZh: string;
+  }>;
+}
+
 export interface ConjectureData {
   schemaVersion: number;
   id: string;
@@ -236,6 +250,7 @@ export interface ConjectureData {
     body: string;
     bodyZh: string;
     events: AtlasEvent[];
+    frontier?: AtlasFrontier;
   };
   benchmark: {
     name: string;
@@ -280,7 +295,7 @@ export interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
-  conjecture?: "jacobian" | "new";
+  conjecture?: string;
   task: string | "general";
   status: "approved";
   likes: number;

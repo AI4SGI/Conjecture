@@ -46,6 +46,7 @@ const submission = await post({
   nickname: "Test Researcher",
   title: "A verifiable benchmark question",
   body: "This pending message must remain invisible until moderation approves it.",
+  conjecture: "number_theory_001_beal_conjecture",
   task: "P3",
 });
 assert.equal(submission.status, 201);

@@ -18,7 +18,7 @@
     "eyebrowZh": "指数型丢番图方程",
     "summary": "Can three pairwise collectively coprime bases support an equality of perfect powers with every exponent greater than two? OPBench turns a counterexample into six integers checked with exact arithmetic.",
     "summaryZh": "三个没有共同素因子的底数能否在所有指数均大于二时构成幂等式？OPBench 将反例化为六个可精确运算核验的整数。",
-    "primaryAction": "Explore the construction tasks",
+    "primaryAction": "Explore the construction task",
     "primaryActionZh": "查看构造题目"
   },
   "visualization": {
@@ -49,31 +49,41 @@
       {"year":"1997","title":"The conjecture and prize are announced through the AMS","titleZh":"猜想与奖金通过 AMS 公布","description":"The Notices of the AMS introduces the problem and its publication-based award process.","descriptionZh":"《AMS Notices》介绍该问题及以正式发表为前提的奖励流程。","links":[{"label":"Notices of the AMS","url":"https://www.ams.org/notices/199711/beal.pdf"}]},
       {"year":"2013","title":"The prize fund reaches US$1,000,000","titleZh":"奖金增至 100 万美元","description":"An AMS-appointed committee administers the award for a refereed proof or counterexample.","descriptionZh":"AMS 任命的委员会负责评审经同行评议发表的证明或反例。","links":[{"label":"AMS Beal Prize","url":"https://www.jointmathematicsmeetings.org/prizes-awards/paview.cgi?parent_id=41"}]},
       {"year":"2026","title":"The conjecture remains open","titleZh":"猜想仍未解决","description":"No accepted coprime-base solution or proof is known; finite proposed tuples remain exactly testable.","descriptionZh":"尚无获认可的互素底数解或完整证明，但任意有限候选六元组均可精确核验。","links":[{"label":"Official problem site","url":"https://www.bealconjecture.com/"}]}
-    ]
+    ],
+    "frontier": {
+      "title": "The coprime perfect-power frontier",
+      "titleZh": "互素完全幂前沿",
+      "summary": "The conjecture remains open. A finite candidate is unusually audit-friendly: six integers determine the entire claim, and exact exponentiation together with one gcd calculation decides every declared condition.",
+      "summaryZh": "猜想仍未解决。有限候选却尤其适合审计：六个整数即可确定完整主张，精确幂运算与一次最大公因数计算便能判定全部声明条件。",
+      "formula": "A^x+B^y=C^z,\\qquad x,y,z>2,\\qquad \\gcd(A,B,C)=1",
+      "facts": [
+        {"label":"KNOWN SOLUTIONS","labelZh":"已知解","text":"Equalities such as $3^3+6^3=3^5$ satisfy the power equation only with a shared prime factor; no accepted gcd-one tuple is known.","textZh":"$3^3+6^3=3^5$ 等等式虽然满足幂方程，却含有共同素因子；目前没有获认可的最大公因数为 1 的六元组。"},
+        {"label":"FINITE VERDICT","labelZh":"有限判定","text":"For any submitted six-tuple, positivity, exponent bounds, the common gcd, exact equality, and integer residual can all be computed without numerical tolerance.","textZh":"对于任意提交的六元组，正整数性、指数下界、共同最大公因数、精确等式与整数残差均可在无数值容差的条件下计算。"}
+      ]
+    }
   },
   "benchmark": {
     "name": "OPBench · Beal Counterexample Search",
-    "title": "Exact feasibility, plus an optimization target",
-    "titleZh": "精确可行性与优化目标",
-    "body": "The source record contains a strict counterexample task and a nonempty optimization variant, so both are exposed. Current model traces target the strict task.",
-    "bodyZh": "源数据同时包含严格反例任务与非空优化变体，因此页面展示两者；当前模型轨迹对应严格任务。",
+    "title": "One exact counterexample search",
+    "titleZh": "一道精确反例搜索",
+    "body": "The benchmark asks for one coprime-base perfect-power equality and checks every arithmetic condition exactly.",
+    "bodyZh": "评测要求构造一道底数无共同素因子的完全幂等式，并精确检查每项算术条件。",
     "contextLabel": "Problem context",
     "contextLabelZh": "问题背景",
     "hintPolicy": "none",
     "hintNote": "This open problem is evaluated without hints.",
     "hintNoteZh": "该开放问题统一采用无提示评测。",
-    "footer": "A strict pass requires equality. The optimization task ranks feasible tuples by $|A^x+B^y-C^z|$, where zero is an exact counterexample.",
-    "footerZh": "严格通过要求等式成立；优化题按 $|A^x+B^y-C^z|$ 排序，零即为精确反例。",
+    "footer": "A strict pass requires positive bases, exponents greater than two, a common gcd of one, and exact equality.",
+    "footerZh": "严格通过要求底数为正、指数大于二、三个底数的共同最大公因数为一，并且等式精确成立。",
     "tasks": [
-      {"id":"number_theory_001_beal_conjecture","key":"P1","source":"primary","title":"Coprime-base Counterexample","titleZh":"互素底数反例","subtitle":"Six integers · exact equality","subtitleZh":"六个整数 · 精确等式","tier":"Open-Problem Level","tierZh":"开放问题级","capability":"Diophantine construction","capabilityZh":"丢番图构造","significance":"A passing tuple would disprove the Beal Conjecture and qualify for deterministic checking.","significanceZh":"通过的六元组将反驳 Beal 猜想，并可被确定性程序核验。","questionZh":"构造一个整数六元组 $(A,B,C,x,y,z)$：三个底数均为正整数，三个指数均大于 2，$\\gcd(A,B,C)=1$，并且精确满足 $A^x+B^y=C^z$。"},
-      {"id":"number_theory_001_beal_conjecture__optimization","key":"P2","source":"optimization","title":"Residual Minimization","titleZh":"残差最小化","subtitle":"Feasible bases · minimize the exact gap","subtitleZh":"满足底数约束 · 最小化精确差值","tier":"Optimization Track","tierZh":"优化赛道","capability":"Integer search and optimization","capabilityZh":"整数搜索与优化","significance":"Near misses expose search quality without being misreported as counterexamples.","significanceZh":"近似解可以反映搜索质量，但不会被误报为反例。","questionZh":"在 $A,B,C>0$、$x,y,z>2$ 且 $\\gcd(A,B,C)=1$ 的条件下，最小化精确整数残差 $L=|A^x+B^y-C^z|$；$L=0$ 即为严格反例。"}
+      {"id":"number_theory_001_beal_conjecture","key":"P1","source":"primary","title":"Coprime-base Counterexample","titleZh":"互素底数反例","subtitle":"Six integers · exact equality","subtitleZh":"六个整数 · 精确等式","tier":"Open-Problem Level","tierZh":"开放问题级","capability":"Diophantine construction","capabilityZh":"丢番图构造","significance":"A passing tuple would disprove the Beal Conjecture and qualify for deterministic checking.","significanceZh":"通过的六元组将反驳 Beal 猜想，并可被确定性程序核验。","questionZh":"构造一个整数六元组 $(A,B,C,x,y,z)$：三个底数均为正整数，三个指数均大于 2，$\\gcd(A,B,C)=1$，并且精确满足 $A^x+B^y=C^z$。"}
     ]
   },
   "evaluation": {
     "title": "Condition-level arithmetic verdicts",
     "titleZh": "逐条件精确算术结论",
-    "body": "Parsing, positivity, exponent bounds, gcd, and equality are shown separately; the residual is retained as an optimization metric.",
-    "bodyZh": "解析、正整数、指数范围、最大公因数与等式逐项展示，并保留残差作为优化指标。"
+    "body": "Parsing, positivity, exponent bounds, gcd, and exact equality are shown as separate deterministic verdicts.",
+    "bodyZh": "解析、正整数、指数范围、最大公因数与精确等式均以独立的确定性结论展示。"
   },
   "symbolicLab": {
     "title": "Test a candidate solution interactively",

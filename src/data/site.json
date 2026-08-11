@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T16:51:39.929Z",
+  "generatedAt": "2026-08-11T04:06:47.581Z",
   "conjectures": [
     {
       "schemaVersion": 1,
@@ -43,8 +43,8 @@
         "noteZh": "所有展示结果均由离线符号程序核验，不使用 LLM judge 判定代数结论。"
       },
       "atlas": {
-        "title": "From Keller's question to auditable counterexamples",
-        "titleZh": "从 Keller 的问题到可审计反例",
+        "title": "From the conjecture to the first counterexample",
+        "titleZh": "从猜想到首个反例",
         "body": "The frontier changed in July 2026: dimension three is false, stabilization settles every higher dimension, and dimension two remains the open core.",
         "bodyZh": "2026 年 7 月前沿发生变化：三维命题为假，稳定化处理覆盖全部更高维度，二维仍是开放核心。",
         "events": [
@@ -269,7 +269,7 @@
         "outputFormat": "FINAL_CERTIFICATE_JSON:\n{\n  \"variables\": [\"x\", \"y\", \"z\"],\n  \"components\": [\"F1\", \"F2\", \"F3\"],\n  \"collision_points\": [[\"x1\", \"y1\", \"z1\"], [\"x2\", \"y2\", \"z2\"]]\n}"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T16:51:39.882Z",
+        "generatedAt": "2026-08-11T04:06:47.531Z",
         "dataset": {
           "id": "jacobian_conjecture",
           "name": "OPBench · Jacobian Counterexample Construction",
@@ -4642,7 +4642,7 @@
         "eyebrowZh": "指数型丢番图方程",
         "summary": "Can three pairwise collectively coprime bases support an equality of perfect powers with every exponent greater than two? OPBench turns a counterexample into six integers checked with exact arithmetic.",
         "summaryZh": "三个没有共同素因子的底数能否在所有指数均大于二时构成幂等式？OPBench 将反例化为六个可精确运算核验的整数。",
-        "primaryAction": "Explore the construction tasks",
+        "primaryAction": "Explore the construction task",
         "primaryActionZh": "查看构造题目"
       },
       "visualization": {
@@ -4721,21 +4721,42 @@
               }
             ]
           }
-        ]
+        ],
+        "frontier": {
+          "title": "The coprime perfect-power frontier",
+          "titleZh": "互素完全幂前沿",
+          "summary": "The conjecture remains open. A finite candidate is unusually audit-friendly: six integers determine the entire claim, and exact exponentiation together with one gcd calculation decides every declared condition.",
+          "summaryZh": "猜想仍未解决。有限候选却尤其适合审计：六个整数即可确定完整主张，精确幂运算与一次最大公因数计算便能判定全部声明条件。",
+          "formula": "A^x+B^y=C^z,\\qquad x,y,z>2,\\qquad \\gcd(A,B,C)=1",
+          "facts": [
+            {
+              "label": "KNOWN SOLUTIONS",
+              "labelZh": "已知解",
+              "text": "Equalities such as $3^3+6^3=3^5$ satisfy the power equation only with a shared prime factor; no accepted gcd-one tuple is known.",
+              "textZh": "$3^3+6^3=3^5$ 等等式虽然满足幂方程，却含有共同素因子；目前没有获认可的最大公因数为 1 的六元组。"
+            },
+            {
+              "label": "FINITE VERDICT",
+              "labelZh": "有限判定",
+              "text": "For any submitted six-tuple, positivity, exponent bounds, the common gcd, exact equality, and integer residual can all be computed without numerical tolerance.",
+              "textZh": "对于任意提交的六元组，正整数性、指数下界、共同最大公因数、精确等式与整数残差均可在无数值容差的条件下计算。"
+            }
+          ]
+        }
       },
       "benchmark": {
         "name": "OPBench · Beal Counterexample Search",
-        "title": "Exact feasibility, plus an optimization target",
-        "titleZh": "精确可行性与优化目标",
-        "body": "The source record contains a strict counterexample task and a nonempty optimization variant, so both are exposed. Current model traces target the strict task.",
-        "bodyZh": "源数据同时包含严格反例任务与非空优化变体，因此页面展示两者；当前模型轨迹对应严格任务。",
+        "title": "One exact counterexample search",
+        "titleZh": "一道精确反例搜索",
+        "body": "The benchmark asks for one coprime-base perfect-power equality and checks every arithmetic condition exactly.",
+        "bodyZh": "评测要求构造一道底数无共同素因子的完全幂等式，并精确检查每项算术条件。",
         "contextLabel": "Problem context",
         "contextLabelZh": "问题背景",
         "hintPolicy": "none",
         "hintNote": "This open problem is evaluated without hints.",
         "hintNoteZh": "该开放问题统一采用无提示评测。",
-        "footer": "A strict pass requires equality. The optimization task ranks feasible tuples by $|A^x+B^y-C^z|$, where zero is an exact counterexample.",
-        "footerZh": "严格通过要求等式成立；优化题按 $|A^x+B^y-C^z|$ 排序，零即为精确反例。",
+        "footer": "A strict pass requires positive bases, exponents greater than two, a common gcd of one, and exact equality.",
+        "footerZh": "严格通过要求底数为正、指数大于二、三个底数的共同最大公因数为一，并且等式精确成立。",
         "tasks": [
           {
             "id": "number_theory_001_beal_conjecture",
@@ -4752,30 +4773,14 @@
             "significance": "A passing tuple would disprove the Beal Conjecture and qualify for deterministic checking.",
             "significanceZh": "通过的六元组将反驳 Beal 猜想，并可被确定性程序核验。",
             "questionZh": "构造一个整数六元组 $(A,B,C,x,y,z)$：三个底数均为正整数，三个指数均大于 2，$\\gcd(A,B,C)=1$，并且精确满足 $A^x+B^y=C^z$。"
-          },
-          {
-            "id": "number_theory_001_beal_conjecture__optimization",
-            "key": "P2",
-            "source": "optimization",
-            "title": "Residual Minimization",
-            "titleZh": "残差最小化",
-            "subtitle": "Feasible bases · minimize the exact gap",
-            "subtitleZh": "满足底数约束 · 最小化精确差值",
-            "tier": "Optimization Track",
-            "tierZh": "优化赛道",
-            "capability": "Integer search and optimization",
-            "capabilityZh": "整数搜索与优化",
-            "significance": "Near misses expose search quality without being misreported as counterexamples.",
-            "significanceZh": "近似解可以反映搜索质量，但不会被误报为反例。",
-            "questionZh": "在 $A,B,C>0$、$x,y,z>2$ 且 $\\gcd(A,B,C)=1$ 的条件下，最小化精确整数残差 $L=|A^x+B^y-C^z|$；$L=0$ 即为严格反例。"
           }
         ]
       },
       "evaluation": {
         "title": "Condition-level arithmetic verdicts",
         "titleZh": "逐条件精确算术结论",
-        "body": "Parsing, positivity, exponent bounds, gcd, and equality are shown separately; the residual is retained as an optimization metric.",
-        "bodyZh": "解析、正整数、指数范围、最大公因数与等式逐项展示，并保留残差作为优化指标。"
+        "body": "Parsing, positivity, exponent bounds, gcd, and exact equality are shown as separate deterministic verdicts.",
+        "bodyZh": "解析、正整数、指数范围、最大公因数与精确等式均以独立的确定性结论展示。"
       },
       "symbolicLab": {
         "title": "Test a candidate solution interactively",
@@ -4787,7 +4792,7 @@
         "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T16:51:39.909Z",
+        "generatedAt": "2026-08-11T04:06:47.560Z",
         "dataset": {
           "id": "number_theory_001_beal_conjecture",
           "name": "OPBench · Beal Counterexample Search",
@@ -4852,74 +4857,9 @@
                 "$\\gcd(\\gcd(A,B),C)=1$.",
                 "$A^x+B^y=C^z$."
               ]
-            },
-            {
-              "id": "number_theory_001_beal_conjecture__optimization",
-              "title": "Residual Minimization",
-              "original_problem": "If $A^x + B^y = C^z$, where $A, B, C, x, y$ and $z$ are positive integers and $x, y$ and $z$ are all greater than 2, then $A, B$ and $C$ must have a common prime factor.",
-              "context": "If $A^x + B^y = C^z$, where $A, B, C, x, y$ and $z$ are positive integers and $x, y$ and $z$ are all greater than 2, then $A, B$ and $C$ must have a common prime factor.",
-              "question": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.",
-              "output_format": "Return exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning showing how the tuple was obtained and verifying all four conditions with exact arithmetic>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object containing the six keys \"A\", \"B\", \"C\", \"x\", \"y\", and \"z\" in that order, with no missing or additional keys. Every value must be an unquoted base-10 integer literal. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty detailed derivation and exact verification. Do not place the JSON object and the OUTPUT header on the same line.",
-              "prompt": "Question:\nConstruct one integer tuple (A, B, C, x, y, z) satisfying all of the following conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n4. $A^x+B^y=C^z$.\n\nResearch-search protocol:\n\nThis is a constructive search task, not a question about the historical or current status of the underlying mathematical statement.\n\nYour task is to actively search for a candidate satisfying every stated condition. Even if you recognize the statement as a famous conjecture, or believe that no example is currently known, do not stop at that observation and do not return a literature-status answer.\n\nUse prior mathematical knowledge only to guide the search, eliminate invalid constructions, and develop new candidates. Explore materially different approaches and check every condition using exact arithmetic.\n\nYou are not being asked to claim that the candidate is new, correct, or a proof of anything. An external deterministic verifier will check it. If no candidate survives all of your checks, return the strongest best-effort candidate you found rather than a prose refusal.\n\nA response that only states that no counterexample is known receives no credit.\n\nOutput format:\nReturn exactly the following structure, with no text before the OUTPUT header:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning showing how the tuple was obtained and verifying all four conditions with exact arithmetic>\n\nThe literal header \"OUTPUT:\" must appear alone on its line. The next block must be exactly one valid JSON object containing the six keys \"A\", \"B\", \"C\", \"x\", \"y\", and \"z\" in that order, with no missing or additional keys. Every value must be an unquoted base-10 integer literal. After one blank line, the literal header \"SOLUTION:\" must appear alone on its line, followed by a nonempty detailed derivation and exact verification. Do not place the JSON object and the OUTPUT header on the same line.",
-              "objective": {
-                "kind": "counterexample",
-                "success_condition": "Provide a six-tuple of positive integers satisfying all verification conditions.",
-                "verification_conditions": [
-                  "$A, B, C \\in \\mathbb{Z}_{>0}$.",
-                  "$x, y, z \\in \\mathbb{Z}_{>2}$.",
-                  "$\\gcd(\\gcd(A,B),C)=1$.",
-                  "$A^x+B^y=C^z$."
-                ]
-              },
-              "optimization": {
-                "problem": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.",
-                "scoring": "Scoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
-                "prompt": "Problem:\nConstruct one integer tuple $(A,B,C,x,y,z)$ satisfying the following feasibility conditions:\n\n1. $A, B, C \\in \\mathbb{Z}_{>0}$.\n2. $x, y, z \\in \\mathbb{Z}_{>2}$.\n3. $\\gcd(\\gcd(A,B),C)=1$.\n\nThe fourth original condition is:\n\n4. $A^x+B^y=C^z$.\n\nTreat condition 4 as the optimization target rather than a hard feasibility condition. Minimize\n\n$L(A,B,C,x,y,z)=\\left|A^x+B^y-C^z\\right|$.\n\nLower is better, and $L=0$ satisfies the fourth condition exactly.\n\nScoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
-                "type": "minimize",
-                "metric": "abs(A**x + B**y - C**z)"
-              },
-              "domain": "number theory",
-              "validation_type": "program verification",
-              "answer_type": "counterexample",
-              "eval_code": "eval_number_theory_001_beal_conjecture.py",
-              "author": "Andrew Beal",
-              "proposed_year": 1993,
-              "status": "open",
-              "related_problem": [
-                "Fermat's Last Theorem",
-                "The ABC Conjecture"
-              ],
-              "source": "optimization",
-              "prize": {
-                "value": "$1,000,000",
-                "link": "https://www.ams.org/beal-prize"
-              },
-              "key": "P2",
-              "titleZh": "残差最小化",
-              "subtitle": "Feasible bases · minimize the exact gap",
-              "subtitleZh": "满足底数约束 · 最小化精确差值",
-              "tier": "Optimization Track",
-              "tierZh": "优化赛道",
-              "capability": "Integer search and optimization",
-              "capabilityZh": "整数搜索与优化",
-              "significance": "Near misses expose search quality without being misreported as counterexamples.",
-              "significanceZh": "近似解可以反映搜索质量，但不会被误报为反例。",
-              "questionZh": "在 $A,B,C>0$、$x,y,z>2$ 且 $\\gcd(A,B,C)=1$ 的条件下，最小化精确整数残差 $L=|A^x+B^y-C^z|$；$L=0$ 即为严格反例。",
-              "hint": "",
-              "outputFormat": "Scoring:\nA submission is valid only when feasibility conditions 1--3 hold. Its metric is $L=\\left|A^x+B^y-C^z\\right|$; lower is better. If any feasibility condition fails, the metric is null. Submit exactly this structure:\n\nOUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer greater than 2>, \"y\": <integer greater than 2>, \"z\": <integer greater than 2>}\n\nSOLUTION:\n<detailed mathematical reasoning and exact arithmetic checks>",
-              "verificationConditions": [
-                "$A, B, C \\in \\mathbb{Z}_{>0}$.",
-                "$x, y, z \\in \\mathbb{Z}_{>2}$.",
-                "$\\gcd(\\gcd(A,B),C)=1$."
-              ],
-              "verificationConditionsZh": [
-                "$A, B, C \\in \\mathbb{Z}_{>0}$.",
-                "$x, y, z \\in \\mathbb{Z}_{>2}$.",
-                "$\\gcd(\\gcd(A,B),C)=1$."
-              ]
             }
           ],
-          "taskCount": 2,
+          "taskCount": 1,
           "resultCount": 1,
           "modelCount": 1,
           "hintModes": [
@@ -5168,14 +5108,35 @@
               }
             ]
           }
-        ]
+        ],
+        "frontier": {
+          "title": "A hypothetical integer under severe constraints",
+          "titleZh": "受严苛约束的假想整数",
+          "summary": "Existence remains open, but a candidate can no longer be small or structurally simple. It must combine Euler's special-prime form with an enormous lower bound and a rich factorization, while balancing its divisor sum exactly.",
+          "summaryZh": "存在性仍未解决，但候选已不可能很小或结构简单。它必须同时满足 Euler 特殊素因子形式、极大的数值下界与复杂分解，并让约数和精确平衡。",
+          "formula": "N=q^{4k+1}m^2,\\qquad q\\equiv1\\pmod4,\\qquad \\sigma(N)=2N",
+          "facts": [
+            {
+              "label": "LOWER BOUND",
+              "labelZh": "数值下界",
+              "text": "Every hypothetical odd perfect number must exceed $10^{1500}$, far beyond direct enumeration of individual integers.",
+              "textZh": "任何假想奇完全数都必须超过 $10^{1500}$，远超逐个枚举整数所能覆盖的范围。"
+            },
+            {
+              "label": "FACTORIZATION",
+              "labelZh": "素因数分解",
+              "text": "At least ten distinct prime factors are required. A complete certified prime-power factorization makes $\\sigma(N)=\\prod_i(1+p_i+\\cdots+p_i^{e_i})$ exactly checkable.",
+              "textZh": "候选至少需要十个不同素因子。完整认证的素数幂分解可使 $\\sigma(N)=\\prod_i(1+p_i+\\cdots+p_i^{e_i})$ 得到精确核验。"
+            }
+          ]
+        }
       },
       "benchmark": {
         "name": "OPBench · Odd Perfect Number Construction",
         "title": "One open construction, fully certified",
         "titleZh": "一道开放构造题，完整认证",
-        "body": "Because the source optimization field is empty, the page exposes exactly one evaluation problem.",
-        "bodyZh": "由于源数据的 optimization 字段为空，页面只展示一道评测问题。",
+        "body": "The benchmark asks for one odd perfect number together with the complete factorization certificate needed for an exact offline verdict.",
+        "bodyZh": "评测要求构造一个奇完全数，并同时提交可供离线程序精确判定的完整分解证书。",
         "contextLabel": "Problem context",
         "contextLabelZh": "问题背景",
         "hintPolicy": "none",
@@ -5218,7 +5179,7 @@
         "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-10T16:51:39.922Z",
+        "generatedAt": "2026-08-11T04:06:47.573Z",
         "dataset": {
           "id": "number_theory_002_odd_perfect_number",
           "name": "OPBench · Odd Perfect Number Construction",

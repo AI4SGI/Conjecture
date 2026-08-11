@@ -4,31 +4,20 @@ import {
   ArrowUpRight,
   CheckCircle2,
   Clock3,
+  Eye,
   Heart,
   MessageSquarePlus,
+  PencilLine,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
-import type { CommunitySnapshot, Language } from "../lib/types";
+import { useEffect, useMemo, useState } from "react";
+import type { CommunitySnapshot, ConjectureData, Language } from "../lib/types";
+import { MathText } from "./task-section";
 
-const TASK_LABELS = {
-  general: "General discussion",
-  P1: "P1 · Open construction",
-  P2: "P2 · Degree-seven rediscovery",
-  P3: "P3 · Lower-degree frontier",
-  P4: "P4 · Four-sheet frontier",
-  P5: "P5 · Dimension-two frontier",
-} as const;
-
-const TASK_LABELS_ZH = {
-  general: "一般讨论",
-  P1: "P1 · 开放构造",
-  P2: "P2 · 七次重发现",
-  P3: "P3 · 低次前沿",
-  P4: "P4 · 四叶前沿",
-  P5: "P5 · 二维前沿",
-} as const;
+function normalizeConjectureId(value?: string) {
+  return !value || value === "jacobian" ? "jacobian_conjecture" : value;
+}
 
 export function CommunityBoard({
   apiUrl,
@@ -37,6 +26,8 @@ export function CommunityBoard({
   refresh,
   getClientKey,
   language,
+  conjectures,
+  activeConjectureId,
 }: {
   apiUrl: string | null;
   snapshot: CommunitySnapshot;
@@ -44,6 +35,8 @@ export function CommunityBoard({
   refresh: (sort?: string) => Promise<void>;
   getClientKey: () => string;
   language: Language;
+  conjectures: ConjectureData[];
+  activeConjectureId: string;
 }) {
   const english = language === "en";
   const [sort, setSort] = useState<"recent" | "popular">("recent");
@@ -51,7 +44,7 @@ export function CommunityBoard({
   const [taskFilter, setTaskFilter] = useState("all");
   const [form, setForm] = useState({
     nickname: "",
-    conjecture: "jacobian",
+    conjecture: activeConjectureId,
     title: "",
     body: "",
     task: "general",
@@ -60,6 +53,35 @@ export function CommunityBoard({
     "idle" | "submitting" | "submitted" | "error"
   >("idle");
   const [message, setMessage] = useState("");
+  const [editorMode, setEditorMode] = useState<"write" | "preview">("write");
+  const selectedConjecture = conjectures.find((item) => item.id === form.conjecture) ?? conjectures[0];
+  const selectedTasks = selectedConjecture?.benchmarkData.dataset.tasks ?? [];
+  const filterTasks = useMemo(() => {
+    const source = conjectureFilter === "all"
+      ? conjectures.flatMap((item) => item.benchmarkData.dataset.tasks)
+      : conjectures.find((item) => item.id === conjectureFilter)?.benchmarkData.dataset.tasks ?? [];
+    return [...new Map(source.map((task) => [task.key, task])).values()];
+  }, [conjectureFilter, conjectures]);
+
+  useEffect(() => {
+    setForm((current) => ({ ...current, conjecture: activeConjectureId, task: "general" }));
+  }, [activeConjectureId]);
+
+  function conjectureLabel(id?: string) {
+    const normalized = normalizeConjectureId(id);
+    if (normalized === "new") return english ? "New conjecture" : "新猜想";
+    const match = conjectures.find((item) => item.id === normalized);
+    return match ? (english ? match.title : match.titleZh) : normalized;
+  }
+
+  function taskLabel(conjectureId: string | undefined, task: string) {
+    if (task === "general") return english ? "General discussion" : "一般讨论";
+    const normalized = normalizeConjectureId(conjectureId);
+    const match = conjectures
+      .find((item) => item.id === normalized)
+      ?.benchmarkData.dataset.tasks.find((candidate) => candidate.key === task);
+    return match ? `${task} · ${english ? match.title : match.titleZh}` : task;
+  }
 
   async function changeSort(value: "recent" | "popular") {
     setSort(value);
@@ -99,11 +121,12 @@ export function CommunityBoard({
       );
       setForm({
         nickname: "",
-        conjecture: "jacobian",
+        conjecture: activeConjectureId,
         title: "",
         body: "",
         task: "general",
       });
+      setEditorMode("write");
     } catch (error) {
       const reason = error instanceof Error ? error.message : "";
       setStatus("error");
@@ -136,7 +159,7 @@ export function CommunityBoard({
   const visibleMessages = snapshot.messages.filter(
     (item) =>
       (conjectureFilter === "all" ||
-        (item.conjecture ?? "jacobian") === conjectureFilter) &&
+        normalizeConjectureId(item.conjecture) === conjectureFilter) &&
       (taskFilter === "all" || item.task === taskFilter),
   );
 
@@ -188,15 +211,13 @@ export function CommunityBoard({
               <span>{english ? "Conjecture" : "猜想"}</span>
               <select
                 value={conjectureFilter}
-                onChange={(event) => setConjectureFilter(event.target.value)}
+                onChange={(event) => {
+                  setConjectureFilter(event.target.value);
+                  setTaskFilter("all");
+                }}
               >
                 <option value="all">{english ? "All conjectures" : "所有猜想"}</option>
-                <option value="jacobian">
-                  {english ? "Jacobian conjecture" : "雅可比猜想"}
-                </option>
-                <option value="new">
-                  {english ? "New conjecture" : "新猜想"}
-                </option>
+                {conjectures.map((item) => <option value={item.id} key={item.id}>{english ? item.title : item.titleZh}</option>)}
               </select>
             </label>
             <label>
@@ -206,15 +227,8 @@ export function CommunityBoard({
                 onChange={(event) => setTaskFilter(event.target.value)}
               >
                 <option value="all">{english ? "All tasks" : "所有任务"}</option>
-                {Object.entries(TASK_LABELS).map(([value, label]) => (
-                  <option value={value} key={value}>
-                    {english
-                      ? label
-                      : TASK_LABELS_ZH[
-                          value as keyof typeof TASK_LABELS_ZH
-                        ]}
-                  </option>
-                ))}
+                <option value="general">{english ? "General discussion" : "一般讨论"}</option>
+                {filterTasks.map((task) => <option value={task.key} key={task.key}>{conjectureFilter === "all" ? task.key : `${task.key} · ${english ? task.title : task.titleZh}`}</option>)}
               </select>
             </label>
           </div>
@@ -235,21 +249,16 @@ export function CommunityBoard({
             </div>
           ) : visibleMessages.length ? (
             <div className="message-list">
-              {visibleMessages.map((item) => (
-                <article key={item.id} className="message-item">
+              {visibleMessages.map((item) => {
+                const normalizedConjecture = normalizeConjectureId(item.conjecture);
+                return <article key={item.id} className="message-item">
                   <header>
                     <div className="message-tags">
                       <span className="message-conjecture">
-                        {(item.conjecture ?? "jacobian") === "new"
-                          ? english
-                            ? "NEW CONJECTURE"
-                            : "新猜想"
-                          : english
-                            ? "JACOBIAN"
-                            : "雅可比猜想"}
+                        {conjectureLabel(normalizedConjecture)}
                       </span>
                       <span className="message-task">
-                        {item.task === "general" ? "GENERAL" : item.task}
+                        {taskLabel(normalizedConjecture, item.task)}
                       </span>
                     </div>
                     <time>
@@ -259,15 +268,15 @@ export function CommunityBoard({
                     </time>
                   </header>
                   <h4>{item.title}</h4>
-                  <p>{item.body}</p>
+                  <div className="message-content"><MathText>{item.body}</MathText></div>
                   <footer>
                     <span>— {item.nickname}</span>
                     <button onClick={() => void likeMessage(item.id)}>
                       <Heart size={14} /> {item.likes}
                     </button>
                   </footer>
-                </article>
-              ))}
+                </article>;
+              })}
             </div>
           ) : (
             <div className="community-empty">
@@ -317,15 +326,11 @@ export function CommunityBoard({
                 setForm((current) => ({
                   ...current,
                   conjecture: event.target.value,
+                  task: "general",
                 }))
               }
             >
-              <option value="jacobian">
-                {english ? "Jacobian conjecture" : "雅可比猜想"}
-              </option>
-              <option value="new">
-                {english ? "New conjecture" : "新猜想"}
-              </option>
+              {conjectures.map((item) => <option value={item.id} key={item.id}>{english ? item.title : item.titleZh}</option>)}
             </select>
           </label>
           <label>
@@ -336,15 +341,8 @@ export function CommunityBoard({
                 setForm((current) => ({ ...current, task: event.target.value }))
               }
             >
-              {Object.entries(TASK_LABELS).map(([value, label]) => (
-                <option value={value} key={value}>
-                  {english
-                    ? label
-                    : TASK_LABELS_ZH[
-                        value as keyof typeof TASK_LABELS_ZH
-                      ]}
-                </option>
-              ))}
+              <option value="general">{english ? "General discussion" : "一般讨论"}</option>
+              {selectedTasks.map((task) => <option value={task.key} key={task.key}>{task.key} · {english ? task.title : task.titleZh}</option>)}
             </select>
           </label>
           <label>
@@ -362,24 +360,31 @@ export function CommunityBoard({
               }
             />
           </label>
-          <label>
-            <span>{english ? "Message" : "内容"}</span>
-            <textarea
-              required
-              minLength={12}
-              maxLength={1800}
-              rows={7}
-              value={form.body}
-              onChange={(event) =>
-                setForm((current) => ({ ...current, body: event.target.value }))
-              }
-              placeholder={
-                english
-                  ? "Describe the motivation, constraints, and how the idea could be verified."
-                  : "建议写明动机、约束和可以怎样验证。"
-              }
-            />
-          </label>
+          <div className="message-editor">
+            <div className="message-editor-head">
+              <div><span>{english ? "Message" : "内容"}</span><small>{english ? "Markdown and LaTeX are supported" : "支持 Markdown 与 LaTeX"}</small></div>
+              <div className="message-editor-tabs" role="tablist" aria-label={english ? "Message editor mode" : "留言编辑模式"}>
+                <button type="button" className={editorMode === "write" ? "active" : ""} onClick={() => setEditorMode("write")} aria-pressed={editorMode === "write"}><PencilLine size={14} />{english ? "Write" : "编辑"}</button>
+                <button type="button" className={editorMode === "preview" ? "active" : ""} onClick={() => setEditorMode("preview")} aria-pressed={editorMode === "preview"}><Eye size={14} />{english ? "Preview" : "预览"}</button>
+              </div>
+            </div>
+            {editorMode === "write" ? (
+              <textarea
+                required
+                aria-label={english ? "Message" : "内容"}
+                minLength={12}
+                maxLength={1800}
+                rows={9}
+                value={form.body}
+                onChange={(event) => setForm((current) => ({ ...current, body: event.target.value }))}
+                placeholder={english ? "Describe the motivation, constraints, and how the idea could be verified. Use Markdown for lists, links, code, or equations." : "建议写明动机、约束和可以怎样验证；可使用 Markdown 添加列表、链接、代码或公式。"}
+              />
+            ) : (
+              <div className="message-preview" role="tabpanel">
+                {form.body.trim() ? <MathText>{form.body}</MathText> : <p>{english ? "Nothing to preview yet." : "暂无可预览内容。"}</p>}
+              </div>
+            )}
+          </div>
           <p className="moderation-note">
             <ShieldCheck size={16} />
             {english

@@ -2,10 +2,10 @@
 
 import { ArrowDown, ArrowUpRight, Database, Menu, ShieldCheck, Star, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { CommunitySnapshot, FrontierNewsItem, Language, SiteData } from "../lib/types";
+import type { CommunitySnapshot, ConjectureData, FrontierNewsItem, Language, SiteData } from "../lib/types";
 import { CommunityBoard } from "./community-board";
 import { ConjectureVisual } from "./conjecture-visual";
-import { BlockMath } from "./math";
+import { BlockMath, InlineMath } from "./math";
 import { ResultsDashboard } from "./results-dashboard";
 import { SymbolicLab } from "./symbolic-lab";
 import { MathText, TaskSection } from "./task-section";
@@ -200,7 +200,7 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
           <SectionLead index="01" eyebrow="MATHEMATICAL ATLAS" title={english ? conjecture.atlas.title : conjecture.atlas.titleZh} body={english ? conjecture.atlas.body : conjecture.atlas.bodyZh} />
           <div className="atlas-grid data-atlas-grid">
             <div className="timeline-panel"><h3>{english ? "Progress timeline" : "进展时间线"}</h3><ol className="timeline">{conjecture.atlas.events.map((event, index) => <li className={index === conjecture.atlas.events.length - 1 ? "timeline-current" : ""} key={`${event.year}-${event.title}`}><time>{event.year}</time><div><b>{english ? event.title : event.titleZh}</b><MathText>{english ? event.description : event.descriptionZh}</MathText><span className="source-links">{event.links.map((link) => <a href={link.url} target="_blank" rel="noreferrer" key={link.url}>{link.label} <ArrowUpRight size={13} /></a>)}</span></div></li>)}</ol></div>
-            <aside className="atlas-side-card"><span>{english ? "CURRENT FRONTIER" : "当前前沿"}</span><h3>{english ? conjecture.status : conjecture.statusZh}</h3><p>{english ? conjecture.visualization.caption : conjecture.visualization.captionZh}</p><BlockMath>{conjecture.visualization.example}</BlockMath></aside>
+            <AtlasFrontierPanel conjecture={conjecture} language={language} />
           </div>
         </section>
 
@@ -208,11 +208,68 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
         <ResultsDashboard data={data} content={conjecture.evaluation} language={language} />
         <SymbolicLab conjecture={conjecture} language={language} />
 
-        <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} />
+        <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} conjectures={site.conjectures} activeConjectureId={conjecture.id} />
       </main>
 
       <footer className="site-footer"><div><b>OPBench · OpenProblemBench</b><p>{english ? "A verifiable open-problem benchmark and discussion platform by Shanghai Artificial Intelligence Laboratory." : "上海人工智能实验室出品的开放问题可验证评测与讨论平台。"}</p></div><div><a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} /></a><a href="mailto:yufangchen@pjlab.org.cn">yufangchen@pjlab.org.cn</a></div></footer>
     </>
+  );
+}
+
+function AtlasFrontierPanel({ conjecture, language }: { conjecture: ConjectureData; language: Language }) {
+  const english = language === "en";
+
+  if (conjecture.id === "jacobian_conjecture") {
+    return (
+      <aside className="atlas-side-card jacobian-frontier-card">
+        <span>{english ? "CURRENT FRONTIER" : "当前前沿"}</span>
+        <div className="known-map-head">
+          <div>
+            <span className="micro-label">FINITE CERTIFICATE</span>
+            <h3>{english ? "The first known 3D construction" : "已知首个三维构造"}</h3>
+          </div>
+          <span className="verified-badge"><ShieldCheck size={15} />{english ? "FORMALLY VERIFIED" : "已形式化验证"}</span>
+        </div>
+        <p className="formula-intro">{english ? "Set" : "令"} <InlineMath>{"u=1+xy"}</InlineMath>. {english ? "Then" : "则"}</p>
+        <BlockMath>{String.raw`\begin{aligned}
+F_1&=u^3z+y^2u(4+3xy),\\
+F_2&=y+3xu^2z+3xy^2(4+3xy),\\
+F_3&=2x-3x^2y-x^3z.
+\end{aligned}`}</BlockMath>
+        <div className="certificate-row">
+          <div><span>{english ? "LOCAL CERTIFICATE" : "局部证书"}</span><InlineMath>{String.raw`\det J_F=-2`}</InlineMath></div>
+          <div><span>{english ? "DEGREE VECTOR" : "次数向量"}</span><InlineMath>{"(7,6,4)"}</InlineMath></div>
+        </div>
+        <div className="collision">
+          <span>{english ? "GLOBAL CERTIFICATE" : "全局证书"}</span>
+          <BlockMath>{String.raw`\begin{gathered}
+F(0,0,-\tfrac14)=F(1,-\tfrac32,\tfrac{13}2)\\
+=F(-1,\tfrac32,\tfrac{13}2)=(-\tfrac14,0,0).
+\end{gathered}`}</BlockMath>
+        </div>
+        <p className="scope-note">{english ? "Adding identity coordinates extends this construction to every dimension d >= 3; dimension 2 remains open." : "补上恒等坐标即可将这一构造扩展到所有 d >= 3；二维情形仍未解决。"}</p>
+      </aside>
+    );
+  }
+
+  const frontier = conjecture.atlas.frontier;
+  return (
+    <aside className="atlas-side-card">
+      <span>{english ? "CURRENT FRONTIER" : "当前前沿"}</span>
+      <h3>{frontier ? (english ? frontier.title : frontier.titleZh) : (english ? conjecture.status : conjecture.statusZh)}</h3>
+      <MathText>{frontier ? (english ? frontier.summary : frontier.summaryZh) : (english ? conjecture.visualization.caption : conjecture.visualization.captionZh)}</MathText>
+      <BlockMath>{frontier?.formula ?? conjecture.visualization.example}</BlockMath>
+      {frontier?.facts.length ? (
+        <div className="atlas-frontier-facts">
+          {frontier.facts.map((fact) => (
+            <div key={fact.label}>
+              <span>{english ? fact.label : fact.labelZh}</span>
+              <MathText>{english ? fact.text : fact.textZh}</MathText>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </aside>
   );
 }
 

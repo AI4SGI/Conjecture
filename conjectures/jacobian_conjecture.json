@@ -39,8 +39,8 @@
     "noteZh": "所有展示结果均由离线符号程序核验，不使用 LLM judge 判定代数结论。"
   },
   "atlas": {
-    "title": "From Keller's question to auditable counterexamples",
-    "titleZh": "从 Keller 的问题到可审计反例",
+    "title": "From the conjecture to the first counterexample",
+    "titleZh": "从猜想到首个反例",
     "body": "The frontier changed in July 2026: dimension three is false, stabilization settles every higher dimension, and dimension two remains the open core.",
     "bodyZh": "2026 年 7 月前沿发生变化：三维命题为假，稳定化处理覆盖全部更高维度，二维仍是开放核心。",
     "events": [

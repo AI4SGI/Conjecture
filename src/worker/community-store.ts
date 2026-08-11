@@ -8,8 +8,8 @@ interface CommunityMessage {
   nickname: string;
   title: string;
   body: string;
-  conjecture: "jacobian" | "new";
-  task: TaskKey | "general";
+  conjecture: string;
+  task: string;
   status: MessageStatus;
   likes: number;
   createdAt: string;
@@ -121,12 +121,14 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const nickname = cleanText(body.nickname, 40);
     const title = cleanText(body.title, 120);
     const messageBody = cleanText(body.body, 1800);
-    const conjecture: "jacobian" | "new" =
-      cleanText(body.conjecture, 24) === "new" ? "new" : "jacobian";
+    const rawConjecture = cleanText(body.conjecture, 80);
+    const conjecture = /^[a-z0-9][a-z0-9_-]*$/.test(rawConjecture)
+      ? rawConjecture
+      : "jacobian_conjecture";
     const rawTask = cleanText(body.task, 8);
-    const task = (TASKS.includes(rawTask as TaskKey)
+    const task = rawTask === "general" || /^P\d{1,3}$/.test(rawTask)
       ? rawTask
-      : "general") as TaskKey | "general";
+      : "general";
     const clientKey = cleanText(body.clientKey, 80);
     if (
       nickname.length < 2 ||

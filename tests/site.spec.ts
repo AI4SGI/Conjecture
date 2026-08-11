@@ -17,6 +17,14 @@ test("three conjectures share one data-driven research interface", async ({ page
   await expect(page.locator(".frontier-news-timeline")).toContainText("all ten research-level proof problems");
 
   await expect(page.locator(".hero-case-copy h2")).toHaveText("Jacobian Conjecture");
+  await expect(page.locator("#atlas .section-lead h2")).toHaveText("From the conjecture to the first counterexample");
+  await expect(page.locator(".jacobian-frontier-card")).toContainText("The first known 3D construction");
+  await expect(page.locator(".jacobian-frontier-card")).toContainText("LOCAL CERTIFICATE");
+  await expect(page.locator(".jacobian-frontier-card")).toContainText("GLOBAL CERTIFICATE");
+  const atlasColumns = await page.locator(".data-atlas-grid > *").evaluateAll((items) => items.map((item) => item.getBoundingClientRect().width));
+  expect(Math.abs(atlasColumns[0] - atlasColumns[1])).toBeLessThan(2);
+  await expect(page.locator(".data-atlas-grid .timeline-panel")).toHaveCSS("background-color", "rgb(233, 229, 218)");
+  await expect(page.locator(".atlas-side-card")).toHaveCSS("background-color", "rgb(21, 24, 23)");
   await expect(page.locator(".task-card")).toHaveCount(5);
   await expect(page.locator(".results-section")).toHaveCSS("background-color", "rgb(21, 24, 23)");
   await expect(page.locator(".benchmark-matrix .matrix-row")).toHaveCount(5);
@@ -58,7 +66,11 @@ test("three conjectures share one data-driven research interface", async ({ page
   await page.locator(".conjecture-selector button").nth(1).click();
   await expect(page.locator(".hero-case-copy h2")).toHaveText("Beal Conjecture");
   await expect(page).toHaveURL(/conjecture=beal-conjecture/);
-  await expect(page.locator(".task-card")).toHaveCount(2);
+  await expect(page.locator(".task-card")).toHaveCount(1);
+  await expect(page.locator("#benchmark")).not.toContainText("Residual Minimization");
+  await expect(page.locator("#results")).not.toContainText("optimization target");
+  await expect(page.locator(".atlas-side-card")).toContainText("The coprime perfect-power frontier");
+  await expect(page.locator(".atlas-frontier-facts")).toContainText("FINITE VERDICT");
   await expect(page.locator(".results-section .filter-bar label")).toHaveCount(2);
   await expect(page.locator(".trace-filters label")).toHaveCount(3);
   await expect(page.locator(".benchmark-matrix .matrix-row")).toHaveCount(1);
@@ -72,6 +84,19 @@ test("three conjectures share one data-driven research interface", async ({ page
     "href",
     /eval_number_theory_001_beal_conjecture\.py/,
   );
+
+  const relatedConjecture = page.getByLabel("Related conjecture");
+  const relatedTask = page.getByLabel("Related task");
+  await expect(relatedConjecture.locator("option")).toHaveCount(3);
+  await expect(relatedTask.locator("option")).toHaveCount(2);
+  await relatedConjecture.selectOption("jacobian_conjecture");
+  await expect(relatedTask.locator("option")).toHaveCount(6);
+  await relatedConjecture.selectOption("number_theory_002_odd_perfect_number");
+  await expect(relatedTask.locator("option")).toHaveCount(2);
+  await expect(page.locator(".message-editor-head")).toContainText("Markdown and LaTeX are supported");
+  await page.getByLabel("Message", { exact: true }).fill("A **bold** note with $x^2$. ");
+  await page.getByRole("button", { name: "Preview" }).click();
+  await expect(page.locator(".message-preview strong")).toHaveText("bold");
   await expect(page.locator(".lab-task-tabs")).toHaveCount(0);
   await expect(page.locator("#interactive-verifier")).toHaveCount(0);
   await page.getByRole("button", { name: "Verify all Beal constraints" }).click();
@@ -89,6 +114,8 @@ test("three conjectures share one data-driven research interface", async ({ page
   await page.locator(".conjecture-selector button").nth(2).click();
   await expect(page.locator(".hero-case-copy h2")).toHaveText("Odd Perfect Number Problem");
   await expect(page.locator(".task-card")).toHaveCount(1);
+  await expect(page.locator(".atlas-side-card")).toContainText("A hypothetical integer under severe constraints");
+  await expect(page.locator(".atlas-frontier-facts")).toContainText("LOWER BOUND");
   await page.getByRole("button", { name: "Extracted output" }).click();
   await expect(page.locator(".counterexample-point-card")).toContainText("DIVISOR-SUM CHECK");
   await expect(page.locator(".arithmetic-stat-grid")).toContainText("426027470778");
@@ -119,7 +146,7 @@ test("mobile navigation and selector remain usable", async ({ page }) => {
   await page.getByRole("link", { name: "Benchmark", exact: true }).click();
   await expect(page.locator("#benchmark")).toBeInViewport();
   await page.locator(".conjecture-selector button").nth(1).click();
-  await expect(page.locator(".task-card")).toHaveCount(2);
+  await expect(page.locator(".task-card")).toHaveCount(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
   await page.screenshot({ path: "/tmp/opbench-mobile.png", fullPage: true });
 });

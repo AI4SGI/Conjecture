@@ -616,3 +616,67 @@ test("completed human reviews can withdraw and republish a message", async ({ pa
   expect(moderationBodies[1]).toMatchObject({ status: "approved", allowRevision: true });
   await expect(card.locator(".human-review-record")).toContainText("3");
 });
+
+test("community snapshot and following state survive a temporary backend outage", async ({ page }) => {
+  let backendOnline = true;
+  let liked = false;
+  await page.route("**/api/community*", async (route) => {
+    if (!backendOnline) {
+      await route.abort("connectionfailed");
+      return;
+    }
+    const request = route.request();
+    if (request.method() === "POST") {
+      const body = request.postDataJSON() as Record<string, unknown>;
+      if (body.action === "like_task") {
+        liked = !liked;
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ likes: liked ? 1 : 0, liked }),
+        });
+        return;
+      }
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        taskLikes: { "jacobian_conjecture:P1": liked ? 1 : 0 },
+        likedTasks: liked ? ["jacobian_conjecture:P1"] : [],
+        pendingCount: 0,
+        traffic: { total: 17, countries: { CN: 9, US: 8 } },
+        messages: [{
+          id: "cached-public-message",
+          nickname: "Cache Verifier",
+          title: "a durable public note",
+          body: "This approved message remains visible during a temporary outage.",
+          conjecture: "jacobian_conjecture",
+          task: "P1",
+          category: "benchmark_feedback",
+          status: "approved",
+          likes: 0,
+          createdAt: "2026-08-13T01:02:03.000Z",
+          submittedAt: "2026-08-13T01:02:03.000Z",
+          aiScreened: true,
+          humanApproved: true,
+        }],
+      }),
+    });
+  });
+
+  await page.goto(siteRoot);
+  await expect(page.locator(".message-item")).toContainText("A durable public note");
+  await expect(page.locator("#global-reach .traffic-total strong")).toHaveText("17");
+  const follow = page.locator(".task-actions button").first();
+  await follow.click();
+  await expect(follow).toContainText("Following");
+  await expect(follow.locator("b")).toHaveText("1");
+
+  backendOnline = false;
+  await page.reload();
+  await expect(page.locator(".community-offline-notice")).toBeVisible();
+  await expect(page.locator(".message-item")).toContainText("A durable public note");
+  await expect(page.locator("#global-reach .traffic-total strong")).toHaveText("17");
+  await expect(page.locator(".task-actions button").first()).toContainText("Following");
+});

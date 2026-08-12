@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - community-worker.ts
+      - community-relay/**
       - src/worker/**
       - wrangler.community.jsonc
       - package.json
@@ -45,3 +46,55 @@ jobs:
             exit 0
           fi
           npm run deploy:community
+
+      - name: Ensure the community relay project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            exit 0
+          fi
+          projects="$(npx wrangler pages project list --json)"
+          if ! jq -e '.[] | select(.name == "ai4sgi-conjecture-community")' <<<"$projects" >/dev/null; then
+            npx wrangler pages project create ai4sgi-conjecture-community \
+              --production-branch main \
+              --compatibility-date 2026-07-24
+          fi
+
+      - name: Deploy the service-bound community relay
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            exit 0
+          fi
+          cp community-relay/wrangler.relay.jsonc wrangler.jsonc
+          npx wrangler pages deploy \
+            --project-name ai4sgi-conjecture-community \
+            --branch main \
+            --commit-hash "${GITHUB_SHA}" \
+            --commit-dirty=false
+
+      - name: Verify the public community relay
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            exit 0
+          fi
+          endpoint="https://ai4sgi-conjecture-community.pages.dev"
+          for attempt in 1 2 3 4 5 6; do
+            if health="$(curl --fail --silent --show-error --max-time 20 "$endpoint/health")"; then
+              break
+            fi
+            sleep 5
+          done
+          jq -e '.ok == true' <<<"$health" >/dev/null
+          snapshot="$(curl --fail --silent --show-error --max-time 20 \
+            -H 'Origin: https://ai4sgi.github.io' \
+            "$endpoint/api/community?sort=recent&clientKey=deployment-smoke-test")"
+          jq -e '.messages | type == "array"' <<<"$snapshot" >/dev/null
+          jq '{publicMessages: (.messages | length), pendingCount, cumulativeVisits: .traffic.total}' <<<"$snapshot"

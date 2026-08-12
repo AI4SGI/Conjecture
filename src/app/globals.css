@@ -2574,6 +2574,25 @@ code {
   margin-top: 28px;
 }
 
+.community-offline-notice {
+  display: flex;
+  gap: 9px;
+  margin-top: 22px;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--blue) 35%, var(--rule));
+  align-items: flex-start;
+  background: color-mix(in srgb, var(--blue) 6%, transparent);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.community-offline-notice svg {
+  flex: 0 0 auto;
+  color: var(--blue);
+}
+
 .message-item {
   padding: 20px 0;
   border-top: 1px solid var(--rule);

@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowUpRight, Database, Menu, ShieldCheck, Star, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CommunitySnapshot, ConjectureData, FrontierNewsItem, Language, SiteData } from "../lib/types";
 import { CommunityBoard } from "./community-board";
 import { ConjectureVisual } from "./conjecture-visual";
@@ -22,24 +22,82 @@ const EMPTY_COMMUNITY: CommunitySnapshot = {
 const DEPLOY_TARGET = process.env.NEXT_PUBLIC_DEPLOY_TARGET ?? "server";
 const SITE_BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
 const EXTERNAL_COMMUNITY_BASE = (process.env.NEXT_PUBLIC_COMMUNITY_API_URL ?? "").replace(/\/+$/, "");
-const COMMUNITY_API_URL = EXTERNAL_COMMUNITY_BASE
-  ? `${EXTERNAL_COMMUNITY_BASE}/api/community`
-  : DEPLOY_TARGET === "github-pages"
-    ? null
-    : `${SITE_BASE_PATH}/api/community`;
+const COMMUNITY_RELAY_BASE = "https://ai4sgi-conjecture-community.pages.dev";
+const CONFIGURED_COMMUNITY_BASES = (process.env.NEXT_PUBLIC_COMMUNITY_API_URLS ?? "")
+  .split(",")
+  .map((value) => value.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+const COMMUNITY_API_URLS = [...new Set([
+  ...(DEPLOY_TARGET === "github-pages" ? [COMMUNITY_RELAY_BASE] : []),
+  ...CONFIGURED_COMMUNITY_BASES,
+  ...(EXTERNAL_COMMUNITY_BASE ? [EXTERNAL_COMMUNITY_BASE] : []),
+  ...(DEPLOY_TARGET === "github-pages" ? [] : [SITE_BASE_PATH]),
+])].map((base) => `${base}/api/community`);
+const COMMUNITY_CACHE_KEY = "opbench-community-public-snapshot-v1";
+const COMMUNITY_ENDPOINT_KEY = "opbench-community-api-endpoint-v1";
 const GITHUB_REPOSITORY = process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
 const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
 const BUILD_GITHUB_STARS = Number(process.env.NEXT_PUBLIC_GITHUB_STARS);
 const BUILD_GITHUB_AVAILABLE = Number.isFinite(BUILD_GITHUB_STARS) && BUILD_GITHUB_STARS >= 0;
+let ephemeralClientKey = "";
 
 function getClientKey() {
   const key = "opbench-client-key";
-  let value = window.localStorage.getItem(key);
-  if (!value) {
-    value = crypto.randomUUID();
-    window.localStorage.setItem(key, value);
+  try {
+    let value = window.localStorage.getItem(key);
+    if (!value) {
+      value = crypto.randomUUID();
+      window.localStorage.setItem(key, value);
+    }
+    return value;
+  } catch {
+    ephemeralClientKey ||= crypto.randomUUID();
+    return ephemeralClientKey;
   }
-  return value;
+}
+
+function isCommunitySnapshot(value: unknown): value is CommunitySnapshot {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<CommunitySnapshot>;
+  return Boolean(
+    candidate.taskLikes
+    && typeof candidate.taskLikes === "object"
+    && Array.isArray(candidate.messages)
+    && typeof candidate.pendingCount === "number",
+  );
+}
+
+function readCachedCommunity() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(COMMUNITY_CACHE_KEY) ?? "null") as unknown;
+    return isCommunitySnapshot(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function cacheCommunity(snapshot: CommunitySnapshot) {
+  try {
+    window.localStorage.setItem(COMMUNITY_CACHE_KEY, JSON.stringify(snapshot));
+  } catch {
+    // The live snapshot remains usable when private browsing blocks storage.
+  }
+}
+
+function readPreferredCommunityEndpoint() {
+  try {
+    return window.localStorage.getItem(COMMUNITY_ENDPOINT_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function cachePreferredCommunityEndpoint(apiUrl: string) {
+  try {
+    window.localStorage.setItem(COMMUNITY_ENDPOINT_KEY, apiUrl);
+  } catch {
+    // Endpoint selection remains valid for the current page lifetime.
+  }
 }
 
 export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNewsItem[] }) {
@@ -47,7 +105,10 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState(site.conjectures[0]?.id ?? "");
   const [community, setCommunity] = useState<CommunitySnapshot>(EMPTY_COMMUNITY);
-  const [communityOnline, setCommunityOnline] = useState(Boolean(COMMUNITY_API_URL));
+  const [communityOnline, setCommunityOnline] = useState(false);
+  const [communityApiUrl, setCommunityApiUrl] = useState<string | null>(COMMUNITY_API_URLS[0] ?? null);
+  const activeCommunityApiRef = useRef<string | null>(null);
+  const communitySortRef = useRef("recent");
   const [github, setGithub] = useState<{ available: boolean; stars?: number; url: string }>({
     available: BUILD_GITHUB_AVAILABLE,
     stars: BUILD_GITHUB_AVAILABLE ? BUILD_GITHUB_STARS : undefined,
@@ -71,16 +132,45 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
     }
   }, [site.conjectures]);
 
-  const refreshCommunity = useCallback(async (sort = "recent") => {
-    if (!COMMUNITY_API_URL) {
+  const refreshCommunity = useCallback(async (sort?: string) => {
+    if (sort) communitySortRef.current = sort;
+    if (!COMMUNITY_API_URLS.length) {
       setCommunityOnline(false);
       return;
     }
+    const preferred = activeCommunityApiRef.current
+      ?? readPreferredCommunityEndpoint();
+    const endpoints = [...new Set([
+      ...(preferred ? [preferred] : []),
+      ...COMMUNITY_API_URLS,
+    ])];
     try {
-      const query = new URLSearchParams({ sort, clientKey: getClientKey() });
-      const response = await fetch(`${COMMUNITY_API_URL}?${query}`, { cache: "no-store" });
-      const snapshot = (await response.json()) as CommunitySnapshot;
-      if (!response.ok || snapshot.unavailable) throw new Error("unavailable");
+      const query = new URLSearchParams({
+        sort: communitySortRef.current,
+        clientKey: getClientKey(),
+      });
+      const result = await Promise.any(endpoints.map(async (apiUrl) => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8_000);
+        try {
+          const response = await fetch(`${apiUrl}?${query}`, {
+            cache: "no-store",
+            signal: controller.signal,
+          });
+          const snapshot = (await response.json()) as unknown;
+          if (!response.ok || !isCommunitySnapshot(snapshot) || snapshot.unavailable) {
+            throw new Error("unavailable");
+          }
+          return { apiUrl, snapshot };
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      }));
+      const { apiUrl, snapshot } = result;
+      activeCommunityApiRef.current = apiUrl;
+      setCommunityApiUrl(apiUrl);
+      cachePreferredCommunityEndpoint(apiUrl);
+      cacheCommunity(snapshot);
       setCommunity(snapshot);
       setCommunityOnline(true);
     } catch {
@@ -89,7 +179,17 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
   }, []);
 
   useEffect(() => {
+    const cached = readCachedCommunity();
+    if (cached) setCommunity(cached);
     void refreshCommunity();
+    const reconnect = () => void refreshCommunity();
+    const reconnectWhenVisible = () => {
+      if (document.visibilityState === "visible") reconnect();
+    };
+    const reconnectTimer = window.setInterval(reconnect, 30_000);
+    window.addEventListener("online", reconnect);
+    window.addEventListener("focus", reconnect);
+    document.addEventListener("visibilitychange", reconnectWhenVisible);
     const githubEndpoint = EXTERNAL_COMMUNITY_BASE
       ? `${EXTERNAL_COMMUNITY_BASE}/api/github`
       : DEPLOY_TARGET === "github-pages"
@@ -113,26 +213,42 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
         if (result.available) setGithub(result);
       })
       .catch(() => undefined);
+    return () => {
+      window.clearInterval(reconnectTimer);
+      window.removeEventListener("online", reconnect);
+      window.removeEventListener("focus", reconnect);
+      document.removeEventListener("visibilitychange", reconnectWhenVisible);
+    };
   }, [refreshCommunity]);
 
   async function likeTask(conjectureId: string, task: string) {
-    if (!COMMUNITY_API_URL) return "error" as const;
+    if (!communityApiUrl || !communityOnline) return "error" as const;
     const target = `${conjectureId}:${task}`;
-    const response = await fetch(COMMUNITY_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "like_task", conjecture: conjectureId, task, clientKey: getClientKey() }),
-    });
-    if (!response.ok) return "error" as const;
-    const result = (await response.json()) as { likes: number; liked: boolean };
-    setCommunity((current) => ({
-      ...current,
-      taskLikes: { ...current.taskLikes, [target]: result.likes },
-      likedTasks: result.liked
-        ? [...new Set([...(current.likedTasks ?? []), target])]
-        : (current.likedTasks ?? []).filter((candidate) => candidate !== target),
-    }));
-    return result.liked ? ("liked" as const) : ("unliked" as const);
+    try {
+      const response = await fetch(communityApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "like_task", conjecture: conjectureId, task, clientKey: getClientKey() }),
+      });
+      if (!response.ok) return "error" as const;
+      const result = (await response.json()) as { likes: number; liked: boolean };
+      setCommunity((current) => {
+        const snapshot = {
+          ...current,
+          taskLikes: { ...current.taskLikes, [target]: result.likes },
+          likedTasks: result.liked
+            ? [...new Set([...(current.likedTasks ?? []), target])]
+            : (current.likedTasks ?? []).filter((candidate) => candidate !== target),
+        };
+        cacheCommunity(snapshot);
+        return snapshot;
+      });
+      return result.liked ? ("liked" as const) : ("unliked" as const);
+    } catch {
+      setCommunityOnline(false);
+      void refreshCommunity();
+      return "error" as const;
+    }
   }
 
   function selectConjecture(id: string) {
@@ -229,7 +345,7 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
         <ResultsDashboard data={data} content={conjecture.evaluation} language={language} />
         <SymbolicLab conjecture={conjecture} language={language} />
 
-        <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} conjectures={site.conjectures} activeConjectureId={conjecture.id} />
+        <CommunityBoard snapshot={community} online={communityOnline} apiUrl={communityApiUrl} refresh={refreshCommunity} getClientKey={getClientKey} language={language} conjectures={site.conjectures} activeConjectureId={conjecture.id} />
         <ReferencesSection conjecture={conjecture} language={language} />
         <GlobalTraffic traffic={community.traffic} online={communityOnline} language={language} />
       </main>

@@ -487,7 +487,18 @@ export function CommunityBoard({
             </label>
           </div>
 
-          {!online ? (
+          {!online && groupedMessages.length > 0 ? (
+            <div className="community-offline-notice" role="status">
+              <ShieldCheck size={16} />
+              <span>
+                {english
+                  ? "Showing the last verified public snapshot while the backend reconnects. Submissions and reactions resume automatically once connected."
+                  : "后端重连期间继续显示最近一次已核验的公开快照；连接恢复后会自动开放提交与互动。"}
+              </span>
+            </div>
+          ) : null}
+
+          {!online && !groupedMessages.length ? (
             <div className="community-empty">
               <ShieldCheck />
               <h4>

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ai4sgi-conjecture-community",
+  "pages_build_output_dir": "./community-relay/public",
+  "compatibility_date": "2026-07-24",
+  "services": [
+    {
+      "binding": "COMMUNITY_SERVICE",
+      "service": "jacobian-community-api"
+    }
+  ]
+}

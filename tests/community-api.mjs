@@ -32,6 +32,7 @@ async function post(body) {
       "Content-Type": "application/json",
       "X-Forwarded-For": sourceIp,
       "User-Agent": testAgent,
+      "CF-IPCountry": "TW",
     },
     body: JSON.stringify({ ...body, clientKey }),
   });
@@ -69,6 +70,25 @@ const initial = await fetch(`${base}/api/community?sort=recent`).then((response)
 const bealFollowKey = "number_theory_001_beal_conjecture:P1";
 assert.equal(typeof initial.traffic.total, "number");
 
+const countedSnapshot = await fetch(`${base}/api/community?sort=recent&clientKey=${clientKey}`, {
+  headers: {
+    "X-Forwarded-For": sourceIp,
+    "User-Agent": testAgent,
+    "CF-IPCountry": "TW",
+  },
+}).then((response) => response.json());
+assert.equal(countedSnapshot.traffic.total, initial.traffic.total + 1);
+assert.equal(countedSnapshot.traffic.countries.CN >= 1, true);
+assert.equal(countedSnapshot.traffic.countries.TW, undefined);
+const repeatedSnapshot = await fetch(`${base}/api/community?sort=recent&clientKey=${clientKey}`, {
+  headers: {
+    "X-Forwarded-For": sourceIp,
+    "User-Agent": testAgent,
+    "CF-IPCountry": "TW",
+  },
+}).then((response) => response.json());
+assert.equal(repeatedSnapshot.traffic.total, countedSnapshot.traffic.total);
+
 const like = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
 assert.equal(like.status, 200);
 const duplicate = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
@@ -81,6 +101,7 @@ const visit = await post({ action: "record_visit" });
 assert.equal(visit.status, 200);
 const visitResult = await visit.json();
 assert.equal(typeof visitResult.traffic.total, "number");
+assert.equal(visitResult.counted, false);
 const duplicateVisit = await post({ action: "record_visit" });
 assert.equal(duplicateVisit.status, 200);
 assert.equal((await duplicateVisit.json()).counted, false);

@@ -180,9 +180,11 @@ REFERENCES 会自动读取其中的中英文标题、说明、作者、年份、
 新增猜想不需要修改参考资料组件。题目 following 使用 `<conjecture-id>:<task-key>`
 作为存储键，因此不同猜想可以安全地重复使用 `P1`。
 
-07 / GLOBAL REACH 通过 `record_visit` 动作累计访问，只在 Durable Object 保存
-匿名访客哈希和国家级计数，不保存原始 IP。相同匿名来源重复打开不会反复增加；
-公开接口只返回总数和国家聚合。地图几何来自 `@svg-maps/world`（CC BY 4.0）。
+07 / GLOBAL REACH 在浏览器读取社区快照时原子记录访问，只在 Durable Object 保存
+随机浏览器标识的不可逆哈希、最近计数日期和国家级汇总，不保存原始 IP。同一浏览器
+每天计数一次；公开接口只返回总数和国家聚合。国家代码 `TW` 在写入、历史快照和
+地图展示三层统一归并到 `CN`。地图使用 Natural Earth 1:110m 数据与 Natural Earth
+投影，通过 `world-atlas`、`topojson-client` 和 `d3-geo` 在本地渲染。
 
 页首 GitHub Star 在 Pages 构建时使用工作流内置的 `github.token` 读取并嵌入，
 运行时再由社区 Worker 每 15 分钟刷新。Worker 优先调用 GitHub REST API，遇到

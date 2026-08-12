@@ -90,10 +90,13 @@ test("three conjectures share one data-driven research interface", async ({ page
     "href",
     /eval_number_theory_001_beal_conjecture\.py/,
   );
-  await expect(page.locator("#references .reference-card")).toHaveCount(5);
+  await expect(page.locator("#references .reference-item")).toHaveCount(5);
   await expect(page.locator("#references")).toContainText("The Beal Conjecture");
+  await expect(page.locator("#references")).not.toContainText("This list is maintained");
   await expect(page.locator("#global-reach .traffic-map-panel svg")).toBeVisible();
   await expect(page.locator("#global-reach")).toContainText("cumulative visits");
+  await expect(page.locator('#global-reach [data-country="CN"]')).toHaveCount(1);
+  await expect(page.locator('#global-reach [data-country="TW"]')).toHaveCount(0);
 
   const relatedConjecture = page.getByLabel("Related conjecture");
   const relatedTask = page.getByLabel("Related task");
@@ -199,7 +202,7 @@ test("approved community messages are timestamped and grouped by review category
         taskLikes: { "jacobian_conjecture:P1": 3 },
         likedTasks: [],
         pendingCount: 1,
-        traffic: { total: 17, countries: { CN: 10, US: 7 } },
+        traffic: { total: 20, countries: { CN: 10, TW: 3, US: 7 } },
         messages: Array.from({ length: 6 }, (_, index) => {
           const originalLanguage = index === 1 ? "zh" : index === 2 ? "other" : "en";
           const title = index === 0
@@ -260,6 +263,10 @@ test("approved community messages are timestamped and grouped by review category
     });
   });
   await page.goto(siteRoot);
+  await expect(page.locator('#global-reach [data-country="CN"]')).toHaveAttribute("data-visits", "13");
+  await expect(page.locator('#global-reach [data-country="TW"]')).toHaveCount(0);
+  await expect(page.locator("#global-reach .traffic-leaders li").first()).toContainText("China");
+  await expect(page.locator("#global-reach .traffic-leaders li").first()).toContainText("13");
   await expect(page.locator(".message-category-head")).toContainText("Verification gaps");
   await expect(page.locator(".message-category-head")).toContainText("06");
   await expect(page.locator(".message-item")).toHaveCount(5);

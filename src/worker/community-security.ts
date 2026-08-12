@@ -57,6 +57,7 @@ export async function communityRequestFingerprint(
 
 export function communityRequestCountry(request: Request) {
   const country = request.headers.get("CF-IPCountry")?.toUpperCase() ?? "";
+  if (country === "TW") return "CN";
   return /^[A-Z]{2}$/.test(country) ? country : "ZZ";
 }
 

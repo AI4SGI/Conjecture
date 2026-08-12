@@ -29,7 +29,7 @@ export function ReferencesSection({
             : "本评测建立在更广泛的数学积累之上。感谢这些文献与专题资源的作者、编辑、维护者和机构。"}
         </p>
       </div>
-      <div className="reference-grid">
+      <ol className="reference-list">
         {conjecture.references.map((reference, index) => {
           const Icon = reference.type === "website"
             ? Globe2
@@ -37,27 +37,27 @@ export function ReferencesSection({
               ? FileText
               : BookOpen;
           return (
-            <a href={reference.url} target="_blank" rel="noreferrer" className="reference-card" key={`${reference.url}-${index}`}>
-              <div className="reference-card-top">
-                <span><Icon size={16} /> {english ? TYPE_LABELS[reference.type].en : TYPE_LABELS[reference.type].zh}</span>
-                <ExternalLink size={16} />
-              </div>
-              <h3>{english ? reference.title : reference.titleZh}</h3>
-              {(reference.authors || reference.year || reference.venue) ? (
-                <p className="reference-meta">
-                  {[reference.authors, reference.venue, reference.year].filter(Boolean).join(" · ")}
-                </p>
-              ) : null}
-              <p>{english ? reference.description : reference.descriptionZh}</p>
-            </a>
+            <li className="reference-item" key={`${reference.url}-${index}`}>
+              <a href={reference.url} target="_blank" rel="noreferrer">
+                <span className="reference-number">{String(index + 1).padStart(2, "0")}</span>
+                <div className="reference-primary">
+                  <h3>{english ? reference.title : reference.titleZh}</h3>
+                  <div className="reference-tags">
+                    <span><Icon size={13} /> {english ? TYPE_LABELS[reference.type].en : TYPE_LABELS[reference.type].zh}</span>
+                    {reference.year ? <span>{reference.year}</span> : null}
+                    {reference.venue ? <span>{reference.venue}</span> : null}
+                  </div>
+                </div>
+                <div className="reference-secondary">
+                  {reference.authors ? <b>{reference.authors}</b> : null}
+                  <p>{english ? reference.description : reference.descriptionZh}</p>
+                </div>
+                <ExternalLink className="reference-link-icon" size={17} />
+              </a>
+            </li>
           );
         })}
-      </div>
-      <p className="reference-maintenance-note">
-        {english
-          ? `This list is maintained in conjectures/${conjecture.id}.json so future conjectures can carry their own sources.`
-          : `本列表维护于 conjectures/${conjecture.id}.json；未来新增猜想可直接携带自己的参考资料。`}
-      </p>
+      </ol>
     </section>
   );
 }

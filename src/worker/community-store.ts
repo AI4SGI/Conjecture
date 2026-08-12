@@ -90,7 +90,7 @@ interface TrafficSnapshot {
 const EMPTY_TRAFFIC: TrafficSnapshot = { total: 0, countries: {} };
 const TASK_LIKES_KEY = "taskLikes:v2";
 const TRAFFIC_KEY = "traffic:v1";
-const VISIT_PREFIX = "visit:v1:";
+const VISIT_PREFIX = "visit:v2:";
 const MESSAGE_INDEX_KEY = "messageIndex:v2";
 const MESSAGE_PREFIX = "message:v2:";
 const AI_REVIEW_QUEUE_KEY = "aiReviewQueue:v1";
@@ -141,6 +141,7 @@ function sourceFingerprint(request: Request) {
 
 function sourceCountry(request: Request) {
   const value = request.headers.get("X-Community-Country") ?? "ZZ";
+  if (value === "TW") return "CN";
   return /^[A-Z]{2}$/.test(value) ? value : "ZZ";
 }
 
@@ -296,6 +297,33 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     );
     await this.ctx.storage.put(TASK_LIKES_KEY, migrated);
     return migrated;
+  }
+
+  private async trafficSnapshot() {
+    const traffic = structuredClone(
+      (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY)) ?? EMPTY_TRAFFIC,
+    );
+    if (traffic.countries.TW) {
+      traffic.countries.CN = (traffic.countries.CN ?? 0) + traffic.countries.TW;
+      delete traffic.countries.TW;
+      await this.ctx.storage.put(TRAFFIC_KEY, traffic);
+    }
+    return traffic;
+  }
+
+  private async countVisit(request: Request, clientKey: string) {
+    const visitorHash = await sha256("client:" + clientKey);
+    const visitKey = VISIT_PREFIX + visitorHash;
+    const today = new Date().toISOString().slice(0, 10);
+    const previousDate = await this.ctx.storage.get<string>(visitKey);
+    const traffic = await this.trafficSnapshot();
+    if (previousDate === today) return { counted: false, traffic };
+    const country = sourceCountry(request);
+    traffic.total += 1;
+    traffic.countries[country] = (traffic.countries[country] ?? 0) + 1;
+    traffic.updatedAt = new Date().toISOString();
+    await this.ctx.storage.put({ [visitKey]: today, [TRAFFIC_KEY]: traffic });
+    return { counted: true, traffic };
   }
 
   private authorized(request: Request) {
@@ -473,7 +501,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       pendingCount: messages.filter(
         (message) => !["approved", "rejected"].includes(message.status),
       ).length,
-      traffic: (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY)) ?? EMPTY_TRAFFIC,
+      traffic: await this.trafficSnapshot(),
     };
   }
 
@@ -532,19 +560,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     if (!/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)) {
       return json({ error: "invalid_request" }, 400);
     }
-    const fingerprint = sourceFingerprint(request);
-    const visitorHash = await sha256(fingerprint === "unknown" ? clientKey : fingerprint);
-    const visitKey = VISIT_PREFIX + visitorHash;
-    const existing = await this.ctx.storage.get<boolean>(visitKey);
-    const traffic = (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY))
-      ?? structuredClone(EMPTY_TRAFFIC);
-    if (existing) return json({ ok: true, counted: false, traffic });
-    const country = sourceCountry(request);
-    traffic.total += 1;
-    traffic.countries[country] = (traffic.countries[country] ?? 0) + 1;
-    traffic.updatedAt = new Date().toISOString();
-    await this.ctx.storage.put({ [visitKey]: true, [TRAFFIC_KEY]: traffic });
-    return json({ ok: true, counted: true, traffic });
+    return json({ ok: true, ...await this.countVisit(request, clientKey) });
   }
 
   async submitMessage(request: Request, body: Record<string, unknown>) {
@@ -853,6 +869,9 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     if (request.method === "GET") {
       const sort = url.searchParams.get("sort") === "popular" ? "popular" : "recent";
       const clientKey = cleanText(url.searchParams.get("clientKey"), 80);
+      if (/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)) {
+        await this.countVisit(request, clientKey);
+      }
       return json(await this.snapshot(sort, clientKey));
     }
     if (request.method !== "POST") {

@@ -115,26 +115,6 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
       .catch(() => undefined);
   }, [refreshCommunity]);
 
-  useEffect(() => {
-    if (!COMMUNITY_API_URL || window.localStorage.getItem("opbench-visit-recorded-v1")) return;
-    void fetch(COMMUNITY_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "record_visit", clientKey: getClientKey() }),
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error("visit_not_recorded");
-        return response.json() as Promise<{ traffic?: CommunitySnapshot["traffic"] }>;
-      })
-      .then((result) => {
-        window.localStorage.setItem("opbench-visit-recorded-v1", "1");
-        if (result.traffic) {
-          setCommunity((current) => ({ ...current, traffic: result.traffic }));
-        }
-      })
-      .catch(() => undefined);
-  }, []);
-
   async function likeTask(conjectureId: string, task: string) {
     if (!COMMUNITY_API_URL) return "error" as const;
     const target = `${conjectureId}:${task}`;

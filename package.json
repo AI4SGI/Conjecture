@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.20.2",
-    "@svg-maps/world": "2.0.0",
+    "d3-geo": "3.1.1",
     "katex": "0.18.1",
     "lucide-react": "1.26.0",
     "mathjs": "15.2.0",
@@ -30,15 +30,19 @@
     "rehype-katex": "7.0.1",
     "remark-breaks": "4.0.0",
     "remark-gfm": "4.0.1",
-    "remark-math": "6.0.0"
+    "remark-math": "6.0.0",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20260724.1",
     "@playwright/test": "1.61.1",
+    "@types/d3-geo": "3.1.0",
     "@types/katex": "0.16.7",
     "@types/node": "26.1.1",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
+    "@types/topojson-client": "3.1.5",
     "typescript": "5.9.3",
     "vitest": "4.1.10",
     "wrangler": "4.114.0"

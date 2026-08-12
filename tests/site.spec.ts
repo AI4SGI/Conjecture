@@ -375,6 +375,27 @@ test("human moderation remains operable after an AI review failure", async ({ pa
             applicationCapacity: 10_000,
             automaticDeletion: false,
           },
+          aiConfiguration: {
+            configured: true,
+            compatible: false,
+            apiKeyConfigured: true,
+            baseUrlConfigured: true,
+            modelConfigured: true,
+            model: "gemini-3.5-flash-thinking",
+            endpoint: {
+              protocol: "http",
+              hostname: "35.220.164.252",
+              port: "3888",
+              path: "/v1/chat/completions",
+            },
+            issue: "ai_review_base_url_ip_literal_unsupported_by_cloudflare_workers_use_dns_hostname",
+          },
+          aiRuntime: {
+            queuedCount: 0,
+            alarmScheduledAt: null,
+            automaticSubmissions: "durable_object_alarm",
+            manualRetries: "connected_request",
+          },
         }),
       });
       return;
@@ -390,6 +411,18 @@ test("human moderation remains operable after an AI review failure", async ({ pa
           offset: 0,
           nextOffset: null,
           messages: [failedMessage],
+        }),
+      });
+      return;
+    }
+    if (body.action === "retry_ai_review") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: false,
+          status: "ai_pending",
+          aiReview: failedMessage.aiReview,
         }),
       });
       return;
@@ -420,6 +453,14 @@ test("human moderation remains operable after an AI review failure", async ({ pa
   await expect(card.getByRole("button", { name: "Reject" })).toBeEnabled();
   await expect(card.getByRole("button", { name: "Approve with override" })).toBeDisabled();
   await expect(page.locator(".moderator-storage-summary")).toContainText("automatic deletion off");
+  await expect(page.locator(".moderator-ai-diagnostics")).toContainText("BLOCKED");
+  await expect(page.locator(".moderator-ai-diagnostics")).toContainText("IP-literal");
+  await expect(page.locator(".moderator-ai-diagnostics")).toContainText("35.220.164.252:3888");
+
+  await card.getByRole("button", { name: "Retry AI review" }).click();
+  await expect(page.locator(".moderator-notice")).toContainText(
+    "AI review failed: ai_review_http_404:model_not_found",
+  );
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export private backup" }).click();

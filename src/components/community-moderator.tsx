@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Bot,
   Check,
   Database,
   Download,
@@ -39,6 +40,11 @@ interface ModerationMessage {
     reviewedAt?: string;
     finishReason?: string;
     maxTokens?: number;
+    queuedAt?: string;
+    attemptStartedAt?: string;
+    attemptCompletedAt?: string;
+    attemptCount?: number;
+    requestStage?: "queued" | "configuration" | "requesting" | "completed" | "failed";
     error?: string;
   };
   humanReview?: {
@@ -61,14 +67,44 @@ interface StorageSummary {
 }
 
 interface AdminResponse {
+  ok?: boolean;
   error?: string;
   messages?: ModerationMessage[];
   storage?: StorageSummary;
+  aiReview?: ModerationMessage["aiReview"];
+  aiConfiguration?: AiConfiguration;
+  aiRuntime?: AiRuntime;
   schemaVersion?: number;
   exportedAt?: string;
   total?: number;
   offset?: number;
   nextOffset?: number | null;
+}
+
+interface AiConfiguration {
+  configured: boolean;
+  compatible: boolean;
+  apiKeyConfigured: boolean;
+  baseUrlConfigured: boolean;
+  modelConfigured: boolean;
+  model: string;
+  endpoint?: {
+    protocol: string;
+    hostname: string;
+    configuredHostname?: string;
+    hostnameOverrideApplied?: boolean;
+    port: string;
+    path: string;
+  };
+  warning?: string;
+  issue?: string;
+}
+
+interface AiRuntime {
+  queuedCount: number;
+  alarmScheduledAt: string | null;
+  automaticSubmissions: string;
+  manualRetries: string;
 }
 
 const CATEGORIES: CommunityCategory[] = [
@@ -108,6 +144,8 @@ export function CommunityModerator({
   const [state, setState] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [notice, setNotice] = useState("");
   const [storage, setStorage] = useState<StorageSummary | null>(null);
+  const [aiConfiguration, setAiConfiguration] = useState<AiConfiguration | null>(null);
+  const [aiRuntime, setAiRuntime] = useState<AiRuntime | null>(null);
 
   async function adminRequest(body: Record<string, unknown>) {
     if (!apiUrl || !adminKey) throw new Error("missing_admin_key");
@@ -132,6 +170,8 @@ export function CommunityModerator({
       const queue = result.messages ?? [];
       setMessages(queue);
       setStorage(result.storage ?? null);
+      setAiConfiguration(result.aiConfiguration ?? null);
+      setAiRuntime(result.aiRuntime ?? null);
       setDecisions((current) => {
         const next = { ...current };
         for (const item of queue) {
@@ -197,14 +237,36 @@ export function CommunityModerator({
 
   async function retryAi(item: ModerationMessage) {
     setState("loading");
-    setNotice("");
+    setNotice(
+      english
+        ? "AI review is running now. Keep this tab open; the final result or exact error will appear here."
+        : "AI 初审正在执行。请保持此标签页打开，最终结果或具体错误会直接显示在这里。",
+    );
     try {
-      await adminRequest({ action: "retry_ai_review", id: item.id });
+      const result = await adminRequest({ action: "retry_ai_review", id: item.id });
       await loadQueue();
-      setNotice(english ? "AI review was queued again." : "已重新排队进行 AI 初审。");
-    } catch {
+      if (result.aiReview?.status === "completed") {
+        setNotice(
+          english
+            ? "AI review completed. Its recommendation is ready for human moderation."
+            : "AI 初审已完成，建议结果现可供人工终审。",
+        );
+      } else {
+        setState("error");
+        setNotice(
+          english
+            ? `AI review failed: ${result.aiReview?.error ?? "unknown error"}`
+            : `AI 初审失败：${result.aiReview?.error ?? "未知错误"}`,
+        );
+      }
+    } catch (error) {
       setState("error");
-      setNotice(english ? "Could not restart AI review." : "无法重新启动 AI 初审。");
+      const reason = error instanceof Error ? error.message : "request_failed";
+      setNotice(
+        english
+          ? `Could not run AI review: ${reason}`
+          : `无法执行 AI 初审：${reason}`,
+      );
     }
   }
 
@@ -317,6 +379,36 @@ export function CommunityModerator({
               </button>
             </div>
           ) : null}
+          {aiConfiguration ? (
+            <div className={"moderator-ai-diagnostics " + (aiConfiguration.compatible ? "compatible" : "incompatible")}>
+              <div className="moderator-ai-diagnostics-head">
+                <Bot size={15} />
+                <strong>{english ? "AI runtime diagnostics" : "AI 运行诊断"}</strong>
+                <span>{aiConfiguration.compatible ? "READY" : "BLOCKED"}</span>
+              </div>
+              <dl>
+                <div><dt>{english ? "API key secret" : "API 密钥 Secret"}</dt><dd>{aiConfiguration.apiKeyConfigured ? "configured" : "missing"}</dd></div>
+                <div><dt>{english ? "Model" : "模型"}</dt><dd>{aiConfiguration.model}</dd></div>
+                <div><dt>{english ? "Effective endpoint" : "实际端点"}</dt><dd>{aiConfiguration.endpoint ? `${aiConfiguration.endpoint.protocol}://${aiConfiguration.endpoint.hostname}:${aiConfiguration.endpoint.port}${aiConfiguration.endpoint.path}` : "—"}</dd></div>
+                <div><dt>{english ? "Background queue" : "后台队列"}</dt><dd>{aiRuntime ? `${aiRuntime.queuedCount} · alarm ${aiRuntime.alarmScheduledAt ?? "none"}` : "—"}</dd></div>
+                <div className="wide"><dt>{english ? "Configuration note" : "配置说明"}</dt><dd>{aiConfiguration.issue ?? aiConfiguration.warning ?? "none"}</dd></div>
+              </dl>
+              {!aiConfiguration.compatible ? (
+                <p>
+                  {english
+                    ? "Cloudflare Workers cannot fetch an IP-literal AI URL. Configure COMMUNITY_AI_BASE_URL with a DNS hostname; the API key value remains hidden."
+                    : "Cloudflare Workers 无法请求使用裸 IP 的 AI URL。请把 COMMUNITY_AI_BASE_URL 配置为带 DNS 主机名的地址；API 密钥值始终隐藏。"}
+                </p>
+              ) : null}
+              {aiConfiguration.warning ? (
+                <p className="warning">
+                  {english
+                    ? `The configured IP hostname ${aiConfiguration.endpoint?.configuredHostname ?? ""} is being replaced with the verified DNS hostname shown above. Move the gateway to HTTPS before production use.`
+                    : `配置中的 IP 主机名 ${aiConfiguration.endpoint?.configuredHostname ?? ""} 已替换为上方经验证的 DNS 主机名。正式生产使用前应把网关迁移到 HTTPS。`}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
           <div className="moderation-view-toggle" aria-label={english ? "Moderation records" : "审核记录"}>
             <button
               type="button"
@@ -395,6 +487,10 @@ export function CommunityModerator({
                     <div><dt>{english ? "Risk flags" : "风险标记"}</dt><dd>{item.aiReview?.riskFlags?.join(", ") || "none"}</dd></div>
                     <div><dt>{english ? "Finish reason" : "结束原因"}</dt><dd>{item.aiReview?.finishReason ?? "—"}</dd></div>
                     <div><dt>max_tokens</dt><dd>{item.aiReview?.maxTokens?.toLocaleString() ?? "—"}</dd></div>
+                    <div><dt>{english ? "Request stage" : "请求阶段"}</dt><dd>{item.aiReview?.requestStage ?? "—"}</dd></div>
+                    <div><dt>{english ? "Attempt" : "尝试次数"}</dt><dd>{item.aiReview?.attemptCount ?? "—"}</dd></div>
+                    <div><dt>{english ? "Attempt started" : "尝试开始"}</dt><dd>{item.aiReview?.attemptStartedAt ? new Date(item.aiReview.attemptStartedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
+                    <div><dt>{english ? "Attempt completed" : "尝试结束"}</dt><dd>{item.aiReview?.attemptCompletedAt ? new Date(item.aiReview.attemptCompletedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
                     <div className="wide"><dt>{english ? "AI error" : "AI 错误"}</dt><dd>{item.aiReview?.error || "—"}</dd></div>
                     <div><dt>{english ? "Reviewed at" : "初审时间"}</dt><dd>{item.aiReview?.reviewedAt ? new Date(item.aiReview.reviewedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
                   </dl>

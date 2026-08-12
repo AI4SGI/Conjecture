@@ -1,6 +1,7 @@
 import { DurableObject } from "cloudflare:workers";
 import {
   COMMUNITY_CATEGORIES,
+  inspectCommunityAiConfiguration,
   type CommunityAiReview,
   type CommunityCategory,
   type CommunityMessageTranslations,
@@ -296,29 +297,62 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
 
   private async runAiReview(id: string) {
     const submittedMessage = await this.loadMessage(id);
-    if (!submittedMessage || ["approved", "rejected"].includes(submittedMessage.status)) return;
+    if (!submittedMessage || ["approved", "rejected"].includes(submittedMessage.status)) return undefined;
+    const attemptStartedAt = new Date().toISOString();
+    const attemptCount = (submittedMessage.aiReview?.attemptCount ?? 0) + 1;
+    const queuedAt = submittedMessage.aiReview?.queuedAt ?? attemptStartedAt;
+    submittedMessage.aiReview = {
+      status: "pending",
+      model: this.env.COMMUNITY_AI_MODEL_NAME ?? "unconfigured",
+      riskFlags: [],
+      queuedAt,
+      attemptStartedAt,
+      attemptCount,
+      requestStage: "requesting",
+    };
+    await this.saveMessage(submittedMessage);
     let aiReview: CommunityAiReview;
     try {
-      aiReview = await reviewCommunityMessage(this.env, {
+      const result = await reviewCommunityMessage(this.env, {
         nickname: submittedMessage.nickname,
         title: submittedMessage.title,
         body: submittedMessage.body,
         conjecture: submittedMessage.conjecture,
         task: submittedMessage.task,
       });
+      aiReview = {
+        ...result,
+        queuedAt,
+        attemptStartedAt,
+        attemptCompletedAt: new Date().toISOString(),
+        attemptCount,
+        requestStage: "completed",
+      };
     } catch (error) {
       const model = this.env.COMMUNITY_AI_MODEL_NAME ?? "unconfigured";
+      const errorMessage = cleanText(
+        error instanceof Error ? error.message : "ai_review_failed",
+        300,
+      );
       aiReview = {
         status: "failed",
         model,
         riskFlags: [],
         reviewedAt: new Date().toISOString(),
         maxTokens: model.toLowerCase().startsWith("gemini") ? 65_536 : 128_000,
-        error: cleanText(error instanceof Error ? error.message : "ai_review_failed", 300),
+        queuedAt,
+        attemptStartedAt,
+        attemptCompletedAt: new Date().toISOString(),
+        attemptCount,
+        requestStage: errorMessage.includes("not_configured")
+          || errorMessage.includes("base_url")
+          ? "configuration"
+          : "failed",
+        error: errorMessage,
       };
     }
     const latest = await this.loadMessage(id);
-    if (!latest || ["approved", "rejected"].includes(latest.status)) return;
+    if (!latest || ["approved", "rejected"].includes(latest.status)) return aiReview;
     latest.aiReview = aiReview;
     if (aiReview.status === "completed") {
       latest.category = aiReview.category;
@@ -327,6 +361,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       latest.status = "ai_pending";
     }
     await this.saveMessage(latest);
+    return aiReview;
   }
 
   private async enqueueAiReview(id: string) {
@@ -336,6 +371,14 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     }
     if (await this.ctx.storage.getAlarm() === null) {
       await this.ctx.storage.setAlarm(Date.now() + 100);
+    }
+  }
+
+  private async dequeueAiReview(id: string) {
+    const queue = (await this.ctx.storage.get<string[]>(AI_REVIEW_QUEUE_KEY)) ?? [];
+    const remaining = queue.filter((queuedId) => queuedId !== id);
+    if (remaining.length !== queue.length) {
+      await this.ctx.storage.put(AI_REVIEW_QUEUE_KEY, remaining);
     }
   }
 
@@ -564,6 +607,8 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
           : undefined,
       }));
     const storedCount = (await this.messageIndex()).length;
+    const aiQueue = (await this.ctx.storage.get<string[]>(AI_REVIEW_QUEUE_KEY)) ?? [];
+    const alarmScheduledAt = await this.ctx.storage.getAlarm();
     return json({
       messages,
       count: messages.length,
@@ -572,6 +617,15 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
         storedCount,
         applicationCapacity: MAX_MESSAGES,
         automaticDeletion: false,
+      },
+      aiConfiguration: inspectCommunityAiConfiguration(this.env),
+      aiRuntime: {
+        queuedCount: aiQueue.length,
+        alarmScheduledAt: alarmScheduledAt === null
+          ? null
+          : new Date(alarmScheduledAt).toISOString(),
+        automaticSubmissions: "durable_object_alarm",
+        manualRetries: "connected_request",
       },
     });
   }
@@ -608,15 +662,30 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     if (!message || ["approved", "rejected"].includes(message.status)) {
       return json({ error: "not_found" }, 404);
     }
+    if (message.aiReview?.status === "pending" && message.aiReview.requestStage === "requesting") {
+      return json({ error: "ai_review_already_running" }, 409);
+    }
+    const queuedAt = new Date().toISOString();
     message.status = "ai_pending";
     message.aiReview = {
       status: "pending",
       model: this.env.COMMUNITY_AI_MODEL_NAME ?? "unconfigured",
       riskFlags: [],
+      queuedAt,
+      attemptCount: message.aiReview?.attemptCount ?? 0,
+      requestStage: "queued",
     };
     await this.saveMessage(message);
-    await this.enqueueAiReview(id);
-    return json({ ok: true, id, status: "ai_pending" });
+    await this.dequeueAiReview(id);
+    const aiReview = await this.runAiReview(id);
+    const latest = await this.loadMessage(id);
+    return json({
+      ok: aiReview?.status === "completed",
+      id,
+      status: latest?.status ?? "ai_pending",
+      aiReview,
+      aiConfiguration: inspectCommunityAiConfiguration(this.env),
+    });
   }
 
   async moderate(request: Request, body: Record<string, unknown>) {

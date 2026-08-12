@@ -77,6 +77,34 @@ base URL 可以填写 `/v1` 根路径，也可以直接填写完整 `/chat/compl
 初审任务进入 Durable Object Alarm 队列后台执行，不依赖提交页面持续连接；这也
 避免了普通 `waitUntil()` 在响应结束后的短时限截断 thinking 模型。
 
+Cloudflare Workers 生产环境不能把裸 IP 作为 `fetch()` 目标。因此评测脚本可用的
+`http://35.220.164.252:3888/v1` **不能直接用作**
+`COMMUNITY_AI_BASE_URL`：请求会在到达 API 中转平台之前失败，平台自然没有调用
+记录。优先给中转服务配置 HTTPS 域名和 443 端口，例如
+`https://review-api.example.org/v1`。如暂时只能保留 3888 端口，也必须使用能够
+解析到该服务器的 DNS hostname；当前兼容日期默认启用的 custom-port 支持允许
+Worker 访问未经过 Cloudflare 代理的自定义端口，但明文 HTTP 会暴露 API key，
+不建议用于生产。
+
+当前独立社区 Worker 为既有网关提供了精确的一对一 hostname override：
+`35.220.164.252 → 252.164.220.35.bc.googleusercontent.com`。两者解析到同一服务器，
+无密钥连通测试均到达同一 `/v1/models` 鉴权层；该映射只在配置值恰好为这个 IP
+时生效，因此部署本版本即可恢复现有网关调用。审核台会显示实际 endpoint 和
+`ai_review_ip_literal_replaced_with_configured_dns_hostname`。这只是兼容性恢复方案，
+不替代 HTTPS。
+
+更新运行时 Secret：
+
+```bash
+npx wrangler secret put COMMUNITY_AI_BASE_URL --config wrangler.community.jsonc
+```
+
+交互提示中输入带 DNS hostname 的新 URL。Secret 更新会立即产生 Worker 新版本，
+无需把值提交 GitHub。随后打开 Human moderator console 并载入队列：AI runtime
+diagnostics 应显示 `READY`，Endpoint 不应再是 IP。人工点击 **Retry AI review**
+时，浏览器会保持请求连接并等待最终 AI 结果，不再只返回 “queued”；成功会显示
+recommendation，失败会直接显示具体配置、网络、HTTP、空 content 或解析错误。
+
 随后重新运行 Deploy GitHub Pages 工作流，让静态前端嵌入社区 API 地址。
 Worker 的 CORS 白名单默认只接受 `https://ai4sgi.github.io` 与本地开发地址。
 

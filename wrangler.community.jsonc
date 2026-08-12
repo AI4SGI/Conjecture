@@ -29,6 +29,7 @@
   },
   "vars": {
     "ALLOWED_ORIGINS": "https://ai4sgi.github.io,http://localhost:3000,http://127.0.0.1:4173",
+    "COMMUNITY_AI_HOST_OVERRIDES": "{\"35.220.164.252\":\"252.164.220.35.bc.googleusercontent.com\"}",
     "COMMUNITY_ALLOWED_TARGETS": "{\"new\":[\"general\"],\"jacobian_conjecture\":[\"general\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\"],\"number_theory_001_beal_conjecture\":[\"general\",\"P1\"],\"number_theory_002_odd_perfect_number\":[\"general\",\"P1\"]}"
   }
 }

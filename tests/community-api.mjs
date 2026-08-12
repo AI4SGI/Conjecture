@@ -145,7 +145,9 @@ if (process.env.COMMUNITY_ADMIN_KEY) {
     assert.equal(retry.status, 200);
     ({ queue, queued } = await waitForAiResult(submissionResult.id));
     assert.equal(queued?.aiReview?.status, "failed");
-    assert.match(queued.aiReview.error, /^ai_review_(?:network|http_)/);
+    assert.match(queued.aiReview.error, /^ai_review_(?:network|http_|base_url_)/);
+    assert.equal(queued.aiReview.requestStage, "configuration");
+    assert.equal(queued.aiReview.attemptCount >= 2, true);
   }
   assert.equal(queue.storage.automaticDeletion, false);
   assert.equal(queue.storage.applicationCapacity, 10_000);

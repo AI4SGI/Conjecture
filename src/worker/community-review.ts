@@ -35,13 +35,38 @@ export interface CommunityAiReview {
   reviewedAt?: string;
   finishReason?: string;
   maxTokens?: number;
+  queuedAt?: string;
+  attemptStartedAt?: string;
+  attemptCompletedAt?: string;
+  attemptCount?: number;
+  requestStage?: "queued" | "configuration" | "requesting" | "completed" | "failed";
   error?: string;
+}
+
+export interface CommunityAiConfiguration {
+  configured: boolean;
+  compatible: boolean;
+  apiKeyConfigured: boolean;
+  baseUrlConfigured: boolean;
+  modelConfigured: boolean;
+  model: string;
+  endpoint?: {
+    protocol: string;
+    hostname: string;
+    configuredHostname?: string;
+    hostnameOverrideApplied?: boolean;
+    port: string;
+    path: string;
+  };
+  warning?: string;
+  issue?: string;
 }
 
 interface CommunityAiEnv {
   COMMUNITY_AI_API_KEY?: string;
   COMMUNITY_AI_BASE_URL?: string;
   COMMUNITY_AI_MODEL_NAME?: string;
+  COMMUNITY_AI_HOST_OVERRIDES?: string;
 }
 
 interface ReviewInput {
@@ -95,6 +120,108 @@ function completionEndpoint(baseUrl: string) {
   return /\/chat\/completions$/i.test(baseUrl)
     ? baseUrl
     : baseUrl + "/chat/completions";
+}
+
+function isIpLiteral(hostname: string) {
+  return /^(?:\d{1,3}\.){3}\d{1,3}$/.test(hostname)
+    || hostname.includes(":");
+}
+
+function hostnameOverrides(env: CommunityAiEnv) {
+  try {
+    const parsed = JSON.parse(env.COMMUNITY_AI_HOST_OVERRIDES ?? "") as Record<string, unknown>;
+    if (!parsed || typeof parsed !== "object") return {};
+    return Object.fromEntries(
+      Object.entries(parsed).filter(([source, target]) => (
+        isIpLiteral(source)
+        && typeof target === "string"
+        && !isIpLiteral(target)
+        && /^[a-z0-9.-]+$/i.test(target)
+      )),
+    ) as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function effectiveCompletionEndpoint(env: CommunityAiEnv, baseUrl: string) {
+  const endpoint = new URL(completionEndpoint(baseUrl));
+  const override = hostnameOverrides(env)[endpoint.hostname];
+  if (override) endpoint.hostname = override;
+  return endpoint.toString();
+}
+
+export function inspectCommunityAiConfiguration(
+  env: CommunityAiEnv,
+): CommunityAiConfiguration {
+  const apiKeyConfigured = Boolean(env.COMMUNITY_AI_API_KEY?.trim());
+  const rawBaseUrl = env.COMMUNITY_AI_BASE_URL?.trim().replace(/\/+$/, "") ?? "";
+  const model = env.COMMUNITY_AI_MODEL_NAME?.trim() ?? "";
+  const baseUrlConfigured = Boolean(rawBaseUrl);
+  const modelConfigured = Boolean(model);
+  const configured = apiKeyConfigured && baseUrlConfigured && modelConfigured;
+  const base = {
+    configured,
+    compatible: false,
+    apiKeyConfigured,
+    baseUrlConfigured,
+    modelConfigured,
+    model: model || "unconfigured",
+  };
+  if (!configured) {
+    const missing = [
+      !apiKeyConfigured ? "COMMUNITY_AI_API_KEY" : "",
+      !baseUrlConfigured ? "COMMUNITY_AI_BASE_URL" : "",
+      !modelConfigured ? "COMMUNITY_AI_MODEL_NAME" : "",
+    ].filter(Boolean).join(",");
+    return { ...base, issue: "ai_review_not_configured:" + missing };
+  }
+  try {
+    const endpoint = new URL(completionEndpoint(rawBaseUrl));
+    const configuredHostname = endpoint.hostname;
+    const hostnameOverride = hostnameOverrides(env)[configuredHostname];
+    if (hostnameOverride) endpoint.hostname = hostnameOverride;
+    const safeEndpoint = {
+      protocol: endpoint.protocol.replace(":", ""),
+      hostname: endpoint.hostname,
+      ...(hostnameOverride
+        ? { configuredHostname, hostnameOverrideApplied: true }
+        : {}),
+      port: endpoint.port || (endpoint.protocol === "https:" ? "443" : "80"),
+      path: endpoint.pathname,
+    };
+    if (!["http:", "https:"].includes(endpoint.protocol)) {
+      return {
+        ...base,
+        endpoint: safeEndpoint,
+        issue: "ai_review_base_url_protocol_unsupported",
+      };
+    }
+    if (endpoint.username || endpoint.password) {
+      return {
+        ...base,
+        endpoint: safeEndpoint,
+        issue: "ai_review_base_url_credentials_not_allowed",
+      };
+    }
+    if (isIpLiteral(endpoint.hostname)) {
+      return {
+        ...base,
+        endpoint: safeEndpoint,
+        issue: "ai_review_base_url_ip_literal_unsupported_by_cloudflare_workers_use_dns_hostname",
+      };
+    }
+    return {
+      ...base,
+      compatible: true,
+      endpoint: safeEndpoint,
+      ...(hostnameOverride
+        ? { warning: "ai_review_ip_literal_replaced_with_configured_dns_hostname" }
+        : {}),
+    };
+  } catch {
+    return { ...base, issue: "ai_review_base_url_invalid" };
+  }
 }
 
 function completionContent(value: unknown) {
@@ -178,6 +305,10 @@ export async function reviewCommunityMessage(
   env: CommunityAiEnv,
   input: ReviewInput,
 ): Promise<CommunityAiReview> {
+  const configuration = inspectCommunityAiConfiguration(env);
+  if (!configuration.compatible) {
+    throw new Error(configuration.issue ?? "ai_review_not_configured");
+  }
   const apiKey = env.COMMUNITY_AI_API_KEY?.trim();
   const baseUrl = env.COMMUNITY_AI_BASE_URL?.trim().replace(/\/+$/, "");
   const model = env.COMMUNITY_AI_MODEL_NAME?.trim();
@@ -210,7 +341,7 @@ export async function reviewCommunityMessage(
 
   let response: Response;
   try {
-    response = await fetch(completionEndpoint(baseUrl), {
+    response = await fetch(effectiveCompletionEndpoint(env, baseUrl), {
       method: "POST",
       headers: {
         Authorization: "Bearer " + apiKey,

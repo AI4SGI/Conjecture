@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  inspectCommunityAiConfiguration,
   parseCommunityAiReview,
   reviewCommunityMessage,
 } from "./community-review";
@@ -103,6 +104,85 @@ describe("community AI review contract", () => {
       conjecture: "jacobian_conjecture",
       task: "P1",
     })).rejects.toThrow("ai_review_not_configured");
+  });
+
+  it("rejects an IP-literal base URL before Cloudflare attempts the subrequest", async () => {
+    const configuration = inspectCommunityAiConfiguration({
+      COMMUNITY_AI_BASE_URL: "http://35.220.164.252:3888/v1",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+    });
+    expect(configuration).toMatchObject({
+      configured: true,
+      compatible: false,
+      apiKeyConfigured: true,
+      model: "gemini-3.5-flash-thinking",
+      endpoint: {
+        protocol: "http",
+        hostname: "35.220.164.252",
+        port: "3888",
+        path: "/v1/chat/completions",
+      },
+      issue: "ai_review_base_url_ip_literal_unsupported_by_cloudflare_workers_use_dns_hostname",
+    });
+    await expect(reviewCommunityMessage({
+      COMMUNITY_AI_BASE_URL: "http://35.220.164.252:3888/v1",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+    }, {
+      nickname: "Researcher",
+      title: "A verification question",
+      body: "Could the offline verifier expose this intermediate condition?",
+      conjecture: "jacobian_conjecture",
+      task: "P1",
+    })).rejects.toThrow(
+      "ai_review_base_url_ip_literal_unsupported_by_cloudflare_workers_use_dns_hostname",
+    );
+  });
+
+  it("uses an explicit DNS hostname override for the configured gateway IP", async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      choices: [{
+        finish_reason: "stop",
+        message: { content: JSON.stringify({
+          verdict: "allow",
+          category: "other",
+          risk_flags: [],
+          original_language: "en",
+          title_zh: "测试问题",
+          body_zh: "测试留言。",
+        }) },
+      }],
+    }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const env = {
+      COMMUNITY_AI_BASE_URL: "http://35.220.164.252:3888/v1",
+      COMMUNITY_AI_MODEL_NAME: "gemini-3.5-flash-thinking",
+      COMMUNITY_AI_API_KEY: "private-test-key",
+      COMMUNITY_AI_HOST_OVERRIDES: JSON.stringify({
+        "35.220.164.252": "252.164.220.35.bc.googleusercontent.com",
+      }),
+    };
+    expect(inspectCommunityAiConfiguration(env)).toMatchObject({
+      compatible: true,
+      warning: "ai_review_ip_literal_replaced_with_configured_dns_hostname",
+      endpoint: {
+        configuredHostname: "35.220.164.252",
+        hostname: "252.164.220.35.bc.googleusercontent.com",
+        hostnameOverrideApplied: true,
+      },
+    });
+    await reviewCommunityMessage(env, {
+      nickname: "Researcher",
+      title: "A verification question",
+      body: "Could the offline verifier expose this intermediate condition?",
+      conjecture: "jacobian_conjecture",
+      task: "P1",
+    });
+    const [requestedUrl] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(requestedUrl).toBe(
+      "http://252.164.220.35.bc.googleusercontent.com:3888/v1/chat/completions",
+    );
   });
 
   it("uses the full Gemini thinking budget and accepts structured text content", async () => {

@@ -4,6 +4,9 @@
 
 - GitHub Pages 发布纯静态前端：`https://AI4SGI.github.io/Conjecture/`
 - Cloudflare Worker 提供跨域社区 API，负责点赞、留言、审核和持久化
+- Cloudflare Pages 中继通过 Service Binding 连接同一个 Worker，作为
+  `workers.dev` 在部分网络不可达时的第二入口；两者共享同一个 Durable Object，
+  不会产生两份留言或访问量数据
 - OpenNext/Cloudflare 的完整动态部署继续保留，可独立访问
 
 ## 1. GitHub Pages
@@ -26,7 +29,13 @@ Next.js 静态导出，并自动处理 `/Conjecture` 项目子路径。
 https://jacobian-community-api.<your-subdomain>.workers.dev
 ```
 
-Cloudflare API Token 至少需要 Workers Scripts 与 Durable Objects 的编辑权限。
+Cloudflare API Token 至少需要 Workers Scripts、Durable Objects 与 Cloudflare
+Pages 的编辑权限。`.github/workflows/community-worker.yml` 会自动维护
+`ai4sgi-conjecture-community.pages.dev` 中继项目，并在每次部署后校验健康端点与
+公开社区快照。若 Token 是在加入中继前创建的，需要在 Cloudflare Dashboard
+重新签发或更新为同时包含 **Account / Cloudflare Pages / Edit** 的 Token，再更新
+GitHub Secret `CLOUDFLARE_API_TOKEN`；这不会更改现有 Worker Secrets 或 Durable
+Object 数据。
 
 ### 生产启用前还需在 Cloudflare 设置
 

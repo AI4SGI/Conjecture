@@ -36,6 +36,15 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Resolve repository star count
+        id: repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          stars="$(gh api "repos/${REPOSITORY}" --jq '.stargazers_count')"
+          echo "stars=${stars}" >> "$GITHUB_OUTPUT"
+
       - name: Validate source and generated data
         run: |
           npm run data
@@ -48,6 +57,7 @@ jobs:
           NEXT_PUBLIC_DEPLOY_TARGET: github-pages
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
           NEXT_PUBLIC_GITHUB_REPOSITORY: ${{ github.repository }}
+          NEXT_PUBLIC_GITHUB_STARS: ${{ steps.repository.outputs.stars }}
           NEXT_PUBLIC_COMMUNITY_API_URL: ${{ vars.COMMUNITY_API_URL }}
         run: |
           mv src/app/api /tmp/conjecture-next-api

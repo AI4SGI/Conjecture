@@ -9,12 +9,25 @@ import {
 } from "./community-review";
 import { normalizeCommunityContactEmail } from "./community-security";
 
-type TaskKey = "P1" | "P2" | "P3" | "P4" | "P5";
 type MessageStatus =
   | "ai_pending"
   | "human_pending"
   | "approved"
   | "rejected";
+
+interface HumanReviewRecord {
+  status: "approved" | "rejected";
+  reviewer: string;
+  category?: CommunityCategory;
+  note: string;
+  reviewedAt: string;
+  revision?: number;
+  previousStatus?: MessageStatus | "pending";
+  action?: "initial" | "updated";
+  aiOverride?: boolean;
+  aiStatusAtDecision?: CommunityAiReview["status"];
+  aiErrorAtDecision?: string;
+}
 
 interface StoredCommunityMessage {
   id: string;
@@ -38,16 +51,8 @@ interface StoredCommunityMessage {
     country: string;
   };
   aiReview?: CommunityAiReview;
-  humanReview?: {
-    status: "approved" | "rejected";
-    reviewer: string;
-    category?: CommunityCategory;
-    note: string;
-    reviewedAt: string;
-    aiOverride?: boolean;
-    aiStatusAtDecision?: CommunityAiReview["status"];
-    aiErrorAtDecision?: string;
-  };
+  humanReview?: HumanReviewRecord;
+  humanReviewHistory?: HumanReviewRecord[];
 }
 
 interface PublicCommunityMessage {
@@ -69,20 +74,23 @@ interface PublicCommunityMessage {
 }
 
 interface CommunitySnapshot {
-  taskLikes: Record<TaskKey, number>;
-  likedTasks: TaskKey[];
+  taskLikes: Record<string, number>;
+  likedTasks: string[];
   messages: PublicCommunityMessage[];
   pendingCount: number;
+  traffic: TrafficSnapshot;
 }
 
-const TASKS: TaskKey[] = ["P1", "P2", "P3", "P4", "P5"];
-const EMPTY_LIKES: Record<TaskKey, number> = {
-  P1: 0,
-  P2: 0,
-  P3: 0,
-  P4: 0,
-  P5: 0,
-};
+interface TrafficSnapshot {
+  total: number;
+  countries: Record<string, number>;
+  updatedAt?: string;
+}
+
+const EMPTY_TRAFFIC: TrafficSnapshot = { total: 0, countries: {} };
+const TASK_LIKES_KEY = "taskLikes:v2";
+const TRAFFIC_KEY = "traffic:v1";
+const VISIT_PREFIX = "visit:v1:";
 const MESSAGE_INDEX_KEY = "messageIndex:v2";
 const MESSAGE_PREFIX = "message:v2:";
 const AI_REVIEW_QUEUE_KEY = "aiReviewQueue:v1";
@@ -93,6 +101,10 @@ const DEFAULT_ALLOWED_TARGETS: Record<string, string[]> = {
   number_theory_001_beal_conjecture: ["general", "P1"],
   number_theory_002_odd_perfect_number: ["general", "P1"],
 };
+
+function followTarget(conjecture: string, task: string) {
+  return `${conjecture}:${task}`;
+}
 
 function json(data: unknown, status = 200) {
   return Response.json(data, {
@@ -264,6 +276,28 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     return DEFAULT_ALLOWED_TARGETS;
   }
 
+  private followTargets() {
+    return Object.entries(this.allowedTargets()).flatMap(([conjecture, tasks]) =>
+      tasks
+        .filter((task) => task !== "general")
+        .map((task) => followTarget(conjecture, task)),
+    );
+  }
+
+  private async taskLikeTotals() {
+    const current = await this.ctx.storage.get<Record<string, number>>(TASK_LIKES_KEY);
+    if (current) return current;
+    const legacy = (await this.ctx.storage.get<Record<string, number>>("taskLikes")) ?? {};
+    const migrated = Object.fromEntries(
+      Object.entries(legacy).map(([task, count]) => [
+        followTarget("jacobian_conjecture", task),
+        Math.max(0, Number(count) || 0),
+      ]),
+    );
+    await this.ctx.storage.put(TASK_LIKES_KEY, migrated);
+    return migrated;
+  }
+
   private authorized(request: Request) {
     const supplied = request.headers
       .get("Authorization")
@@ -399,9 +433,7 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     sort: "recent" | "popular",
     clientKey: string,
   ): Promise<CommunitySnapshot> {
-    const taskLikes =
-      (await this.ctx.storage.get<Record<TaskKey, number>>("taskLikes")) ??
-      EMPTY_LIKES;
+    const taskLikes = await this.taskLikeTotals();
     const messages = await this.loadMessages();
     const approved = messages
       .filter((message) => message.status === "approved")
@@ -411,18 +443,24 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
         ? right.likes - left.likes || right.submittedAt.localeCompare(left.submittedAt)
         : right.submittedAt.localeCompare(left.submittedAt),
     );
+    const targets = this.followTargets();
     const likedTasks =
       /^[a-zA-Z0-9-]{8,80}$/.test(clientKey)
         ? (
             await Promise.all(
-              TASKS.map(async (task) => [
-                task,
-                Boolean(
-                  await this.ctx.storage.get(
-                    "vote:task:" + task + ":" + clientKey,
-                  ),
-                ),
-              ] as const),
+              targets.map(async (target) => {
+                const legacyTask = target.startsWith("jacobian_conjecture:")
+                  ? target.slice("jacobian_conjecture:".length)
+                  : "";
+                const liked = Boolean(
+                  await this.ctx.storage.get("vote:task:v2:" + target + ":" + clientKey),
+                ) || Boolean(
+                  legacyTask
+                    ? await this.ctx.storage.get("vote:task:" + legacyTask + ":" + clientKey)
+                    : false,
+                );
+                return [target, liked] as const;
+              }),
             )
           )
             .filter(([, liked]) => liked)
@@ -435,37 +473,78 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       pendingCount: messages.filter(
         (message) => !["approved", "rejected"].includes(message.status),
       ).length,
+      traffic: (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY)) ?? EMPTY_TRAFFIC,
     };
   }
 
   async likeTask(request: Request, body: Record<string, unknown>) {
-    const task = cleanText(body.task, 3) as TaskKey;
+    const conjecture = cleanText(body.conjecture, 80);
+    const task = cleanText(body.task, 16);
     const clientKey = cleanText(body.clientKey, 80);
     const fingerprint = sourceFingerprint(request);
-    if (!TASKS.includes(task) || !/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)) {
+    const target = followTarget(conjecture, task);
+    if (
+      !this.followTargets().includes(target)
+      || !/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)
+    ) {
       return json({ error: "invalid_request" }, 400);
     }
-    const voteKey = "vote:task:" + task + ":" + clientKey;
-    const fingerprintVoteKey = "vote:task-fingerprint:" + task + ":" + fingerprint;
-    const likes =
-      (await this.ctx.storage.get<Record<TaskKey, number>>("taskLikes")) ??
-      structuredClone(EMPTY_LIKES);
-    if (await this.ctx.storage.get(voteKey)) {
-      likes[task] = Math.max(0, likes[task] - 1);
-      await this.ctx.storage.put("taskLikes", likes);
-      await this.ctx.storage.delete([voteKey, fingerprintVoteKey]);
-      return json({ ok: true, task, likes: likes[task], liked: false });
+    const voteKey = "vote:task:v2:" + target + ":" + clientKey;
+    const fingerprintVoteKey = "vote:task-fingerprint:v2:" + target + ":" + fingerprint;
+    const legacyVoteKey = conjecture === "jacobian_conjecture"
+      ? "vote:task:" + task + ":" + clientKey
+      : "";
+    const legacyFingerprintVoteKey = conjecture === "jacobian_conjecture"
+      ? "vote:task-fingerprint:" + task + ":" + fingerprint
+      : "";
+    const likes = await this.taskLikeTotals();
+    likes[target] ??= 0;
+    if (
+      await this.ctx.storage.get(voteKey)
+      || (legacyVoteKey && await this.ctx.storage.get(legacyVoteKey))
+    ) {
+      likes[target] = Math.max(0, likes[target] - 1);
+      await this.ctx.storage.put(TASK_LIKES_KEY, likes);
+      await this.ctx.storage.delete([
+        voteKey,
+        fingerprintVoteKey,
+        ...(legacyVoteKey ? [legacyVoteKey, legacyFingerprintVoteKey] : []),
+      ]);
+      return json({ ok: true, conjecture, task, target, likes: likes[target], liked: false });
     }
-    if (await this.ctx.storage.get(fingerprintVoteKey)) {
+    if (
+      await this.ctx.storage.get(fingerprintVoteKey)
+      || (legacyFingerprintVoteKey && await this.ctx.storage.get(legacyFingerprintVoteKey))
+    ) {
       return json({ error: "already_liked" }, 409);
     }
-    likes[task] += 1;
+    likes[target] += 1;
     await this.ctx.storage.put({
-      taskLikes: likes,
+      [TASK_LIKES_KEY]: likes,
       [voteKey]: true,
       [fingerprintVoteKey]: true,
     });
-    return json({ ok: true, task, likes: likes[task], liked: true });
+    return json({ ok: true, conjecture, task, target, likes: likes[target], liked: true });
+  }
+
+  async recordVisit(request: Request, body: Record<string, unknown>) {
+    const clientKey = cleanText(body.clientKey, 80);
+    if (!/^[a-zA-Z0-9-]{8,80}$/.test(clientKey)) {
+      return json({ error: "invalid_request" }, 400);
+    }
+    const fingerprint = sourceFingerprint(request);
+    const visitorHash = await sha256(fingerprint === "unknown" ? clientKey : fingerprint);
+    const visitKey = VISIT_PREFIX + visitorHash;
+    const existing = await this.ctx.storage.get<boolean>(visitKey);
+    const traffic = (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY))
+      ?? structuredClone(EMPTY_TRAFFIC);
+    if (existing) return json({ ok: true, counted: false, traffic });
+    const country = sourceCountry(request);
+    traffic.total += 1;
+    traffic.countries[country] = (traffic.countries[country] ?? 0) + 1;
+    traffic.updatedAt = new Date().toISOString();
+    await this.ctx.storage.put({ [visitKey]: true, [TRAFFIC_KEY]: traffic });
+    return json({ ok: true, counted: true, traffic });
   }
 
   async submitMessage(request: Request, body: Record<string, unknown>) {
@@ -697,16 +776,27 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     }
     const message = await this.loadMessage(id);
     if (!message) return json({ error: "not_found" }, 404);
-    if (["approved", "rejected"].includes(message.status)) {
+    const previousStatus = message.status;
+    const revising = ["approved", "rejected"].includes(previousStatus);
+    if (revising && body.allowRevision !== true) {
       return json({ error: "already_moderated" }, 409);
     }
     const note = cleanText(body.note, 600);
+    if (revising && note.length < 12) {
+      return json({ error: "revision_note_required" }, 400);
+    }
     const aiFailed = message.aiReview?.status === "failed";
     const overrideAiFailure = body.overrideAiFailure === true;
-    if (status === "approved" && message.aiReview?.status !== "completed" && !aiFailed) {
+    const revisionOverride = revising && status === "approved";
+    if (
+      status === "approved"
+      && message.aiReview?.status !== "completed"
+      && !aiFailed
+      && !revisionOverride
+    ) {
       return json({ error: "ai_review_required" }, 409);
     }
-    if (status === "approved" && aiFailed && !overrideAiFailure) {
+    if (status === "approved" && aiFailed && !overrideAiFailure && !revisionOverride) {
       return json({ error: "ai_review_override_required" }, 409);
     }
     if (status === "approved" && aiFailed && note.length < 12) {
@@ -719,21 +809,32 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const reviewedAt = new Date().toISOString();
     message.status = status;
     message.category = category;
-    message.humanReview = {
+    const history = message.humanReviewHistory?.length
+      ? [...message.humanReviewHistory]
+      : message.humanReview
+        ? [{ ...message.humanReview, revision: 1, action: "initial" as const }]
+        : [];
+    const humanReview: HumanReviewRecord = {
       status,
       reviewer: cleanText(body.reviewer, 40) || "moderator",
       category,
       note,
       reviewedAt,
-      ...(aiFailed && overrideAiFailure
+      revision: history.length + 1,
+      previousStatus,
+      action: revising ? "updated" : "initial",
+      ...(status === "approved" && message.aiReview?.status !== "completed"
         ? {
             aiOverride: true,
-            aiStatusAtDecision: "failed" as const,
+            aiStatusAtDecision: message.aiReview?.status,
             aiErrorAtDecision: message.aiReview?.error,
           }
         : {}),
     };
+    message.humanReview = humanReview;
+    message.humanReviewHistory = [...history, humanReview];
     if (status === "approved") message.publishedAt = reviewedAt;
+    else delete message.publishedAt;
     await this.saveMessage(message);
     return json({
       ok: true,
@@ -741,7 +842,9 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
       status,
       category,
       reviewedAt,
-      aiOverride: aiFailed && overrideAiFailure,
+      previousStatus,
+      revision: humanReview.revision,
+      aiOverride: status === "approved" && message.aiReview?.status !== "completed",
     });
   }
 
@@ -765,6 +868,8 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     switch (body.action) {
       case "like_task":
         return this.likeTask(request, body);
+      case "record_visit":
+        return this.recordVisit(request, body);
       case "submit_message":
         return this.submitMessage(request, body);
       case "like_message":

@@ -50,6 +50,14 @@ for (const config of conjectures) {
   assert.equal(generated.problemSource, config.problemSource);
   assert.equal(generated.resultsPath, config.resultsPath);
   assert.equal(generated.symbolicLab.interactive, contract.interactive, `${config.id} interactive verifier`);
+  assert.equal(generated.references.length >= 4, true, `${config.id} needs conjecture-bound references`);
+  assert(generated.references.every((reference) =>
+    reference.title
+    && reference.titleZh
+    && reference.description
+    && reference.descriptionZh
+    && reference.url.startsWith("http")
+  ), `${config.id} references need bilingual metadata and links`);
   assert(generated.atlas.events.every((event) => event.links.every((link) => link.url.startsWith("https://"))), `${config.id} atlas needs web sources`);
   assert(generated.visualization.codePath.startsWith("src/components/"));
   assert(generated.symbolicLab.verifierPath.startsWith("eval/"));

@@ -8,6 +8,7 @@ test("three conjectures share one data-driven research interface", async ({ page
   await page.goto(siteRoot);
 
   await expect(page.locator(".hero-intro h1")).toHaveText("Open problems, finite certificates");
+  await expect(page.locator(".github-cta b")).toHaveText("1");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator(".conjecture-selector button")).toHaveCount(3);
   await expect(page.locator(".conjecture-selector button").nth(0)).toContainText("Proposed in 1939");
@@ -29,6 +30,7 @@ test("three conjectures share one data-driven research interface", async ({ page
   await expect(page.locator(".data-atlas-grid .timeline-panel")).toHaveCSS("background-color", "rgb(233, 229, 218)");
   await expect(page.locator(".atlas-side-card")).toHaveCSS("background-color", "rgb(21, 24, 23)");
   await expect(page.locator(".task-card")).toHaveCount(5);
+  await expect(page.locator(".task-actions button")).toHaveCount(5);
   await expect(page.locator(".results-section")).toHaveCSS("background-color", "rgb(21, 24, 23)");
   await expect(page.locator(".benchmark-matrix .matrix-row")).toHaveCount(5);
   await expect(page.locator(".benchmark-matrix .matrix-run:not(.empty)")).toHaveCount(50);
@@ -83,10 +85,15 @@ test("three conjectures share one data-driven research interface", async ({ page
   );
   await expect(page.locator('#verify [data-verifier="beal"]')).toBeVisible();
   await expect(page.locator('#verify [data-verifier="beal"] input')).toHaveCount(6);
+  await expect(page.locator(".task-actions button")).toHaveCount(1);
   await expect(page.locator("#verify .interactive-scope a")).toHaveAttribute(
     "href",
     /eval_number_theory_001_beal_conjecture\.py/,
   );
+  await expect(page.locator("#references .reference-card")).toHaveCount(5);
+  await expect(page.locator("#references")).toContainText("The Beal Conjecture");
+  await expect(page.locator("#global-reach .traffic-map-panel svg")).toBeVisible();
+  await expect(page.locator("#global-reach")).toContainText("cumulative visits");
 
   const relatedConjecture = page.getByLabel("Related conjecture");
   const relatedTask = page.getByLabel("Related task");
@@ -130,6 +137,7 @@ test("three conjectures share one data-driven research interface", async ({ page
   await page.locator(".conjecture-selector button").nth(2).click();
   await expect(page.locator(".hero-case-copy h2")).toHaveText("Odd Perfect Number Problem");
   await expect(page.locator(".task-card")).toHaveCount(1);
+  await expect(page.locator(".task-actions button")).toHaveCount(1);
   await expect(page.locator(".atlas-side-card")).toContainText("A hypothetical integer under severe constraints");
   await expect(page.locator(".atlas-frontier-facts")).toContainText("LOWER BOUND");
   await page.getByRole("button", { name: "Extracted output" }).click();
@@ -188,9 +196,10 @@ test("approved community messages are timestamped and grouped by review category
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
-        taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+        taskLikes: { "jacobian_conjecture:P1": 3 },
         likedTasks: [],
         pendingCount: 1,
+        traffic: { total: 17, countries: { CN: 10, US: 7 } },
         messages: Array.from({ length: 6 }, (_, index) => {
           const originalLanguage = index === 1 ? "zh" : index === 2 ? "other" : "en";
           const title = index === 0
@@ -479,4 +488,124 @@ test("human moderation remains operable after an AI review failure", async ({ pa
     reviewer: "Browser test moderator",
     overrideAiFailure: true,
   });
+});
+
+test("completed human reviews can withdraw and republish a message", async ({ page }) => {
+  let status: "approved" | "rejected" = "approved";
+  const moderationBodies: Array<Record<string, unknown>> = [];
+  const history: Array<{
+    status: "approved" | "rejected";
+    reviewer: string;
+    category: string;
+    note: string;
+    reviewedAt: string;
+    revision: number;
+    action: "initial" | "updated";
+  }> = [{
+    status: "approved",
+    reviewer: "First moderator",
+    category: "research_question",
+    note: "Initial review completed.",
+    reviewedAt: "2026-08-11T04:00:00.000Z",
+    revision: 1,
+    action: "initial",
+  }];
+
+  await page.route("**/api/community*", async (route) => {
+    const request = route.request();
+    if (request.method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          taskLikes: {},
+          likedTasks: [],
+          pendingCount: 0,
+          traffic: { total: 9, countries: { CN: 9 } },
+          messages: status === "approved" ? [{
+            id: "review-update-message",
+            nickname: "Researcher",
+            title: "A reversible moderation test",
+            body: "This message is controlled by the latest human decision.",
+            conjecture: "jacobian_conjecture",
+            task: "P1",
+            category: "research_question",
+            status: "approved",
+            likes: 0,
+            createdAt: "2026-08-11T03:00:00.000Z",
+            aiScreened: true,
+            humanApproved: true,
+          }] : [],
+        }),
+      });
+      return;
+    }
+    const body = request.postDataJSON() as Record<string, unknown>;
+    if (body.action === "admin_queue") {
+      const currentReview = history.at(-1)!;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          messages: [{
+            id: "review-update-message",
+            nickname: "Researcher",
+            contactEmail: "researcher@example.org",
+            title: "A reversible moderation test",
+            body: "This message is controlled by the latest human decision.",
+            conjecture: "jacobian_conjecture",
+            task: "P1",
+            category: currentReview.category,
+            status,
+            submittedAt: "2026-08-11T03:00:00.000Z",
+            aiReview: {
+              status: "completed",
+              model: "gemini-3.5-flash-thinking",
+              verdict: "allow",
+              category: "research_question",
+              riskFlags: [],
+            },
+            humanReview: currentReview,
+            humanReviewHistory: history,
+          }],
+          storage: { backend: "Cloudflare Durable Object", storedCount: 1, applicationCapacity: 10_000, automaticDeletion: false },
+        }),
+      });
+      return;
+    }
+    if (body.action === "moderate") {
+      moderationBodies.push(body);
+      status = body.status as "approved" | "rejected";
+      history.push({
+        status,
+        reviewer: String(body.reviewer),
+        category: String(body.category),
+        note: String(body.note),
+        reviewedAt: new Date().toISOString(),
+        revision: history.length + 1,
+        action: "updated",
+      });
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, status }) });
+      return;
+    }
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
+  });
+
+  await page.goto(siteRoot);
+  await page.getByRole("button", { name: "Human moderator console" }).click();
+  await page.getByLabel("Moderator key").fill("test-admin-key");
+  await page.getByRole("button", { name: "Review history" }).click();
+  const card = page.locator(".moderation-card");
+  await card.getByRole("button", { name: "Update human review" }).click();
+  await card.getByLabel("Private review note").fill("Withdrawn after a corrected human assessment.");
+  await card.getByRole("button", { name: "Update to rejected" }).click();
+  await expect(page.locator(".moderator-notice")).toContainText("withdrawn");
+  expect(moderationBodies[0]).toMatchObject({ status: "rejected", allowRevision: true });
+
+  await card.getByRole("button", { name: "Update human review" }).click();
+  await card.getByLabel("Private review note").fill("Republished after an independent second assessment.");
+  await card.getByRole("button", { name: "Update to approved" }).click();
+  await expect(page.locator(".moderator-notice")).toContainText("now public");
+  expect(moderationBodies[1]).toMatchObject({ status: "approved", allowRevision: true });
+  await expect(card.locator(".human-review-record")).toContainText("3");
 });

@@ -128,6 +128,10 @@ Authorization: Bearer <COMMUNITY_ADMIN_KEY>
 COMMUNITY_ADMIN_KEY 后，可在 Pending review 查看原始留言、私有联系邮箱和
 AI 初审结果，在 Review history 查看已经通过或拒绝的完整人工审核记录。选择
 公开分类、填写内部备注并通过或拒绝；只有 approved 会出现在公开列表。
+Review history 中的 **Update human review** 可修改已完成结论：approved 改为
+rejected 会立即从公开留言区撤回，rejected 改为 approved 会重新发布。每次更新
+必须写至少 12 个字符的内部理由，旧结论保留在 `humanReviewHistory` 审计链中，
+不会被覆盖。
 AI 失败不会锁死人工作流：人工可以直接拒绝；如确认内容适合公开，也可以选择
 分类并填写至少 12 个字符的内部理由，以带审计记录的 human override 通过。通过
 后当前审核页面会立即刷新公开留言，其他已经打开的浏览器页面刷新后可见。
@@ -165,8 +169,22 @@ Objects 的总存储量。PITR 负责 30 天内的平台恢复，定期导出负
 
 社区表单第一项固定为 **New Conjecture or Problem**，对应 `new/general`，可在
 猜想正式进入数据集前先讨论。正式新增猜想时，页面选择器、留言表单和公开筛选
-均从 `src/data/site-data.json` 的 conjecture 数组自动生成；一般讨论会自动兼容
+均从 `src/data/site.json` 的 conjecture 数组自动生成；一般讨论会自动兼容
 新的安全 ID。若新猜想需要 `P1` 等任务级留言，再把允许的 task key 加到
 `COMMUNITY_ALLOWED_TARGETS`（`wrangler.community.jsonc` 和
 `wrangler.jsonc`）并重新部署 Worker。这样只增加一般讨论时无需修改留言组件，
 增加任务时也只需维护数据和一处服务端白名单配置。
+
+每个猜想的 `conjectures/<id>.json` 还必须维护 `references` 数组。06 /
+REFERENCES 会自动读取其中的中英文标题、说明、作者、年份、类型和跳转链接；
+新增猜想不需要修改参考资料组件。题目 following 使用 `<conjecture-id>:<task-key>`
+作为存储键，因此不同猜想可以安全地重复使用 `P1`。
+
+07 / GLOBAL REACH 通过 `record_visit` 动作累计访问，只在 Durable Object 保存
+匿名访客哈希和国家级计数，不保存原始 IP。相同匿名来源重复打开不会反复增加；
+公开接口只返回总数和国家聚合。地图几何来自 `@svg-maps/world`（CC BY 4.0）。
+
+页首 GitHub Star 在 Pages 构建时使用工作流内置的 `github.token` 读取并嵌入，
+运行时再由社区 Worker 每 15 分钟刷新。Worker 优先调用 GitHub REST API，遇到
+公共 API 限流时使用 Shields.io 的 GitHub 缓存 JSON；两者都失败时保留构建时
+数值，不会把访客浏览器直接连接到第三方统计服务。

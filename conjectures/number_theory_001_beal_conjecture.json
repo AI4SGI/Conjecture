@@ -85,6 +85,57 @@
     "body": "Parsing, positivity, exponent bounds, gcd, and exact equality are shown as separate deterministic verdicts.",
     "bodyZh": "解析、正整数、指数范围、最大公因数与精确等式均以独立的确定性结论展示。"
   },
+  "references": [
+    {
+      "type": "website",
+      "title": "The Beal Conjecture",
+      "titleZh": "Beal 猜想官方网站",
+      "authors": "Beal Conjecture",
+      "description": "The official problem site gives the statement, history, examples, and prize information.",
+      "descriptionZh": "官方网站提供猜想表述、历史、示例与奖金信息。",
+      "url": "https://www.bealconjecture.com/"
+    },
+    {
+      "type": "paper",
+      "title": "A Generalization of Fermat's Last Theorem: The Beal Conjecture and Prize Problem",
+      "titleZh": "Fermat 大定理的推广：Beal 猜想与奖金问题",
+      "authors": "R. Daniel Mauldin",
+      "year": "1997",
+      "venue": "Notices of the American Mathematical Society",
+      "description": "The AMS announcement that introduced the conjecture and its publication-based prize process to the mathematical community.",
+      "descriptionZh": "向数学界介绍该猜想及以正式发表为基础的奖金流程的 AMS 公告。",
+      "url": "https://www.ams.org/notices/199711/beal.pdf"
+    },
+    {
+      "type": "paper",
+      "title": "On the Equations z^m = F(x,y) and Ax^p + By^q = Cz^r",
+      "titleZh": "关于方程 z^m = F(x,y) 与 Ax^p + By^q = Cz^r",
+      "authors": "Henri Darmon, Andrew Granville",
+      "year": "1995",
+      "venue": "Bulletin of the London Mathematical Society",
+      "description": "A central finiteness theorem for proper solutions of generalized Fermat equations with fixed exponent signatures.",
+      "descriptionZh": "关于固定指数型广义 Fermat 方程本原解有限性的核心结果。",
+      "url": "https://doi.org/10.1112/blms/27.6.513"
+    },
+    {
+      "type": "website",
+      "title": "AMS Beal Prize",
+      "titleZh": "AMS Beal 奖金页面",
+      "authors": "American Mathematical Society",
+      "description": "The official award page describes the committee and requirements for a refereed proof or counterexample.",
+      "descriptionZh": "官方奖金页面说明委员会设置及同行评议证明或反例的要求。",
+      "url": "https://www.jointmathematicsmeetings.org/prizes-awards/paview.cgi?parent_id=41"
+    },
+    {
+      "type": "website",
+      "title": "The Beal Conjecture: A Search for Solutions",
+      "titleZh": "Beal 猜想：解的搜索",
+      "authors": "Peter Norvig",
+      "description": "A reproducible computational exploration of solution patterns and search strategies.",
+      "descriptionZh": "对解的结构和搜索策略所作的可复现计算探索。",
+      "url": "https://www.norvig.com/beal.html"
+    }
+  ],
   "symbolicLab": {
     "title": "Test a candidate solution interactively",
     "titleZh": "交互验证候选解",

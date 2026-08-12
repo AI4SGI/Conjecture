@@ -16,9 +16,11 @@ async function communityStub() {
 function unavailable() {
   return Response.json(
     {
-      taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+      taskLikes: {},
+      likedTasks: [],
       messages: [],
       pendingCount: 0,
+      traffic: { total: 0, countries: {} },
       unavailable: true,
     },
     { status: 503, headers: { "Cache-Control": "no-store" } },

@@ -9,12 +9,15 @@ import { BlockMath, InlineMath } from "./math";
 import { ResultsDashboard } from "./results-dashboard";
 import { SymbolicLab } from "./symbolic-lab";
 import { MathText, TaskSection } from "./task-section";
+import { ReferencesSection } from "./references-section";
+import { GlobalTraffic } from "./global-traffic";
 
 const EMPTY_COMMUNITY: CommunitySnapshot = {
-  taskLikes: { P1: 0, P2: 0, P3: 0, P4: 0, P5: 0 },
+  taskLikes: {},
   likedTasks: [],
   messages: [],
   pendingCount: 0,
+  traffic: { total: 0, countries: {} },
 };
 const DEPLOY_TARGET = process.env.NEXT_PUBLIC_DEPLOY_TARGET ?? "server";
 const SITE_BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
@@ -26,6 +29,8 @@ const COMMUNITY_API_URL = EXTERNAL_COMMUNITY_BASE
     : `${SITE_BASE_PATH}/api/community`;
 const GITHUB_REPOSITORY = process.env.NEXT_PUBLIC_GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
 const GITHUB_URL = `https://github.com/${GITHUB_REPOSITORY}`;
+const BUILD_GITHUB_STARS = Number(process.env.NEXT_PUBLIC_GITHUB_STARS);
+const BUILD_GITHUB_AVAILABLE = Number.isFinite(BUILD_GITHUB_STARS) && BUILD_GITHUB_STARS >= 0;
 
 function getClientKey() {
   const key = "opbench-client-key";
@@ -43,7 +48,11 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
   const [activeId, setActiveId] = useState(site.conjectures[0]?.id ?? "");
   const [community, setCommunity] = useState<CommunitySnapshot>(EMPTY_COMMUNITY);
   const [communityOnline, setCommunityOnline] = useState(Boolean(COMMUNITY_API_URL));
-  const [github, setGithub] = useState<{ available: boolean; stars?: number; url: string }>({ available: false, url: GITHUB_URL });
+  const [github, setGithub] = useState<{ available: boolean; stars?: number; url: string }>({
+    available: BUILD_GITHUB_AVAILABLE,
+    stars: BUILD_GITHUB_AVAILABLE ? BUILD_GITHUB_STARS : undefined,
+    url: GITHUB_URL,
+  });
   const english = language === "en";
   const conjecture = useMemo(
     () => site.conjectures.find((item) => item.id === activeId) ?? site.conjectures[0],
@@ -81,35 +90,67 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
 
   useEffect(() => {
     void refreshCommunity();
-    const githubEndpoint = DEPLOY_TARGET === "github-pages" ? `https://api.github.com/repos/${GITHUB_REPOSITORY}` : `${SITE_BASE_PATH}/api/github`;
+    const githubEndpoint = EXTERNAL_COMMUNITY_BASE
+      ? `${EXTERNAL_COMMUNITY_BASE}/api/github`
+      : DEPLOY_TARGET === "github-pages"
+        ? `https://api.github.com/repos/${GITHUB_REPOSITORY}`
+        : `${SITE_BASE_PATH}/api/github`;
     void fetch(githubEndpoint)
       .then(async (response) => {
         if (!response.ok) throw new Error("github unavailable");
-        if (DEPLOY_TARGET === "github-pages") {
-          const payload = (await response.json()) as { stargazers_count: number; html_url: string };
-          return { available: true, stars: payload.stargazers_count, url: payload.html_url };
-        }
-        return response.json() as Promise<{ available: boolean; stars?: number; url: string }>;
+        const payload = (await response.json()) as {
+          available?: boolean;
+          stars?: number;
+          url?: string;
+          stargazers_count?: number;
+          html_url?: string;
+        };
+        return "stargazers_count" in payload
+          ? { available: true, stars: payload.stargazers_count, url: payload.html_url ?? GITHUB_URL }
+          : { available: Boolean(payload.available), stars: payload.stars, url: payload.url ?? GITHUB_URL };
       })
-      .then(setGithub)
+      .then((result) => {
+        if (result.available) setGithub(result);
+      })
       .catch(() => undefined);
   }, [refreshCommunity]);
 
-  async function likeTask(task: string) {
-    if (!COMMUNITY_API_URL || conjecture.id !== "jacobian_conjecture") return "error" as const;
+  useEffect(() => {
+    if (!COMMUNITY_API_URL || window.localStorage.getItem("opbench-visit-recorded-v1")) return;
+    void fetch(COMMUNITY_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "record_visit", clientKey: getClientKey() }),
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("visit_not_recorded");
+        return response.json() as Promise<{ traffic?: CommunitySnapshot["traffic"] }>;
+      })
+      .then((result) => {
+        window.localStorage.setItem("opbench-visit-recorded-v1", "1");
+        if (result.traffic) {
+          setCommunity((current) => ({ ...current, traffic: result.traffic }));
+        }
+      })
+      .catch(() => undefined);
+  }, []);
+
+  async function likeTask(conjectureId: string, task: string) {
+    if (!COMMUNITY_API_URL) return "error" as const;
+    const target = `${conjectureId}:${task}`;
     const response = await fetch(COMMUNITY_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "like_task", task, clientKey: getClientKey() }),
+      body: JSON.stringify({ action: "like_task", conjecture: conjectureId, task, clientKey: getClientKey() }),
     });
     if (!response.ok) return "error" as const;
     const result = (await response.json()) as { likes: number; liked: boolean };
     setCommunity((current) => ({
       ...current,
-      taskLikes: { ...current.taskLikes, [task]: result.likes },
+      taskLikes: { ...current.taskLikes, [target]: result.likes },
       likedTasks: result.liked
-        ? [...new Set([...(current.likedTasks ?? []), task])]
-        : (current.likedTasks ?? []).filter((candidate) => candidate !== task),
+        ? [...new Set([...(current.likedTasks ?? []), target])]
+        : (current.likedTasks ?? []).filter((candidate) => candidate !== target),
     }));
     return result.liked ? ("liked" as const) : ("unliked" as const);
   }
@@ -124,8 +165,8 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
   }
 
   const navigation = english
-    ? [["#atlas", "Atlas"], ["#benchmark", "Benchmark"], ["#results", "Evaluation"], ["#verify", "Symbolic Lab"], ["#community", "Community"]]
-    : [["#atlas", "进展"], ["#benchmark", "题目"], ["#results", "结果"], ["#verify", "验证器"], ["#community", "讨论"]];
+    ? [["#atlas", "Atlas"], ["#benchmark", "Benchmark"], ["#results", "Evaluation"], ["#verify", "Symbolic Lab"], ["#community", "Community"], ["#references", "References"], ["#global-reach", "Global reach"]]
+    : [["#atlas", "进展"], ["#benchmark", "题目"], ["#results", "结果"], ["#verify", "验证器"], ["#community", "讨论"], ["#references", "参考资料"], ["#global-reach", "全球访问"]];
 
   return (
     <>
@@ -139,7 +180,7 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
         </nav>
         <div className="header-actions">
           <label className="language-switcher"><select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as Language)}><option value="en">English</option><option value="zh">中文</option></select></label>
-          <a className="github-cta" href={github.url} target="_blank" rel="noreferrer"><Star size={17} /><span>Star</span>{github.available ? <b>{github.stars?.toLocaleString()}</b> : null}</a>
+          <a className="github-cta" href={github.url} target="_blank" rel="noreferrer"><Star size={17} /><span>Star</span><b aria-label={github.available ? `${github.stars ?? 0} GitHub stars` : "GitHub stars unavailable"}>{github.available ? (github.stars ?? 0).toLocaleString() : "—"}</b></a>
         </div>
         <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? (english ? "Close navigation" : "关闭导航") : english ? "Open navigation" : "打开导航"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
@@ -204,11 +245,13 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
           </div>
         </section>
 
-        <TaskSection data={data} content={conjecture.benchmark} likes={community.taskLikes} likedTasks={community.likedTasks ?? []} onLike={likeTask} communityOnline={communityOnline} language={language} />
+        <TaskSection data={data} content={conjecture.benchmark} conjectureId={conjecture.id} likes={community.taskLikes} likedTasks={community.likedTasks ?? []} onLike={likeTask} communityOnline={communityOnline} language={language} />
         <ResultsDashboard data={data} content={conjecture.evaluation} language={language} />
         <SymbolicLab conjecture={conjecture} language={language} />
 
         <CommunityBoard snapshot={community} online={communityOnline} apiUrl={COMMUNITY_API_URL} refresh={refreshCommunity} getClientKey={getClientKey} language={language} conjectures={site.conjectures} activeConjectureId={conjecture.id} />
+        <ReferencesSection conjecture={conjecture} language={language} />
+        <GlobalTraffic traffic={community.traffic} online={communityOnline} language={language} />
       </main>
 
       <footer className="site-footer"><div><b>OPBench · OpenProblemBench</b><p>{english ? "A verifiable open-problem benchmark and discussion platform by Shanghai Artificial Intelligence Laboratory." : "上海人工智能实验室出品的开放问题可验证评测与讨论平台。"}</p></div><div><a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} /></a><a href="mailto:yufangchen@pjlab.org.cn">yufangchen@pjlab.org.cn</a></div></footer>

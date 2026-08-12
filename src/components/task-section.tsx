@@ -12,6 +12,7 @@ import type { BenchmarkData, ConjectureData, Language } from "../lib/types";
 export function TaskSection({
   data,
   content,
+  conjectureId,
   likes,
   likedTasks,
   onLike,
@@ -20,9 +21,10 @@ export function TaskSection({
 }: {
   data: BenchmarkData;
   content: ConjectureData["benchmark"];
+  conjectureId: string;
   likes: Record<string, number>;
   likedTasks: string[];
-  onLike: (task: string) => Promise<"liked" | "unliked" | "error">;
+  onLike: (conjectureId: string, task: string) => Promise<"liked" | "unliked" | "error">;
   communityOnline: boolean;
   language: Language;
 }) {
@@ -37,10 +39,11 @@ export function TaskSection({
   }
 
   async function handleLike(task: string) {
-    const result = await onLike(task);
+    const target = `${conjectureId}:${task}`;
+    const result = await onLike(conjectureId, task);
     setNotice((current) => ({
       ...current,
-      [task]:
+      [target]:
         result === "liked"
           ? english
             ? "Following"
@@ -96,7 +99,7 @@ export function TaskSection({
           const constraints = english
             ? task.verificationConditions ?? []
             : task.verificationConditionsZh ?? task.verificationConditions ?? [];
-          const canLike = data.dataset.id === "jacobian_conjecture";
+          const followKey = `${conjectureId}:${task.key}`;
           return (
             <article className="task-card" key={task.id}>
               <div className="task-index">{task.key}</div>
@@ -157,18 +160,16 @@ export function TaskSection({
                 </div>
               </div>
               <div className="task-actions">
-                {canLike ? (
-                  <button
-                    className={likedTasks.includes(task.key) ? "liked" : ""}
-                    onClick={() => void handleLike(task.key)}
-                    disabled={!communityOnline}
-                    title={communityOnline ? (english ? "Follow this research problem" : "关注这个研究问题") : english ? "Community backend unavailable" : "社区后端暂不可用"}
-                  >
-                    <Heart size={18} fill={likedTasks.includes(task.key) ? "currentColor" : "none"} />
-                    <b>{likes[task.key] ?? 0}</b>
-                    <span>{notice[task.key] ?? (likedTasks.includes(task.key) ? (english ? "Following" : "已关注") : english ? "Follow" : "关注")}</span>
-                  </button>
-                ) : null}
+                <button
+                  className={likedTasks.includes(followKey) ? "liked" : ""}
+                  onClick={() => void handleLike(task.key)}
+                  disabled={!communityOnline}
+                  title={communityOnline ? (english ? "Follow this research problem" : "关注这个研究问题") : english ? "Community backend unavailable" : "社区后端暂不可用"}
+                >
+                  <Heart size={18} fill={likedTasks.includes(followKey) ? "currentColor" : "none"} />
+                  <b>{likes[followKey] ?? 0}</b>
+                  <span>{notice[followKey] ?? (likedTasks.includes(followKey) ? (english ? "Following" : "已关注") : english ? "Follow" : "关注")}</span>
+                </button>
                 <span className="task-order">
                   {String(index + 1).padStart(2, "0")} / {String(data.dataset.taskCount).padStart(2, "0")}
                 </span>

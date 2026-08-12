@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.20.2",
+    "@svg-maps/world": "2.0.0",
     "katex": "0.18.1",
     "lucide-react": "1.26.0",
     "mathjs": "15.2.0",

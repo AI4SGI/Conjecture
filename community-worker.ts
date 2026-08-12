@@ -10,6 +10,7 @@ interface CommunityWorkerEnv {
   COMMUNITY: DurableObjectNamespace;
   ALLOWED_ORIGINS?: string;
   COMMUNITY_FINGERPRINT_SALT?: string;
+  GITHUB_REPOSITORY?: string;
 }
 
 const DEFAULT_ALLOWED_ORIGINS = [
@@ -47,6 +48,73 @@ function withCors(response: Response, origin: string | null) {
   });
 }
 
+async function githubMetadata(request: Request, env: CommunityWorkerEnv) {
+  const repository = env.GITHUB_REPOSITORY ?? "AI4SGI/Conjecture";
+  if (!/^[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+$/.test(repository)) {
+    return Response.json({ available: false, url: "https://github.com" });
+  }
+  const edgeCache = (caches as unknown as { default: Cache }).default;
+  const cacheKey = new Request(new URL("/api/github", request.url), { method: "GET" });
+  const cached = await edgeCache.match(cacheKey);
+  if (cached) return cached;
+  let stars: number | undefined;
+  let source = "github-api";
+  try {
+    const upstream = await fetch(`https://api.github.com/repos/${repository}`, {
+      signal: AbortSignal.timeout(4_500),
+      headers: {
+        Accept: "application/vnd.github+json",
+        "User-Agent": "OPBench-community-worker",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+    if (!upstream.ok) throw new Error(`github_http_${upstream.status}`);
+    const data = await upstream.json() as {
+      stargazers_count?: number;
+      html_url?: string;
+    };
+    if (!Number.isFinite(data.stargazers_count)) throw new Error("github_invalid_response");
+    stars = data.stargazers_count;
+  } catch {
+    try {
+      const [owner, name] = repository.split("/").map(encodeURIComponent);
+      const fallback = await fetch(`https://img.shields.io/github/stars/${owner}/${name}.json`, {
+        signal: AbortSignal.timeout(4_500),
+        headers: { "User-Agent": "OPBench-community-worker" },
+      });
+      if (!fallback.ok) throw new Error(`shields_http_${fallback.status}`);
+      const badge = await fallback.json() as { value?: string | number; message?: string };
+      const value = String(badge.value ?? badge.message ?? "").replaceAll(",", "").trim().toLowerCase();
+      const match = value.match(/^(\d+(?:\.\d+)?)([km])?$/);
+      if (!match) throw new Error("shields_invalid_response");
+      stars = Math.round(Number(match[1]) * (match[2] === "m" ? 1_000_000 : match[2] === "k" ? 1_000 : 1));
+      source = "shields-github-cache";
+    } catch {
+      stars = undefined;
+    }
+  }
+  if (stars !== undefined) {
+    const response = Response.json({
+      available: true,
+      repository,
+      stars,
+      source,
+      url: `https://github.com/${repository}`,
+    }, {
+      headers: { "Cache-Control": "public, max-age=900, s-maxage=900" },
+    });
+    await edgeCache.put(cacheKey, response.clone());
+    return response;
+  }
+  return Response.json({
+    available: false,
+    repository,
+    url: `https://github.com/${repository}`,
+  }, {
+    headers: { "Cache-Control": "public, max-age=60" },
+  });
+}
+
 export default {
   async fetch(request: Request, env: CommunityWorkerEnv) {
     const origin = corsOrigin(request, env);
@@ -73,6 +141,9 @@ export default {
         Response.json({ ok: true, service: "jacobian-community-api" }),
         origin,
       );
+    }
+    if (url.pathname === "/api/github" && request.method === "GET") {
+      return withCors(await githubMetadata(request, env), origin);
     }
     if (url.pathname !== "/api/community") {
       return withCors(

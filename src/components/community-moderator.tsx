@@ -6,6 +6,7 @@ import {
   Database,
   Download,
   KeyRound,
+  Pencil,
   RefreshCw,
   RotateCcw,
   ShieldCheck,
@@ -56,7 +57,11 @@ interface ModerationMessage {
     aiOverride?: boolean;
     aiStatusAtDecision?: "pending" | "completed" | "failed";
     aiErrorAtDecision?: string;
+    revision?: number;
+    previousStatus?: ModerationMessage["status"] | "pending";
+    action?: "initial" | "updated";
   };
+  humanReviewHistory?: Array<NonNullable<ModerationMessage["humanReview"]>>;
 }
 
 interface StorageSummary {
@@ -146,6 +151,7 @@ export function CommunityModerator({
   const [storage, setStorage] = useState<StorageSummary | null>(null);
   const [aiConfiguration, setAiConfiguration] = useState<AiConfiguration | null>(null);
   const [aiRuntime, setAiRuntime] = useState<AiRuntime | null>(null);
+  const [editingReviewId, setEditingReviewId] = useState("");
 
   async function adminRequest(body: Record<string, unknown>) {
     if (!apiUrl || !adminKey) throw new Error("missing_admin_key");
@@ -215,13 +221,15 @@ export function CommunityModerator({
         note: decision.note,
         reviewer: reviewer || "Human moderator",
         overrideAiFailure: status === "approved" && item.aiReview?.status === "failed",
+        allowRevision: ["approved", "rejected"].includes(item.status),
       });
+      setEditingReviewId("");
       await loadQueue(queueView);
       await refreshPublicMessages();
       setNotice(
         status === "approved"
           ? english ? "Human approval recorded; the message is now public." : "已记录人工通过，留言现已公开。"
-          : english ? "Human rejection recorded." : "已记录人工拒绝。",
+          : english ? "Human rejection recorded; any public copy has been withdrawn." : "已记录人工拒绝；公开留言已撤回。",
       );
     } catch (error) {
       setState("error");
@@ -230,6 +238,8 @@ export function CommunityModerator({
           ? english ? "AI review is still running. Wait for it to finish before approving." : "AI 初审仍在运行，请等待完成后再通过。"
           : error instanceof Error && ["ai_review_override_required", "override_note_required"].includes(error.message)
             ? english ? "A human override approval requires a private note of at least 12 characters." : "人工覆盖通过必须填写至少 12 个字符的内部审核备注。"
+          : error instanceof Error && error.message === "revision_note_required"
+            ? english ? "Updating a completed decision requires a private audit note of at least 12 characters." : "更新已完成审核时，必须填写至少 12 个字符的内部审计备注。"
           : english ? "The moderation decision failed." : "人工审核操作失败。",
       );
     }
@@ -442,7 +452,10 @@ export function CommunityModerator({
               const aiComplete = item.aiReview?.status === "completed";
               const aiFailed = item.aiReview?.status === "failed";
               const awaitingDecision = item.status === "ai_pending" || item.status === "human_pending";
+              const editingRevision = editingReviewId === item.id;
               const overrideReady = aiFailed && decision.note.trim().length >= 12;
+              const revisionReady = !editingRevision || decision.note.trim().length >= 12;
+              const approvalReady = editingRevision ? revisionReady : aiComplete || overrideReady;
               return (
                 <article className="moderation-card" key={item.id}>
                   <header>
@@ -494,7 +507,7 @@ export function CommunityModerator({
                     <div className="wide"><dt>{english ? "AI error" : "AI 错误"}</dt><dd>{item.aiReview?.error || "—"}</dd></div>
                     <div><dt>{english ? "Reviewed at" : "初审时间"}</dt><dd>{item.aiReview?.reviewedAt ? new Date(item.aiReview.reviewedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
                   </dl>
-                  {awaitingDecision ? (
+                  {awaitingDecision || editingRevision ? (
                     <>
                       {aiFailed ? (
                         <p className="ai-failure-override-note">
@@ -533,36 +546,78 @@ export function CommunityModerator({
                               ...current,
                               [item.id]: { ...decision, note: event.target.value },
                             }))}
+                            placeholder={editingRevision ? (english ? "Required: explain why the completed decision is changing (12+ characters)" : "必填：说明修改已完成审核的原因（至少 12 个字符）") : undefined}
                           />
                         </label>
                       </div>
                       <footer>
-                        {aiFailed ? (
+                        {aiFailed && awaitingDecision ? (
                           <button type="button" disabled={state === "loading"} onClick={() => void retryAi(item)}>
                             <RotateCcw size={14} />{english ? "Retry AI review" : "重试 AI 初审"}
                           </button>
                         ) : null}
-                        <button type="button" className="reject" disabled={state === "loading"} onClick={() => void decide(item, "rejected")}>
-                          <X size={14} />{english ? "Reject" : "拒绝"}
+                        {editingRevision ? (
+                          <button type="button" disabled={state === "loading"} onClick={() => setEditingReviewId("")}>
+                            {english ? "Cancel update" : "取消修改"}
+                          </button>
+                        ) : null}
+                        <button type="button" className="reject" disabled={state === "loading" || !revisionReady} onClick={() => void decide(item, "rejected")}>
+                          <X size={14} />{editingRevision ? (english ? "Update to rejected" : "更新为不通过") : (english ? "Reject" : "拒绝")}
                         </button>
-                        <button type="button" className="approve" disabled={(!aiComplete && !overrideReady) || state === "loading"} onClick={() => void decide(item, "approved")}>
-                          <Check size={14} />{aiFailed
-                            ? english ? "Approve with override" : "人工覆盖通过"
-                            : english ? "Approve and publish" : "通过并公开"}
+                        <button type="button" className="approve" disabled={!approvalReady || state === "loading"} onClick={() => void decide(item, "approved")}>
+                          <Check size={14} />{editingRevision
+                            ? english ? "Update to approved" : "更新为通过"
+                            : aiFailed
+                              ? english ? "Approve with override" : "人工覆盖通过"
+                              : english ? "Approve and publish" : "通过并公开"}
                         </button>
                       </footer>
                     </>
                   ) : (
-                    <dl className="human-review-record">
-                      <div><dt>{english ? "Human decision" : "人工结论"}</dt><dd>{item.humanReview?.status ?? item.status}</dd></div>
-                      <div><dt>{english ? "Reviewer" : "审核人"}</dt><dd>{item.humanReview?.reviewer ?? "—"}</dd></div>
-                      <div><dt>{english ? "Final category" : "最终分类"}</dt><dd>{item.humanReview?.category ?? item.category ?? "—"}</dd></div>
-                      <div><dt>{english ? "Reviewed at" : "终审时间"}</dt><dd>{item.humanReview?.reviewedAt ? new Date(item.humanReview.reviewedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
-                      <div className="wide"><dt>{english ? "Private review note" : "内部审核备注"}</dt><dd>{item.humanReview?.note || "—"}</dd></div>
-                      {item.humanReview?.aiOverride ? (
-                        <div className="wide"><dt>{english ? "AI failure override" : "AI 失败人工覆盖"}</dt><dd>{item.humanReview.aiErrorAtDecision || "recorded"}</dd></div>
+                    <>
+                      <dl className="human-review-record">
+                        <div><dt>{english ? "Human decision" : "人工结论"}</dt><dd>{item.humanReview?.status ?? item.status}</dd></div>
+                        <div><dt>{english ? "Reviewer" : "审核人"}</dt><dd>{item.humanReview?.reviewer ?? "—"}</dd></div>
+                        <div><dt>{english ? "Final category" : "最终分类"}</dt><dd>{item.humanReview?.category ?? item.category ?? "—"}</dd></div>
+                        <div><dt>{english ? "Reviewed at" : "终审时间"}</dt><dd>{item.humanReview?.reviewedAt ? new Date(item.humanReview.reviewedAt).toLocaleString(english ? "en-US" : "zh-CN") : "—"}</dd></div>
+                        <div><dt>{english ? "Revision" : "审核版本"}</dt><dd>{item.humanReview?.revision ?? item.humanReviewHistory?.length ?? 1}</dd></div>
+                        <div className="wide"><dt>{english ? "Private review note" : "内部审核备注"}</dt><dd>{item.humanReview?.note || "—"}</dd></div>
+                        {item.humanReview?.aiOverride ? (
+                          <div className="wide"><dt>{english ? "AI failure override" : "AI 失败人工覆盖"}</dt><dd>{item.humanReview.aiErrorAtDecision || "recorded"}</dd></div>
+                        ) : null}
+                      </dl>
+                      {(item.humanReviewHistory?.length ?? 0) > 1 ? (
+                        <details className="human-review-history">
+                          <summary>{english ? `View ${item.humanReviewHistory!.length} audit decisions` : `查看 ${item.humanReviewHistory!.length} 条审核记录`}</summary>
+                          <ol>
+                            {item.humanReviewHistory!.map((review, index) => (
+                              <li key={`${review.reviewedAt}-${index}`}>
+                                <b>#{review.revision ?? index + 1} · {review.status}</b>
+                                <span>{review.reviewer} · {new Date(review.reviewedAt).toLocaleString(english ? "en-US" : "zh-CN")}</span>
+                                <p>{review.note || "—"}</p>
+                              </li>
+                            ))}
+                          </ol>
+                        </details>
                       ) : null}
-                    </dl>
+                      <footer>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingReviewId(item.id);
+                            setDecisions((current) => ({
+                              ...current,
+                              [item.id]: {
+                                category: item.humanReview?.category ?? item.category ?? "other",
+                                note: "",
+                              },
+                            }));
+                          }}
+                        >
+                          <Pencil size={14} />{english ? "Update human review" : "更新人工审核"}
+                        </button>
+                      </footer>
+                    </>
                   )}
                 </article>
               );

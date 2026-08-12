@@ -86,6 +86,59 @@
     "body": "The dashboard separates parsing, parity, factorization certification, and the final divisor-sum equality.",
     "bodyZh": "仪表板分别展示解析、奇偶性、分解认证与最终约数和等式。"
   },
+  "references": [
+    {
+      "type": "paper",
+      "title": "Odd Perfect Numbers Are Greater Than 10^1500",
+      "titleZh": "奇完全数大于 10^1500",
+      "authors": "Pascal Ochem, Michaël Rao",
+      "year": "2012",
+      "venue": "Mathematics of Computation",
+      "description": "A reproducible factor-chain computation establishing the landmark lower bound and additional factor restrictions.",
+      "descriptionZh": "以可复现因子链计算建立里程碑式下界，并给出更多因子限制。",
+      "url": "https://doi.org/10.1090/S0025-5718-2012-02563-4"
+    },
+    {
+      "type": "paper",
+      "title": "Odd Perfect Numbers Have at Least Nine Distinct Prime Factors",
+      "titleZh": "奇完全数至少有九个不同素因子",
+      "authors": "Pace P. Nielsen",
+      "year": "2007",
+      "venue": "Mathematics of Computation",
+      "description": "A major structural restriction on the prime factorization of any hypothetical odd perfect number.",
+      "descriptionZh": "对任何假想奇完全数的素因数分解给出重要结构限制。",
+      "url": "https://doi.org/10.1090/S0025-5718-07-01990-4"
+    },
+    {
+      "type": "paper",
+      "title": "Odd Perfect Numbers, Diophantine Equations, and Upper Bounds",
+      "titleZh": "奇完全数、丢番图方程与上界",
+      "authors": "Pace P. Nielsen",
+      "year": "2015",
+      "venue": "Mathematics of Computation",
+      "description": "The work deriving that an odd perfect number must have at least ten distinct prime divisors.",
+      "descriptionZh": "推出奇完全数必须至少具有十个不同素因子的研究。",
+      "url": "https://doi.org/10.1090/S0025-5718-2015-02941-X"
+    },
+    {
+      "type": "dataset",
+      "title": "Odd Perfect Numbers: programs, proof trees, and open composites",
+      "titleZh": "奇完全数：程序、证明树与待分解合数",
+      "authors": "Pascal Ochem, Michaël Rao, and contributors",
+      "description": "A specialist project page sharing computational methods, factor data, proof-tree artifacts, and newer search bounds.",
+      "descriptionZh": "专业项目页面，公开计算方法、因子数据、证明树材料和更新的搜索下界。",
+      "url": "https://www.lirmm.fr/~ochem/opn/"
+    },
+    {
+      "type": "website",
+      "title": "OddPerfect.org",
+      "titleZh": "OddPerfect.org 专题站",
+      "authors": "Odd Perfect Number research community",
+      "description": "A long-running community entry point for results, bounds, bibliography, and computational work on odd perfect numbers.",
+      "descriptionZh": "长期汇总奇完全数相关结果、下界、书目与计算工作的社区入口。",
+      "url": "http://www.oddperfect.org/"
+    }
+  ],
   "symbolicLab": {
     "title": "Test a candidate odd perfect number interactively",
     "titleZh": "交互验证候选奇完全数",

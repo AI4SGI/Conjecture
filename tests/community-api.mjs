@@ -66,15 +66,24 @@ async function waitForAiResult(id) {
 const initial = await fetch(`${base}/api/community?sort=recent`).then((response) =>
   response.json(),
 );
-assert.equal(typeof initial.taskLikes.P1, "number");
+const bealFollowKey = "number_theory_001_beal_conjecture:P1";
+assert.equal(typeof initial.traffic.total, "number");
 
-const like = await post({ action: "like_task", task: "P1" });
+const like = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
 assert.equal(like.status, 200);
-const duplicate = await post({ action: "like_task", task: "P1" });
+const duplicate = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
 assert.equal(duplicate.status, 200);
 assert.equal((await duplicate.json()).liked, false);
-const relike = await post({ action: "like_task", task: "P1" });
+const relike = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
 assert.equal(relike.status, 200);
+
+const visit = await post({ action: "record_visit" });
+assert.equal(visit.status, 200);
+const visitResult = await visit.json();
+assert.equal(typeof visitResult.traffic.total, "number");
+const duplicateVisit = await post({ action: "record_visit" });
+assert.equal(duplicateVisit.status, 200);
+assert.equal((await duplicateVisit.json()).counted, false);
 
 const submissionMarker = crypto.randomUUID();
 const submissionTitle = "A verifiable benchmark question " + submissionMarker;
@@ -126,7 +135,7 @@ assert.equal(unauthorizedModeration.status, 401);
 const after = await fetch(`${base}/api/community?sort=popular`).then((response) =>
   response.json(),
 );
-assert.equal(after.taskLikes.P1, initial.taskLikes.P1 + 1);
+assert.equal(after.taskLikes[bealFollowKey], (initial.taskLikes[bealFollowKey] ?? 0) + 1);
 assert.equal(after.pendingCount, initial.pendingCount + 1);
 assert.equal(
   after.messages.some((message) => message.title === submissionTitle),
@@ -135,6 +144,7 @@ assert.equal(
 assert.equal(JSON.stringify(after).includes(contactEmail), false);
 
 if (process.env.COMMUNITY_ADMIN_KEY) {
+  let finalApproved = false;
   let { queue, queued } = await waitForAiResult(submissionResult.id);
   if (process.env.COMMUNITY_TEST_EXPECT_AI_FAILURE) {
     assert.equal(queued?.aiReview?.status, "failed");
@@ -146,7 +156,7 @@ if (process.env.COMMUNITY_ADMIN_KEY) {
     ({ queue, queued } = await waitForAiResult(submissionResult.id));
     assert.equal(queued?.aiReview?.status, "failed");
     assert.match(queued.aiReview.error, /^ai_review_(?:network|http_|base_url_)/);
-    assert.equal(queued.aiReview.requestStage, "configuration");
+    assert.match(queued.aiReview.requestStage, /^(?:configuration|failed)$/);
     assert.equal(queued.aiReview.attemptCount >= 2, true);
   }
   assert.equal(queue.storage.automaticDeletion, false);
@@ -198,6 +208,7 @@ if (process.env.COMMUNITY_ADMIN_KEY) {
     assert.equal(reviewed.status, "approved");
     assert.equal(reviewed.contactEmail, contactEmail);
     assert.equal(reviewed.humanReview.reviewer, "API test moderator");
+    finalApproved = true;
   } else if (queued.aiReview?.status === "failed") {
     assert.equal(moderation.status, 409);
     assert.equal((await moderation.json()).error, "ai_review_override_required");
@@ -230,6 +241,7 @@ if (process.env.COMMUNITY_ADMIN_KEY) {
     });
     assert.equal(override.status, 200);
     assert.equal((await override.json()).aiOverride, true);
+    finalApproved = true;
   } else {
     assert.equal(moderation.status, 409);
     assert.equal((await moderation.json()).error, "ai_review_required");
@@ -249,6 +261,53 @@ if (process.env.COMMUNITY_ADMIN_KEY) {
       }),
     });
     assert.equal(rejection.status, 200);
+  }
+
+  if (finalApproved) {
+    const missingRevisionNote = await adminPost({
+      action: "moderate",
+      id: submissionResult.id,
+      status: "rejected",
+      category: "other",
+      reviewer: "Revision test moderator",
+      note: "short",
+      allowRevision: true,
+    });
+    assert.equal(missingRevisionNote.status, 400);
+    assert.equal((await missingRevisionNote.json()).error, "revision_note_required");
+
+    const withdraw = await adminPost({
+      action: "moderate",
+      id: submissionResult.id,
+      status: "rejected",
+      category: "other",
+      reviewer: "Revision test moderator",
+      note: "Withdrawn to verify reversible human moderation.",
+      allowRevision: true,
+    });
+    assert.equal(withdraw.status, 200);
+    const withdrawnPublic = await fetch(`${base}/api/community`).then((response) => response.json());
+    assert.equal(withdrawnPublic.messages.some((message) => message.id === submissionResult.id), false);
+
+    const republish = await adminPost({
+      action: "moderate",
+      id: submissionResult.id,
+      status: "approved",
+      category: "research_question",
+      reviewer: "Revision test moderator",
+      note: "Republished after a second complete human verification.",
+      allowRevision: true,
+      overrideAiFailure: queued.aiReview?.status === "failed",
+    });
+    assert.equal(republish.status, 200);
+    const republishedPublic = await fetch(`${base}/api/community`).then((response) => response.json());
+    assert.equal(republishedPublic.messages.some((message) => message.id === submissionResult.id), true);
+
+    const revisedHistoryResponse = await adminPost({ action: "admin_queue", view: "reviewed" });
+    const revisedHistory = await revisedHistoryResponse.json();
+    const revised = revisedHistory.messages.find((message) => message.id === submissionResult.id);
+    assert.equal(revised.humanReviewHistory.length >= 3, true);
+    assert.equal(revised.humanReview.status, "approved");
   }
 
   const exportResponse = await fetch(`${base}/api/community`, {

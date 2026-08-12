@@ -281,6 +281,17 @@ export interface ConjectureData {
     interactive: "jacobian" | "beal" | "odd-perfect";
     outputFormat: string;
   };
+  references: Array<{
+    type: "paper" | "book" | "website" | "dataset";
+    title: string;
+    titleZh: string;
+    authors?: string;
+    year?: string;
+    venue?: string;
+    description: string;
+    descriptionZh: string;
+    url: string;
+  }>;
   benchmarkData: BenchmarkData;
 }
 
@@ -324,5 +335,10 @@ export interface CommunitySnapshot {
   likedTasks?: string[];
   messages: CommunityMessage[];
   pendingCount: number;
+  traffic?: {
+    total: number;
+    countries: Record<string, number>;
+    updatedAt?: string;
+  };
   unavailable?: boolean;
 }

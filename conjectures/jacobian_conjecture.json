@@ -105,6 +105,61 @@
     "body": "Outcome types are derived from deterministic verifier fields, while transport failures are separated from mathematical failures.",
     "bodyZh": "结果类型由确定性验证字段导出，传输失败与数学失败分开统计。"
   },
+  "references": [
+    {
+      "type": "paper",
+      "title": "Ganze Cremona-Transformationen",
+      "titleZh": "整体 Cremona 变换",
+      "authors": "Ott-Heinrich Keller",
+      "year": "1939",
+      "venue": "Monatshefte für Mathematik und Physik",
+      "description": "The original paper that formulated the polynomial Jacobian problem now bearing Keller's name.",
+      "descriptionZh": "提出如今以 Keller 命名的多项式雅可比问题的原始论文。",
+      "url": "https://doi.org/10.1007/BF01695502"
+    },
+    {
+      "type": "paper",
+      "title": "The Jacobian Conjecture: Reduction of Degree and Formal Expansion of the Inverse",
+      "titleZh": "雅可比猜想：次数归约与逆映射的形式展开",
+      "authors": "Hyman Bass, Edwin H. Connell, David Wright",
+      "year": "1982",
+      "venue": "Bulletin of the American Mathematical Society",
+      "description": "The foundational reduction showing why special cubic-homogeneous maps capture the general conjecture.",
+      "descriptionZh": "奠基性归约工作，说明为何特殊三次齐次映射能够涵盖一般猜想。",
+      "url": "https://doi.org/10.1090/S0273-0979-1982-15032-7"
+    },
+    {
+      "type": "paper",
+      "title": "An Effective Approach to Keller's Jacobian Conjecture",
+      "titleZh": "Keller 雅可比猜想的一种有效方法",
+      "authors": "Ludwik M. Drużkowski",
+      "year": "1983",
+      "venue": "Mathematische Annalen",
+      "description": "A further reduction to power-linear cubic maps that continues to shape computational searches.",
+      "descriptionZh": "进一步归约到幂线性三次映射，持续影响计算搜索的结构。",
+      "url": "https://doi.org/10.1007/BF01403080"
+    },
+    {
+      "type": "book",
+      "title": "Polynomial Automorphisms and the Jacobian Conjecture",
+      "titleZh": "多项式自同构与雅可比猜想",
+      "authors": "Arno van den Essen",
+      "year": "2000",
+      "venue": "Birkhäuser, Progress in Mathematics 190",
+      "description": "A self-contained monograph and extensive reference for polynomial automorphisms and the conjecture.",
+      "descriptionZh": "关于多项式自同构与该猜想的自足专著和系统参考书。",
+      "url": "https://doi.org/10.1007/978-3-0348-8440-2"
+    },
+    {
+      "type": "website",
+      "title": "Jacobian Conjecture bibliography and problem page",
+      "titleZh": "雅可比猜想书目与专题页面",
+      "authors": "Tzuong-Tsieng Moh · Purdue University",
+      "description": "A long-running specialist bibliography and historical entry point to the Jacobian Conjecture literature.",
+      "descriptionZh": "长期维护的专业书目，也是进入雅可比猜想历史文献的重要入口。",
+      "url": "https://www.math.purdue.edu/~ttm/jacobian.html"
+    }
+  ],
   "symbolicLab": {
     "title": "Test a candidate counterexample interactively",
     "titleZh": "交互验证候选反例",

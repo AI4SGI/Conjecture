@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-11T04:06:47.581Z",
+  "generatedAt": "2026-08-12T12:02:31.058Z",
   "conjectures": [
     {
       "schemaVersion": 1,
@@ -259,6 +259,61 @@
         "body": "Outcome types are derived from deterministic verifier fields, while transport failures are separated from mathematical failures.",
         "bodyZh": "结果类型由确定性验证字段导出，传输失败与数学失败分开统计。"
       },
+      "references": [
+        {
+          "type": "paper",
+          "title": "Ganze Cremona-Transformationen",
+          "titleZh": "整体 Cremona 变换",
+          "authors": "Ott-Heinrich Keller",
+          "year": "1939",
+          "venue": "Monatshefte für Mathematik und Physik",
+          "description": "The original paper that formulated the polynomial Jacobian problem now bearing Keller's name.",
+          "descriptionZh": "提出如今以 Keller 命名的多项式雅可比问题的原始论文。",
+          "url": "https://doi.org/10.1007/BF01695502"
+        },
+        {
+          "type": "paper",
+          "title": "The Jacobian Conjecture: Reduction of Degree and Formal Expansion of the Inverse",
+          "titleZh": "雅可比猜想：次数归约与逆映射的形式展开",
+          "authors": "Hyman Bass, Edwin H. Connell, David Wright",
+          "year": "1982",
+          "venue": "Bulletin of the American Mathematical Society",
+          "description": "The foundational reduction showing why special cubic-homogeneous maps capture the general conjecture.",
+          "descriptionZh": "奠基性归约工作，说明为何特殊三次齐次映射能够涵盖一般猜想。",
+          "url": "https://doi.org/10.1090/S0273-0979-1982-15032-7"
+        },
+        {
+          "type": "paper",
+          "title": "An Effective Approach to Keller's Jacobian Conjecture",
+          "titleZh": "Keller 雅可比猜想的一种有效方法",
+          "authors": "Ludwik M. Drużkowski",
+          "year": "1983",
+          "venue": "Mathematische Annalen",
+          "description": "A further reduction to power-linear cubic maps that continues to shape computational searches.",
+          "descriptionZh": "进一步归约到幂线性三次映射，持续影响计算搜索的结构。",
+          "url": "https://doi.org/10.1007/BF01403080"
+        },
+        {
+          "type": "book",
+          "title": "Polynomial Automorphisms and the Jacobian Conjecture",
+          "titleZh": "多项式自同构与雅可比猜想",
+          "authors": "Arno van den Essen",
+          "year": "2000",
+          "venue": "Birkhäuser, Progress in Mathematics 190",
+          "description": "A self-contained monograph and extensive reference for polynomial automorphisms and the conjecture.",
+          "descriptionZh": "关于多项式自同构与该猜想的自足专著和系统参考书。",
+          "url": "https://doi.org/10.1007/978-3-0348-8440-2"
+        },
+        {
+          "type": "website",
+          "title": "Jacobian Conjecture bibliography and problem page",
+          "titleZh": "雅可比猜想书目与专题页面",
+          "authors": "Tzuong-Tsieng Moh · Purdue University",
+          "description": "A long-running specialist bibliography and historical entry point to the Jacobian Conjecture literature.",
+          "descriptionZh": "长期维护的专业书目，也是进入雅可比猜想历史文献的重要入口。",
+          "url": "https://www.math.purdue.edu/~ttm/jacobian.html"
+        }
+      ],
       "symbolicLab": {
         "title": "Test a candidate counterexample interactively",
         "titleZh": "交互验证候选反例",
@@ -269,7 +324,7 @@
         "outputFormat": "FINAL_CERTIFICATE_JSON:\n{\n  \"variables\": [\"x\", \"y\", \"z\"],\n  \"components\": [\"F1\", \"F2\", \"F3\"],\n  \"collision_points\": [[\"x1\", \"y1\", \"z1\"], [\"x2\", \"y2\", \"z2\"]]\n}"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-11T04:06:47.531Z",
+        "generatedAt": "2026-08-12T12:02:31.005Z",
         "dataset": {
           "id": "jacobian_conjecture",
           "name": "OPBench · Jacobian Counterexample Construction",
@@ -4782,6 +4837,57 @@
         "body": "Parsing, positivity, exponent bounds, gcd, and exact equality are shown as separate deterministic verdicts.",
         "bodyZh": "解析、正整数、指数范围、最大公因数与精确等式均以独立的确定性结论展示。"
       },
+      "references": [
+        {
+          "type": "website",
+          "title": "The Beal Conjecture",
+          "titleZh": "Beal 猜想官方网站",
+          "authors": "Beal Conjecture",
+          "description": "The official problem site gives the statement, history, examples, and prize information.",
+          "descriptionZh": "官方网站提供猜想表述、历史、示例与奖金信息。",
+          "url": "https://www.bealconjecture.com/"
+        },
+        {
+          "type": "paper",
+          "title": "A Generalization of Fermat's Last Theorem: The Beal Conjecture and Prize Problem",
+          "titleZh": "Fermat 大定理的推广：Beal 猜想与奖金问题",
+          "authors": "R. Daniel Mauldin",
+          "year": "1997",
+          "venue": "Notices of the American Mathematical Society",
+          "description": "The AMS announcement that introduced the conjecture and its publication-based prize process to the mathematical community.",
+          "descriptionZh": "向数学界介绍该猜想及以正式发表为基础的奖金流程的 AMS 公告。",
+          "url": "https://www.ams.org/notices/199711/beal.pdf"
+        },
+        {
+          "type": "paper",
+          "title": "On the Equations z^m = F(x,y) and Ax^p + By^q = Cz^r",
+          "titleZh": "关于方程 z^m = F(x,y) 与 Ax^p + By^q = Cz^r",
+          "authors": "Henri Darmon, Andrew Granville",
+          "year": "1995",
+          "venue": "Bulletin of the London Mathematical Society",
+          "description": "A central finiteness theorem for proper solutions of generalized Fermat equations with fixed exponent signatures.",
+          "descriptionZh": "关于固定指数型广义 Fermat 方程本原解有限性的核心结果。",
+          "url": "https://doi.org/10.1112/blms/27.6.513"
+        },
+        {
+          "type": "website",
+          "title": "AMS Beal Prize",
+          "titleZh": "AMS Beal 奖金页面",
+          "authors": "American Mathematical Society",
+          "description": "The official award page describes the committee and requirements for a refereed proof or counterexample.",
+          "descriptionZh": "官方奖金页面说明委员会设置及同行评议证明或反例的要求。",
+          "url": "https://www.jointmathematicsmeetings.org/prizes-awards/paview.cgi?parent_id=41"
+        },
+        {
+          "type": "website",
+          "title": "The Beal Conjecture: A Search for Solutions",
+          "titleZh": "Beal 猜想：解的搜索",
+          "authors": "Peter Norvig",
+          "description": "A reproducible computational exploration of solution patterns and search strategies.",
+          "descriptionZh": "对解的结构和搜索策略所作的可复现计算探索。",
+          "url": "https://www.norvig.com/beal.html"
+        }
+      ],
       "symbolicLab": {
         "title": "Test a candidate solution interactively",
         "titleZh": "交互验证候选解",
@@ -4792,7 +4898,7 @@
         "outputFormat": "OUTPUT:\n{\"A\": <positive integer>, \"B\": <positive integer>, \"C\": <positive integer>, \"x\": <integer > 2>, \"y\": <integer > 2>, \"z\": <integer > 2>}\n\nSOLUTION:\n<exact derivation and verification>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-11T04:06:47.560Z",
+        "generatedAt": "2026-08-12T12:02:31.038Z",
         "dataset": {
           "id": "number_theory_001_beal_conjecture",
           "name": "OPBench · Beal Counterexample Search",
@@ -5169,6 +5275,59 @@
         "body": "The dashboard separates parsing, parity, factorization certification, and the final divisor-sum equality.",
         "bodyZh": "仪表板分别展示解析、奇偶性、分解认证与最终约数和等式。"
       },
+      "references": [
+        {
+          "type": "paper",
+          "title": "Odd Perfect Numbers Are Greater Than 10^1500",
+          "titleZh": "奇完全数大于 10^1500",
+          "authors": "Pascal Ochem, Michaël Rao",
+          "year": "2012",
+          "venue": "Mathematics of Computation",
+          "description": "A reproducible factor-chain computation establishing the landmark lower bound and additional factor restrictions.",
+          "descriptionZh": "以可复现因子链计算建立里程碑式下界，并给出更多因子限制。",
+          "url": "https://doi.org/10.1090/S0025-5718-2012-02563-4"
+        },
+        {
+          "type": "paper",
+          "title": "Odd Perfect Numbers Have at Least Nine Distinct Prime Factors",
+          "titleZh": "奇完全数至少有九个不同素因子",
+          "authors": "Pace P. Nielsen",
+          "year": "2007",
+          "venue": "Mathematics of Computation",
+          "description": "A major structural restriction on the prime factorization of any hypothetical odd perfect number.",
+          "descriptionZh": "对任何假想奇完全数的素因数分解给出重要结构限制。",
+          "url": "https://doi.org/10.1090/S0025-5718-07-01990-4"
+        },
+        {
+          "type": "paper",
+          "title": "Odd Perfect Numbers, Diophantine Equations, and Upper Bounds",
+          "titleZh": "奇完全数、丢番图方程与上界",
+          "authors": "Pace P. Nielsen",
+          "year": "2015",
+          "venue": "Mathematics of Computation",
+          "description": "The work deriving that an odd perfect number must have at least ten distinct prime divisors.",
+          "descriptionZh": "推出奇完全数必须至少具有十个不同素因子的研究。",
+          "url": "https://doi.org/10.1090/S0025-5718-2015-02941-X"
+        },
+        {
+          "type": "dataset",
+          "title": "Odd Perfect Numbers: programs, proof trees, and open composites",
+          "titleZh": "奇完全数：程序、证明树与待分解合数",
+          "authors": "Pascal Ochem, Michaël Rao, and contributors",
+          "description": "A specialist project page sharing computational methods, factor data, proof-tree artifacts, and newer search bounds.",
+          "descriptionZh": "专业项目页面，公开计算方法、因子数据、证明树材料和更新的搜索下界。",
+          "url": "https://www.lirmm.fr/~ochem/opn/"
+        },
+        {
+          "type": "website",
+          "title": "OddPerfect.org",
+          "titleZh": "OddPerfect.org 专题站",
+          "authors": "Odd Perfect Number research community",
+          "description": "A long-running community entry point for results, bounds, bibliography, and computational work on odd perfect numbers.",
+          "descriptionZh": "长期汇总奇完全数相关结果、下界、书目与计算工作的社区入口。",
+          "url": "http://www.oddperfect.org/"
+        }
+      ],
       "symbolicLab": {
         "title": "Test a candidate odd perfect number interactively",
         "titleZh": "交互验证候选奇完全数",
@@ -5179,7 +5338,7 @@
         "outputFormat": "OUTPUT:\n{\"N\": <positive odd integer>, \"factors\": [{\"p\": <prime integer>, \"e\": <positive integer>, \"certificate\": <null or Pocklington certificate>}]}\n\nSOLUTION:\n<exact derivation and certificate checks>"
       },
       "benchmarkData": {
-        "generatedAt": "2026-08-11T04:06:47.573Z",
+        "generatedAt": "2026-08-12T12:02:31.050Z",
         "dataset": {
           "id": "number_theory_002_odd_perfect_number",
           "name": "OPBench · Odd Perfect Number Construction",

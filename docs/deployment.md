@@ -32,10 +32,11 @@ https://jacobian-community-api.<your-subdomain>.workers.dev
 Cloudflare API Token 至少需要 Workers Scripts、Durable Objects 与 Cloudflare
 Pages 的编辑权限。`.github/workflows/community-worker.yml` 会自动维护
 `ai4sgi-conjecture-community.pages.dev` 中继项目，并在每次部署后校验健康端点与
-公开社区快照。若 Token 是在加入中继前创建的，需要在 Cloudflare Dashboard
-重新签发或更新为同时包含 **Account / Cloudflare Pages / Edit** 的 Token，再更新
-GitHub Secret `CLOUDFLARE_API_TOKEN`；这不会更改现有 Worker Secrets 或 Durable
-Object 数据。
+公开社区快照。若现有 Token 是在加入中继前创建的，推荐另建一个只包含
+**Account / Cloudflare Pages / Edit** 权限的 Token，并存为 GitHub Secret
+`CLOUDFLARE_PAGES_API_TOKEN`；工作流只在中继步骤使用它。也可以扩展并更新已有的
+`CLOUDFLARE_API_TOKEN`。两种做法都不会更改现有 Worker Secrets 或 Durable Object
+数据。
 
 ### 生产启用前还需在 Cloudflare 设置
 

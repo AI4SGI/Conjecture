@@ -80,6 +80,26 @@ const countedSnapshot = await fetch(`${base}/api/community?sort=recent&clientKey
 assert.equal(countedSnapshot.traffic.total, initial.traffic.total + 1);
 assert.equal(countedSnapshot.traffic.countries.CN >= 1, true);
 assert.equal(countedSnapshot.traffic.countries.TW, undefined);
+let latestRegionalSnapshot = countedSnapshot;
+for (const [country, suffix] of [["HK", "hong-kong"], ["MO", "macao"]]) {
+  const regionalSnapshot = await fetch(
+    `${base}/api/community?sort=recent&clientKey=${clientKey}-${suffix}`,
+    {
+      headers: {
+        "X-Forwarded-For": sourceIp,
+        "User-Agent": testAgent,
+        "CF-IPCountry": country,
+      },
+    },
+  ).then((response) => response.json());
+  assert.equal(regionalSnapshot.traffic.total, latestRegionalSnapshot.traffic.total + 1);
+  assert.equal(regionalSnapshot.traffic.countries.CN, latestRegionalSnapshot.traffic.countries.CN + 1);
+  assert.equal(regionalSnapshot.traffic.countries[country], undefined);
+  latestRegionalSnapshot = regionalSnapshot;
+}
+assert.equal(latestRegionalSnapshot.traffic.countries.HK, undefined);
+assert.equal(latestRegionalSnapshot.traffic.countries.MO, undefined);
+assert.equal(latestRegionalSnapshot.traffic.countries.TW, undefined);
 const repeatedSnapshot = await fetch(`${base}/api/community?sort=recent&clientKey=${clientKey}`, {
   headers: {
     "X-Forwarded-For": sourceIp,
@@ -87,7 +107,7 @@ const repeatedSnapshot = await fetch(`${base}/api/community?sort=recent&clientKe
     "CF-IPCountry": "TW",
   },
 }).then((response) => response.json());
-assert.equal(repeatedSnapshot.traffic.total, countedSnapshot.traffic.total);
+assert.equal(repeatedSnapshot.traffic.total, latestRegionalSnapshot.traffic.total);
 
 const like = await post({ action: "like_task", conjecture: "number_theory_001_beal_conjecture", task: "P1" });
 assert.equal(like.status, 200);

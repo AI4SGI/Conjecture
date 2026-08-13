@@ -7,6 +7,7 @@ import {
 import {
   communityRequestFingerprint,
   normalizeCommunityContactEmail,
+  normalizeCommunityCountryCode,
 } from "./community-security";
 
 describe("community AI review contract", () => {
@@ -285,5 +286,15 @@ describe("community request fingerprint", () => {
     expect(normalizeCommunityContactEmail("not-an-email")).toBeNull();
     expect(normalizeCommunityContactEmail("name@-example.org")).toBeNull();
     expect(normalizeCommunityContactEmail("name@example")).toBeNull();
+  });
+});
+
+describe("community country aggregation", () => {
+  it("attributes the mainland, Hong Kong, Macao, and Taiwan to China", () => {
+    expect(["CN", "HK", "MO", "TW"].map(normalizeCommunityCountryCode))
+      .toEqual(["CN", "CN", "CN", "CN"]);
+    expect(normalizeCommunityCountryCode("hk")).toBe("CN");
+    expect(normalizeCommunityCountryCode("US")).toBe("US");
+    expect(normalizeCommunityCountryCode("unknown")).toBe("ZZ");
   });
 });

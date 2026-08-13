@@ -55,10 +55,16 @@ export async function communityRequestFingerprint(
   return bytesToHex(await crypto.subtle.digest("SHA-256", data)).slice(0, 40);
 }
 
-export function communityRequestCountry(request: Request) {
-  const country = request.headers.get("CF-IPCountry")?.toUpperCase() ?? "";
-  if (country === "TW") return "CN";
+const CHINA_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
+
+export function normalizeCommunityCountryCode(input: unknown) {
+  const country = String(input ?? "").trim().toUpperCase();
+  if (CHINA_REGION_CODES.has(country)) return "CN";
   return /^[A-Z]{2}$/.test(country) ? country : "ZZ";
+}
+
+export function communityRequestCountry(request: Request) {
+  return normalizeCommunityCountryCode(request.headers.get("CF-IPCountry"));
 }
 
 export function communitySecurityHeaders(headers = new Headers()) {

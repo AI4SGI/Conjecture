@@ -25,23 +25,30 @@ interface CountryShape {
 
 const MAP_WIDTH = 1000;
 const MAP_HEIGHT = 555;
+const CHINA_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
+const CHINA_REGION_NUMERIC_IDS = new Set(["156", "158", "344", "446"]);
 const topology = atlas as unknown as Topology<AtlasObjects>;
 const sourceFeatures = feature(topology, topology.objects.countries) as FeatureCollection<Geometry, CountryProperties>;
 const china = sourceFeatures.features.find((item) => String(item.id).padStart(3, "0") === "156");
-const taiwan = sourceFeatures.features.find((item) => String(item.id).padStart(3, "0") === "158");
-const combinedChina: Feature<GeometryCollection, CountryProperties> | undefined = china && taiwan
+const chinaRegionGeometries = sourceFeatures.features
+  .filter((item) => CHINA_REGION_NUMERIC_IDS.has(String(item.id).padStart(3, "0")))
+  .map((item) => item.geometry);
+const combinedChina: Feature<GeometryCollection, CountryProperties> | undefined = china
   ? {
       type: "Feature",
       id: "156",
       properties: { name: "China" },
       geometry: {
         type: "GeometryCollection",
-        geometries: [china.geometry, taiwan.geometry],
+        geometries: chinaRegionGeometries,
       },
     }
   : undefined;
 const mapFeatures = sourceFeatures.features
-  .filter((item) => String(item.id).padStart(3, "0") !== "158")
+  .filter((item) => {
+    const numeric = String(item.id).padStart(3, "0");
+    return numeric === "156" || !CHINA_REGION_NUMERIC_IDS.has(numeric);
+  })
   .map((item) => String(item.id).padStart(3, "0") === "156" && combinedChina ? combinedChina : item);
 const projection = geoNaturalEarth1().fitExtent(
   [[12, 12], [MAP_WIDTH - 12, MAP_HEIGHT - 12]],
@@ -51,7 +58,7 @@ const pathGenerator = geoPath(projection);
 const COUNTRY_SHAPES: CountryShape[] = mapFeatures.map((item) => {
   const numeric = String(item.id ?? "").padStart(3, "0");
   const sourceCode = ISO_NUMERIC_TO_ALPHA2[numeric] ?? numeric;
-  const code = sourceCode === "TW" ? "CN" : sourceCode;
+  const code = CHINA_REGION_CODES.has(sourceCode) ? "CN" : sourceCode;
   return {
     code,
     name: code === "CN" ? "China" : item.properties?.name ?? code,
@@ -70,9 +77,10 @@ function countryFill(count: number, maximum: number) {
 
 function normalizedCountries(source: Record<string, number>) {
   const countries = { ...source };
-  if (countries.TW) {
-    countries.CN = (countries.CN ?? 0) + countries.TW;
-    delete countries.TW;
+  for (const region of ["HK", "MO", "TW"]) {
+    if (!Object.hasOwn(countries, region)) continue;
+    countries.CN = (countries.CN ?? 0) + Math.max(0, Number(countries[region]) || 0);
+    delete countries[region];
   }
   return countries;
 }

@@ -202,7 +202,7 @@ test("approved community messages are timestamped and grouped by review category
         taskLikes: { "jacobian_conjecture:P1": 3 },
         likedTasks: [],
         pendingCount: 1,
-        traffic: { total: 20, countries: { CN: 10, TW: 3, US: 7 } },
+        traffic: { total: 24, countries: { CN: 10, HK: 2, MO: 1, TW: 3, US: 8 } },
         messages: Array.from({ length: 6 }, (_, index) => {
           const originalLanguage = index === 1 ? "zh" : index === 2 ? "other" : "en";
           const title = index === 0
@@ -263,10 +263,14 @@ test("approved community messages are timestamped and grouped by review category
     });
   });
   await page.goto(siteRoot);
-  await expect(page.locator('#global-reach [data-country="CN"]')).toHaveAttribute("data-visits", "13");
+  await expect(page.locator('#global-reach [data-country="CN"]')).toHaveCount(1);
+  await expect(page.locator('#global-reach [data-country="CN"]')).toHaveAttribute("data-visits", "16");
+  await expect(page.locator('#global-reach [data-country="HK"]')).toHaveCount(0);
+  await expect(page.locator('#global-reach [data-country="MO"]')).toHaveCount(0);
   await expect(page.locator('#global-reach [data-country="TW"]')).toHaveCount(0);
   await expect(page.locator("#global-reach .traffic-leaders li").first()).toContainText("China");
-  await expect(page.locator("#global-reach .traffic-leaders li").first()).toContainText("13");
+  await expect(page.locator("#global-reach .traffic-leaders li").first()).toContainText("16");
+  await expect(page.locator("#global-reach .traffic-leaders")).not.toContainText(/Hong Kong|Macao|Taiwan/);
   await expect(page.locator(".message-category-head")).toContainText("Verification gaps");
   await expect(page.locator(".message-category-head")).toContainText("06");
   await expect(page.locator(".message-item")).toHaveCount(5);

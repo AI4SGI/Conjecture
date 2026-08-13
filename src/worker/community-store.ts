@@ -7,7 +7,10 @@ import {
   type CommunityMessageTranslations,
   reviewCommunityMessage,
 } from "./community-review";
-import { normalizeCommunityContactEmail } from "./community-security";
+import {
+  normalizeCommunityContactEmail,
+  normalizeCommunityCountryCode,
+} from "./community-security";
 
 type MessageStatus =
   | "ai_pending"
@@ -140,9 +143,7 @@ function sourceFingerprint(request: Request) {
 }
 
 function sourceCountry(request: Request) {
-  const value = request.headers.get("X-Community-Country") ?? "ZZ";
-  if (value === "TW") return "CN";
-  return /^[A-Z]{2}$/.test(value) ? value : "ZZ";
+  return normalizeCommunityCountryCode(request.headers.get("X-Community-Country"));
 }
 
 function publicMessage(message: StoredCommunityMessage): PublicCommunityMessage {
@@ -303,9 +304,15 @@ export class CommunityStore extends DurableObject<CloudflareEnv> {
     const traffic = structuredClone(
       (await this.ctx.storage.get<TrafficSnapshot>(TRAFFIC_KEY)) ?? EMPTY_TRAFFIC,
     );
-    if (traffic.countries.TW) {
-      traffic.countries.CN = (traffic.countries.CN ?? 0) + traffic.countries.TW;
-      delete traffic.countries.TW;
+    let migrated = false;
+    for (const region of ["HK", "MO", "TW"]) {
+      if (!Object.hasOwn(traffic.countries, region)) continue;
+      traffic.countries.CN = (traffic.countries.CN ?? 0)
+        + Math.max(0, Number(traffic.countries[region]) || 0);
+      delete traffic.countries[region];
+      migrated = true;
+    }
+    if (migrated) {
       await this.ctx.storage.put(TRAFFIC_KEY, traffic);
     }
     return traffic;

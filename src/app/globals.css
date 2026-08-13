@@ -5521,6 +5521,31 @@ body {
   justify-self: end;
 }
 
+.top-button {
+  display: inline-flex;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 11px;
+  border: 1px solid var(--rule-strong);
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.36);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.top-button:hover,
+.top-button:focus-visible {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
 .language-switcher {
   display: inline-flex;
   gap: 7px;
@@ -6532,6 +6557,16 @@ body {
   .language-switcher {
     min-height: 36px;
     padding: 0 7px;
+  }
+
+  .top-button {
+    width: 36px;
+    min-height: 36px;
+    padding: 0;
+  }
+
+  .top-button span {
+    display: none;
   }
 
   .language-switcher svg {

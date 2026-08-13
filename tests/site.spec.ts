@@ -178,6 +178,27 @@ test("mobile navigation and selector remain usable", async ({ page }) => {
   await page.screenshot({ path: "/tmp/opbench-mobile.png", fullPage: true });
 });
 
+test("conjecture selection reveals its overview and the header returns to the top", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(siteRoot);
+  await page.locator(".conjecture-selector button").nth(1).click();
+  await expect(page.locator("#conjecture-overview h2")).toHaveText("Beal Conjecture");
+  await expect(page).toHaveURL(/conjecture=beal-conjecture/);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(400);
+  await expect.poll(() => page.locator("#conjecture-overview").evaluate(
+    (element) => Math.round(element.getBoundingClientRect().top),
+  )).toBeLessThanOrEqual(120);
+  const overviewTop = await page.locator("#conjecture-overview").evaluate(
+    (element) => Math.round(element.getBoundingClientRect().top),
+  );
+  expect(overviewTop).toBeGreaterThanOrEqual(78);
+  expect(overviewTop).toBeLessThanOrEqual(120);
+
+  await page.getByRole("button", { name: "Back to top" }).click();
+  await expect.poll(() => page.evaluate(() => Math.round(window.scrollY))).toBeLessThanOrEqual(1);
+  await expect(page.locator(".hero-intro h1")).toBeInViewport();
+});
+
 test("language switch localizes dynamic conjecture content", async ({ page }) => {
   await page.goto(siteRoot);
   await page.getByLabel("Language").selectOption("zh");

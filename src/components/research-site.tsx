@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUpRight, Database, Menu, ShieldCheck, Star, X } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpRight, Database, Menu, ShieldCheck, Star, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CommunitySnapshot, ConjectureData, FrontierNewsItem, Language, SiteData } from "../lib/types";
 import { CommunityBoard } from "./community-board";
@@ -258,6 +258,12 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
     const url = new URL(window.location.href);
     url.searchParams.set("conjecture", selected.slug);
     window.history.replaceState({}, "", url);
+    window.requestAnimationFrame(() => {
+      document.getElementById("conjecture-overview")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   }
 
   const navigation = english
@@ -275,6 +281,16 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
           {navigation.map(([href, label]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
         </nav>
         <div className="header-actions">
+          <button
+            className="top-button"
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label={english ? "Back to top" : "回到顶部"}
+            title={english ? "Back to top" : "回到顶部"}
+          >
+            <ArrowUp size={15} />
+            <span>TOP</span>
+          </button>
           <label className="language-switcher"><select aria-label="Language" value={language} onChange={(event) => setLanguage(event.target.value as Language)}><option value="en">English</option><option value="zh">中文</option></select></label>
           <a className="github-cta" href={github.url} target="_blank" rel="noreferrer"><Star size={17} /><span>Star</span><b aria-label={github.available ? `${github.stars ?? 0} GitHub stars` : "GitHub stars unavailable"}>{github.available ? (github.stars ?? 0).toLocaleString() : "—"}</b></a>
         </div>
@@ -306,7 +322,7 @@ export function ResearchSite({ site, news }: { site: SiteData; news: FrontierNew
             </div>
           </section>
 
-          <div className="hero-case-grid" key={conjecture.id}>
+          <div className="hero-case-grid" id="conjecture-overview" key={conjecture.id}>
             <div className="hero-case-copy">
               <span className="micro-label">{english ? conjecture.overview.eyebrow : conjecture.overview.eyebrowZh}</span>
               <h2>{english ? conjecture.title : conjecture.titleZh}</h2>
